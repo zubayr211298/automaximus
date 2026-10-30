@@ -568,11 +568,11 @@ input:focus{border-color:#D7182A !important;box-shadow:0 0 0 4px rgba(215,24,42,
           </a>
           <div style="display: flex; gap: 12px; align-items: center">
             <svg class="ic" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.5-7-12a7 7 0 0114 0c0 5.5-7 12-7 12z"></path><circle cx="12" cy="9" r="2.5"></circle></svg>
-            [MANZIL]
+            Farg‘ona, Al Farg‘oniy ko‘chasi, 108
           </div>
           <div style="display: flex; gap: 12px; align-items: center">
             <svg class="ic" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
-            [ISH VAQTI]
+            08:00 – 20:00
           </div>
         </div>
       </div>
@@ -643,7 +643,7 @@ input:focus{border-color:#D7182A !important;box-shadow:0 0 0 4px rgba(215,24,42,
         <a href="{{tgHref}}" style="color: #FFFFFF; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">Telegram</a>
         <a href="tel:+998907777850" style="color: #FFFFFF; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">+998 90 777 78 50</a>
       </div>
-      <div style="font-size: 13px; color: #A3A3A3; width: 100%">© Automaximus · Detailing studiya va avto do‘kon · [MANZIL]</div>
+      <div style="font-size: 13px; color: #A3A3A3; width: 100%">© Automaximus · Detailing studiya va avto do‘kon · Farg‘ona, Al Farg‘oniy ko‘chasi, 108</div>
     </div>
   </footer>
 
@@ -662,7 +662,7 @@ input:focus{border-color:#D7182A !important;box-shadow:0 0 0 4px rgba(215,24,42,
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D7182A","options":["#D7182A","#C4161C","#E3262F","#141414"]},"leadUrl":{"editor":"text","default":"[BOT_SERVER_URL]/lead","section":"Bot"},"botUsername":{"editor":"text","default":"[BOT_USERNAME]","section":"Bot"},"$preview":{"width":1440,"height":7600}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D7182A","options":["#D7182A","#C4161C","#E3262F","#141414"]},"leadUrl":{"editor":"text","default":"[BOT_SERVER_URL]/lead","section":"Bot"},"botUsername":{"editor":"text","default":"automaximus_shop_bot","section":"Bot"},"$preview":{"width":1440,"height":7600}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -819,26 +819,26 @@ class Component extends DCLogic {
     var self = this;
     var chosen = this.state.chosen || [];
     var names = ['Tonirovka', 'Broniplyonka', 'Polirovka', 'Ximchistka', 'Shumoizolyatsiya', 'Disk', 'Balon', 'Chexol va polik', 'Aksessuarlar'];
-    var bot = String(this.props.botUsername ?? '[BOT_USERNAME]').replace(/^@/, '');
+    var bot = String(this.props.botUsername ?? 'automaximus_shop_bot').replace(/^@/, '');
     var src = '';
     try { src = (new URLSearchParams(window.location.search).get('utm_source') || '').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 20); } catch (err) {}
     var tgLink = function (tag) { return 'https://t.me/' + bot + '?start=' + tag + (src ? '_' + src : ''); };
     var accent = this.props.accent ?? '#D7182A';
 
     var services = [
-      { key: 'Tonirovka', title: 'Tonirovka', time: '[MUDDAT]', price: 'dan [NARX] so‘m',
+      { key: 'Tonirovka', title: 'Tonirovka', time: '1,5 soat', price: 'dan 180 000 so‘m',
         desc: 'Oynaga plyonka yopishtiramiz. Quyosh issig‘i va zararli nuri salonga kirmaydi.',
         points: ['Qonun ruxsat bergan darajada qoraytiramiz', 'Plyonka tekis yopishadi, pufakcha qolmaydi', 'Ichki plastikning rangi quyoshda o‘chmaydi'] },
-      { key: 'Broniplyonka', title: 'Broniplyonka', time: '[MUDDAT]', price: 'dan [NARX] so‘m',
+      { key: 'Broniplyonka', title: 'Broniplyonka', time: '4 soat', price: 'dan 2 900 000 so‘m',
         desc: 'Ko‘zga ko‘rinmaydigan shaffof plyonka bo‘yoqni tosh tegishi va tirnalishdan saqlaydi.',
         points: ['Faqat old qismga yoki butun mashinaga', 'Tosh tekkanidan bo‘yoq ko‘chmaydi', 'Sotganda mashina qimmatroq ketadi'] },
-      { key: 'Polirovka', title: 'Polirovka', time: '[MUDDAT]', price: 'dan [NARX] so‘m',
+      { key: 'Polirovka', title: 'Polirovka', time: '4 soat', price: 'dan 600 000 so‘m',
         desc: 'Mashinani polirovka qilib, ustidan himoya qatlami suramiz. Bo‘yoq yangidek yaltiraydi.',
         points: ['Mayda tirnalish va xira joylar ketadi', 'Bo‘yoq uzoq vaqt yaltirab turadi', 'Yuvish osonlashadi'] },
-      { key: 'Ximchistka', title: 'Ximchistka', time: '[MUDDAT]', price: 'dan [NARX] so‘m',
+      { key: 'Ximchistka', title: 'Ximchistka', time: '4 soat', price: 'dan 600 000 so‘m',
         desc: 'Mashina ichini to‘liq yuvib tozalaymiz: o‘rindiqlar, shift, gilamlar va eshiklar.',
         points: ['Dog‘lar va yomon hid ketadi', 'Ichki plastik tozalanib, rangi yangilanadi', 'Mashina ichi toza hid beradi'] },
-      { key: 'Shumoizolyatsiya', title: 'Shumoizolyatsiya', time: '[MUDDAT]', price: 'dan [NARX] so‘m',
+      { key: 'Shumoizolyatsiya', title: 'Shumoizolyatsiya', time: '4 soat', price: 'dan 600 000 so‘m',
         desc: 'Eshiklar, pol va bagajga ovoz o‘tkazmaydigan maxsus qatlam yopishtiramiz.',
         points: ['Yo‘lda g‘ildirak va shamol ovozi kam eshitiladi', 'Musiqa tiniqroq eshitiladi', 'Qishda salon issiqroq turadi'] }
     ].map(function (s) {
@@ -846,9 +846,9 @@ class Component extends DCLogic {
     });
 
     var shop = [
-      { key: 'Disk', title: 'Disk', price: 'dan [NARX] so‘m',
+      { key: 'Disk', title: 'Disk', price: 'dan 1 800 000 so‘m',
         desc: 'Litoy va shtamp disklar, turli diametr va rangda. O‘rnatib beramiz.' },
-      { key: 'Balon', title: 'Balon', price: 'dan [NARX] so‘m',
+      { key: 'Balon', title: 'Balon', price: 'dan 320 000 so‘m',
         desc: 'Yozgi va qishki balonlar. Almashtirish va o‘rnatish shu yerda.' },
       { key: 'Chexol va polik', title: 'Chexol va polik', price: 'dan [NARX] so‘m',
         desc: 'Modelingizga mos chexollar va 3D poliklar.' },
