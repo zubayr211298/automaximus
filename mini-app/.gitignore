@@ -166,6 +166,10 @@ instance/
 # Jupyter Notebook
 .ipynb_checkpoints
 
+# src/lib/ — loyihaning o'z manba kodi, generic "lib/" qoidasidan chiqarib qo'yiladi
+!src/lib/
+!src/lib/**
+
 # Type hints (MyPy, Pyre)
 .mypy_cache/
 .dmypy.json
