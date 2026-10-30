@@ -206,12 +206,31 @@ input:focus{border-color:#D7182A !important;box-shadow:0 0 0 4px rgba(215,24,42,
 #yozilish .tg-big:focus-visible{outline-color:#FFFFFF}
 .board a:focus-visible{outline:3px solid #FFFFFF;outline-offset:2px}
 @media (max-width:520px){.board-cols{grid-template-columns:1fr !important}}
-.shoprow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr) 170px 150px;gap:18px 28px;align-items:center;padding:26px 0;border-bottom:1px solid rgba(255,255,255,.10);position:relative}
+.shoprow{display:grid;grid-template-columns:132px minmax(0,1fr) minmax(0,1.7fr) 170px 150px;gap:18px 28px;align-items:center;padding:26px 0;border-bottom:1px solid rgba(255,255,255,.10);position:relative}
 .shoprow:first-child{border-top:3px solid #D7182A}
 @media (hover:hover){.shoprow:hover{background:linear-gradient(90deg,rgba(215,24,42,.10),rgba(215,24,42,0) 70%)}}
 .shoprow .price{text-align:right}
+.svc-time:empty{display:none}
+/* Telefon: silliq skroll uchun bezak animatsiyalari o'chirilgan */
+@media (max-width:760px){
+  .stars,.fstar,.spark,.rim-glint,.rim-glint-red{display:none !important}
+  .rim-disc,.rim-hub,.ba-shine{animation:none !important}
+  .ba-shine{display:none}
+  section:not(#top){content-visibility:auto;contain-intrinsic-size:auto 1100px}
+}
+
+@media (max-width:640px){.works-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:12px !important}.work-play{left:8px !important;bottom:8px !important;padding:6px 9px !important;font-size:12px !important}.works-grid figcaption{font-size:13px !important}}
+.work-card img{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+@media (hover:hover){.work-card:hover img{transform:scale(1.04)}}
 @media (max-width:520px){.tb-x{display:none}}
-@media (max-width:860px){.shoprow{grid-template-columns:1fr auto;gap:10px 16px}.shoprow .sr-desc{grid-column:1 / -1;grid-row:2}.shoprow .sr-cta{grid-column:1 / -1}}
+@media (max-width:860px){.shoprow{grid-template-columns:96px minmax(0,1fr);gap:6px 16px;align-items:start}.shoprow .sr-thumb{grid-column:1;grid-row:1 / span 3;align-self:start}.shoprow h3{grid-column:2;grid-row:1}.shoprow .price{grid-column:2;grid-row:2;text-align:left !important;font-size:17px !important;white-space:normal !important}.shoprow .sr-desc{grid-column:2;grid-row:3;font-size:15px !important}.shoprow .sr-cta{grid-column:1 / -1;grid-row:4;margin-top:8px}}
+.sr-thumb{aspect-ratio:8/5;border-radius:12px;overflow:hidden;background:#202027;border:1px solid rgba(255,255,255,.10);display:flex;align-items:center;justify-content:center;color:#A2A2AA}
+.sr-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.svc-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+@media (hover:hover){.card:hover .svc-img{transform:scale(1.04)}}
+.hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 50%;opacity:.7}
+.hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,11,13,.94) 0%,rgba(11,11,13,.78) 40%,rgba(11,11,13,.35) 100%),linear-gradient(0deg,rgba(11,11,13,.9) 0%,rgba(11,11,13,0) 35%)}
+@media (max-width:860px){.hero-shade{background:linear-gradient(180deg,rgba(11,11,13,.55) 0%,rgba(11,11,13,.88) 55%,rgba(11,11,13,.96) 100%)}}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .btn:active,.card:hover{transform:none !important}
@@ -265,7 +284,7 @@ input:focus{border-color:#D7182A !important;box-shadow:0 0 0 4px rgba(215,24,42,
 
   <!-- HERO -->
   <section id="top" ref="{{heroRef}}" class="bg-polish{{heroLive}}" style="position: relative; overflow: hidden; padding: clamp(48px, 7vw, 96px) clamp(16px, 4vw, 48px) clamp(64px, 7vw, 96px); color: #FFFFFF; touch-action: pan-y">
-    <div class="gloss" aria-hidden="true"><div class="ba-coat"></div><div class="ba-shine"></div><svg class="spark sp1" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 C12.8 7.2 16.8 11.2 24 12 C16.8 12.8 12.8 16.8 12 24 C11.2 16.8 7.2 12.8 0 12 C7.2 11.2 11.2 7.2 12 0 Z" fill="#FFFFFF"></path></svg><svg class="spark sp2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 C12.8 7.2 16.8 11.2 24 12 C16.8 12.8 12.8 16.8 12 24 C11.2 16.8 7.2 12.8 0 12 C7.2 11.2 11.2 7.2 12 0 Z" fill="#FFFFFF"></path></svg><svg class="spark sp3" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 C12.8 7.2 16.8 11.2 24 12 C16.8 12.8 12.8 16.8 12 24 C11.2 16.8 7.2 12.8 0 12 C7.2 11.2 11.2 7.2 12 0 Z" fill="#FFFFFF"></path></svg></div>
+    <div class="gloss" aria-hidden="true"><img class="hero-photo" src="images/49146a0cadc70109cd8bb138cae15161.webp" alt="" width="1600" height="1000" fetchpriority="high" decoding="async"><div class="hero-shade"></div><div class="ba-coat"></div><div class="ba-shine"></div><svg class="spark sp1" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 C12.8 7.2 16.8 11.2 24 12 C16.8 12.8 12.8 16.8 12 24 C11.2 16.8 7.2 12.8 0 12 C7.2 11.2 11.2 7.2 12 0 Z" fill="#FFFFFF"></path></svg><svg class="spark sp2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 C12.8 7.2 16.8 11.2 24 12 C16.8 12.8 12.8 16.8 12 24 C11.2 16.8 7.2 12.8 0 12 C7.2 11.2 11.2 7.2 12 0 Z" fill="#FFFFFF"></path></svg><svg class="spark sp3" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 C12.8 7.2 16.8 11.2 24 12 C16.8 12.8 12.8 16.8 12 24 C11.2 16.8 7.2 12.8 0 12 C7.2 11.2 11.2 7.2 12 0 Z" fill="#FFFFFF"></path></svg></div>
     <canvas class="matte" ref="{{cvRef}}" aria-hidden="true"></canvas>
     <div class="polish-hint" aria-hidden="true">
       <sc-if value="{{polishFresh}}" hint-placeholder-val="{{true}}">
@@ -308,7 +327,7 @@ input:focus{border-color:#D7182A !important;box-shadow:0 0 0 4px rgba(215,24,42,
             <div>
               <h3 style="margin: 0 0 6px; font-size: 14px; font-weight: 700; color: #FF6B76; letter-spacing: .02em">Detailing</h3>
               <sc-for list="{{services}}" as="s" hint-placeholder-count="5">
-                <a href="#yozilish" onClick="{{s.choose}}" class="brow"><span>{{s.title}}</span><span class="price">{{s.price}}</span></a>
+                <a href="#yozilish" onClick="{{s.choose}}" class="brow"><span>{{s.title}}</span><span class="price"><sc-if value="{{s.old}}" hint-placeholder-val="{{false}}"><s class="old-price" style="font-weight: 500; opacity: .55; margin-right: 6px">{{s.old}}</s></sc-if>{{s.price}}</span></a>
               </sc-for>
             </div>
             <div>
@@ -359,14 +378,11 @@ input:focus{border-color:#D7182A !important;box-shadow:0 0 0 4px rgba(215,24,42,
       <div class="svcgrid" style="margin-top: 40px">
         <sc-for list="{{services}}" as="s" hint-placeholder-count="5">
           <article class="card" style="display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,.10); border-radius: 18px; background: #17171C; overflow: hidden">
-            <div class="svc-media" style="aspect-ratio: 16 / 9; background: #202027; border-bottom: 1px solid rgba(255,255,255,.10); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #A2A2AA; font-size: 14px; text-align: center; padding: 12px">
-              <svg class="ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="2"></circle><path d="M21 16l-5-5-8 8"></path></svg>
-              <span>[RASM yoki VIDEO: {{s.title}}]</span>
-            </div>
+            <div class="svc-media" style="aspect-ratio: 16 / 9; background: #202027; border-bottom: 1px solid rgba(255,255,255,.10); position: relative; overflow: hidden"><img src="{{s.img}}" alt="{{s.alt}}" width="1200" height="675" loading="lazy" decoding="async" class="svc-img"></div>
             <div style="padding: 24px; display: flex; flex-direction: column; gap: 14px; flex: 1">
               <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap">
                 <h3 style="margin: 0; font-stretch: 125%; font-weight: 750; font-size: 22px; letter-spacing: -0.015em">{{s.title}}</h3>
-                <span style="font-size: 13px; font-weight: 600; color: #B6B6BE; padding: 5px 10px; border-radius: 999px; background: #24242B">{{s.time}}</span>
+                <sc-if value="{{s.time}}" hint-placeholder-val="{{false}}"><span class="svc-time" style="font-size: 13px; font-weight: 600; color: #B6B6BE; padding: 5px 10px; border-radius: 999px; background: #24242B">{{s.time}}</span></sc-if>
               </div>
               <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #B6B6BE">{{s.desc}}</p>
               <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px">
@@ -378,7 +394,7 @@ input:focus{border-color:#D7182A !important;box-shadow:0 0 0 4px rgba(215,24,42,
                 </sc-for>
               </ul>
               <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.10); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap">
-                <span class="price" style="font-weight: 800; font-size: 20px; color: {{accent}}">{{s.price}}</span>
+                <span style="display: flex; flex-direction: column; gap: 2px"><sc-if value="{{s.old}}" hint-placeholder-val="{{false}}"><s class="old-price" style="font-size: 14px; font-weight: 600; color: #8E8E96">{{s.old}}</s></sc-if><span class="price" style="font-weight: 800; font-size: 20px; color: {{accent}}">{{s.price}}</span></span>
                 <a href="#yozilish" onClick="{{s.choose}}" class="btn btn-red" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 10px; background: {{accent}}; color: #FFFFFF; font-size: 15px; font-weight: 700; text-decoration: none">Yozilish</a>
               </div>
             </div>
@@ -405,6 +421,7 @@ input:focus{border-color:#D7182A !important;box-shadow:0 0 0 4px rgba(215,24,42,
       <div style="margin-top: 40px">
         <sc-for list="{{shop}}" as="s" hint-placeholder-count="4">
           <div class="shoprow">
+            <div class="sr-thumb"><sc-if value="{{s.img}}" hint-placeholder-val="{{true}}"><img src="{{s.img}}" alt="{{s.alt}}" width="640" height="400" loading="lazy" decoding="async"></sc-if><sc-if value="{{s.noImg}}" hint-placeholder-val="{{false}}"><svg class="ic" width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="3"></circle><path d="M12 3v6M12 15v6M3 12h6M15 12h6"></path></svg></sc-if></div>
             <h3 style="margin: 0; font-stretch: 125%; font-weight: 800; font-size: clamp(22px, 2.2vw, 28px); letter-spacing: -0.015em; line-height: 1.15">{{s.title}}</h3>
             <p class="sr-desc" style="margin: 0; font-size: 16px; line-height: 1.55; color: #B6B6BE">{{s.desc}}</p>
             <span class="price" style="font-weight: 800; font-size: 20px; color: {{accent}}; white-space: nowrap">{{s.price}}</span>
@@ -434,9 +451,9 @@ input:focus{border-color:#D7182A !important;box-shadow:0 0 0 4px rgba(215,24,42,
               <div style="font-size: 15px; color: #A2A2AA; margin-top: 4px; line-height: 1.5">{{k.for}}</div>
             </div>
             <div style="display: flex; flex-direction: column; gap: 4px">
-              <span style="font-size: 15px; color: #A2A2AA">Alohida: <s>{{k.alone}}</s></span>
+              <sc-if value="{{k.hasNums}}" hint-placeholder-val="{{false}}"><span style="font-size: 15px; color: #A2A2AA">Odatiy narx: <s>{{k.alone}}</s></span></sc-if>
               <span style="font-size: 28px; font-weight: 800; letter-spacing: -0.01em">{{k.price}}</span>
-              <span style="align-self: flex-start; margin-top: 4px; padding: 5px 12px; border-radius: 999px; background: rgba(215,24,42,.18); color: #FF7A84; font-size: 14px; font-weight: 700">Tejaysiz: {{k.save}}</span>
+              <sc-if value="{{k.hasSave}}" hint-placeholder-val="{{false}}"><span style="align-self: flex-start; margin-top: 4px; padding: 5px 12px; border-radius: 999px; background: rgba(215,24,42,.18); color: #FF7A84; font-size: 14px; font-weight: 700">Tejaysiz: {{k.save}}</span></sc-if>
             </div>
             <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
               <sc-for list="{{k.items}}" as="i" hint-placeholder-count="3">
@@ -496,25 +513,43 @@ input:focus{border-color:#D7182A !important;box-shadow:0 0 0 4px rgba(215,24,42,
   <section id="ishlar" class="bg-reel" style="padding: clamp(80px, 9vw, 120px) clamp(16px, 4vw, 48px)">
     <div style="max-width: 1200px; margin: 0 auto">
       <h2 style="margin: 0; font-stretch: 125%; font-weight: 800; font-size: clamp(28px, 3.4vw, 44px); line-height: 1.1; letter-spacing: -0.025em">Ishlarimiz</h2>
-      <p style="margin: 12px 0 0; font-size: 17px; color: #B6B6BE">Oldin va keyin — o‘z studiyamizdagi real rasmlar va videolar.</p>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 40px">
+      <p style="margin: 12px 0 0; font-size: 17px; color: #B6B6BE">Farg‘onadagi studiyamizda tayyorlangan mashinalar. Bosing — Instagram’da videosini ko‘rasiz.</p>
+      <div class="works-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 40px">
         <sc-for list="{{media}}" as="m" hint-placeholder-count="6">
           <figure style="margin: 0">
-            <div style="aspect-ratio: 4 / 3; border-radius: 16px; background: #202027; border: 2px dashed rgba(255,255,255,.18); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #A2A2AA; font-size: 14px; text-align: center; padding: 16px">
-              <sc-if value="{{m.video}}" hint-placeholder-val="{{false}}"><svg class="ic" width="36" height="36" viewBox="0 0 24 24" aria-hidden="true" style="color: #D7182A"><circle cx="12" cy="12" r="10"></circle><path d="M10 8l6 4-6 4z"></path></svg></sc-if>
-              <sc-if value="{{m.photo}}" hint-placeholder-val="{{true}}"><svg class="ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="2"></circle><path d="M21 16l-5-5-8 8"></path></svg></sc-if>
-              <span>{{m.label}}</span>
-            </div>
-            <figcaption style="margin-top: 10px; font-size: 14px; color: #A2A2AA">[MASHINA MODELI] · {{m.service}}</figcaption>
+            <a href="{{m.href}}" target="_blank" rel="noopener" class="work-card" style="display: block; position: relative; aspect-ratio: 4 / 5; border-radius: 16px; overflow: hidden; background: #202027; border: 1px solid rgba(255,255,255,.10); color: #FFFFFF; text-decoration: none">
+              <img src="{{m.img}}" alt="{{m.car}} — {{m.service}}, Automaximus ishi" width="720" height="900" loading="lazy" decoding="async" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block">
+              <span class="work-play" aria-hidden="true" style="position: absolute; left: 14px; bottom: 14px; display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: rgba(14,14,16,.78); font-size: 13px; font-weight: 700"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" style="color: #D7182A"><circle cx="12" cy="12" r="10"></circle><path d="M10 8l6 4-6 4z"></path></svg>Videoni ko‘rish</span>
+            </a>
+            <figcaption style="margin-top: 10px; font-size: 14px; color: #A2A2AA"><b style="color: #F2F2F4">{{m.car}}</b> · {{m.service}}</figcaption>
           </figure>
         </sc-for>
       </div>
     </div>
   </section>
 
-  <!-- REVIEWS: haqiqiy sharhlar yig'ilgach shu yerga qaytariladi -->
+  <!-- REVIEWS: haqiqiy mijoz fikrlari kelguncha yashirilgan
+  <section class="bg-quote" style="position: relative; overflow: hidden; padding: clamp(64px, 8vw, 104px) clamp(16px, 4vw, 48px)">
+    <div style="max-width: 1200px; margin: 0 auto">
+      <h2 style="margin: 0; font-stretch: 125%; font-weight: 800; font-size: clamp(28px, 3.4vw, 44px); line-height: 1.1; letter-spacing: -0.025em">Mijozlarimiz nima deydi</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 40px">
+        <blockquote style="margin: 0; padding: 26px; border-radius: 16px; background: #17171C; border: 1px solid rgba(255,255,255,.10)">
+          <p style="margin: 0; font-size: 17px; line-height: 1.6">“[Haqiqiy mijoz fikri — Instagram yoki Google sharhidan]”</p>
+          <footer style="margin-top: 16px; font-size: 14px; font-weight: 600; color: #A2A2AA">[Mijoz ismi] · [Mashina] · [Xizmat]</footer>
+        </blockquote>
+        <blockquote style="margin: 0; padding: 26px; border-radius: 16px; background: #17171C; border: 1px solid rgba(255,255,255,.10)">
+          <p style="margin: 0; font-size: 17px; line-height: 1.6">“[Haqiqiy mijoz fikri — Instagram yoki Google sharhidan]”</p>
+          <footer style="margin-top: 16px; font-size: 14px; font-weight: 600; color: #A2A2AA">[Mijoz ismi] · [Mashina] · [Xizmat]</footer>
+        </blockquote>
+        <blockquote style="margin: 0; padding: 26px; border-radius: 16px; background: #17171C; border: 1px solid rgba(255,255,255,.10)">
+          <p style="margin: 0; font-size: 17px; line-height: 1.6">“[Haqiqiy mijoz fikri — Instagram yoki Google sharhidan]”</p>
+          <footer style="margin-top: 16px; font-size: 14px; font-weight: 600; color: #A2A2AA">[Mijoz ismi] · [Mashina] · [Xizmat]</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
 
-
+  -->
   <!-- FAQ -->
   <section id="savollar" style="padding: clamp(64px, 8vw, 104px) clamp(16px, 4vw, 48px); background: #0E0E10; border-top: 1px solid rgba(255,255,255,.08)">
     <div style="max-width: 860px; margin: 0 auto">
@@ -548,13 +583,13 @@ input:focus{border-color:#D7182A !important;box-shadow:0 0 0 4px rgba(215,24,42,
             <svg class="ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"></path></svg>
             +998 90 777 78 50
           </a>
-          <div style="display: flex; gap: 12px; align-items: center">
+          <a href="https://yandex.uz/maps/-/CXbBVMk7" target="_blank" rel="noopener" style="display: flex; gap: 12px; align-items: center; color: #FFFFFF; min-height: 44px">
             <svg class="ic" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.5-7-12a7 7 0 0114 0c0 5.5-7 12-7 12z"></path><circle cx="12" cy="9" r="2.5"></circle></svg>
-            Farg‘ona, Al Farg‘oniy ko‘chasi, 108
-          </div>
+            <span>Fargʻona, Al Fargʻoniy koʻchasi, 108 <span style="opacity: .8; text-decoration: underline">— xaritada ochish</span></span>
+          </a>
           <div style="display: flex; gap: 12px; align-items: center">
             <svg class="ic" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
-            08:00 – 20:00
+            Ish vaqti: 08:00 – 20:00
           </div>
         </div>
       </div>
@@ -625,7 +660,7 @@ input:focus{border-color:#D7182A !important;box-shadow:0 0 0 4px rgba(215,24,42,
         <a href="{{tgHref}}" style="color: #FFFFFF; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">Telegram</a>
         <a href="tel:+998907777850" style="color: #FFFFFF; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">+998 90 777 78 50</a>
       </div>
-      <div style="font-size: 13px; color: #A3A3A3; width: 100%">© Automaximus · Detailing studiya va avto do‘kon · Farg‘ona, Al Farg‘oniy ko‘chasi, 108</div>
+      <div style="font-size: 13px; color: #A3A3A3; width: 100%">© Automaximus · Detailing studiya va avto do‘kon · Fargʻona, Al Fargʻoniy koʻchasi, 108</div>
     </div>
   </footer>
 
@@ -677,7 +712,9 @@ class Component extends DCLogic {
           if (en.target === els.rims) { patch.rimsLive = en.isIntersecting; }
           if (en.target === self.hero) { patch.heroLive = en.isIntersecting; }
         });
-        self.setState(patch);
+        var changed = false;
+        Object.keys(patch).forEach(function (k) { if (self.state[k] !== patch[k]) { changed = true; } });
+        if (changed) { self.setState(patch); }
       }, { rootMargin: '80px 0px' });
       io.observe(els.floor); io.observe(els.rims); io.observe(self.hero);
       self.cleanup.push(function () { io.disconnect(); });
@@ -761,19 +798,29 @@ class Component extends DCLogic {
     };
     var local = function (cx, cy) { var b = host.getBoundingClientRect(); return { x: cx - b.left, y: cy - b.top }; };
     var onMove = function (e) { if (e.pointerType === 'touch') { return; } var p = local(e.clientX, e.clientY); stroke(p.x, p.y, true); };
-    var onTouch = function (e) { if (!e.touches || !e.touches[0]) { return; } var p = local(e.touches[0].clientX, e.touches[0].clientY); stroke(p.x, p.y, true); };
-    var onLeave = function () { last = null; };
+    var tStart = null, tRect = null, tMode = 0, tPt = null, tRaf = 0;
+    var onTStart = function (e) { last = null; tMode = 0; tPt = null; if (!e.touches || !e.touches[0]) { return; } tStart = { x: e.touches[0].clientX, y: e.touches[0].clientY }; tRect = host.getBoundingClientRect(); };
+    var flush = function () { tRaf = 0; if (tPt) { stroke(tPt.x, tPt.y, true); tPt = null; } };
+    var onTouch = function (e) {
+      if (!e.touches || !e.touches[0] || !tStart || !tRect) { return; }
+      var cx = e.touches[0].clientX, cy = e.touches[0].clientY;
+      if (tMode === 0) { var mx = Math.abs(cx - tStart.x), my = Math.abs(cy - tStart.y); if (mx + my < 8) { return; } tMode = my > mx ? 2 : 1; }
+      if (tMode === 2) { return; }
+      tPt = { x: cx - tRect.left, y: cy - tRect.top };
+      if (!tRaf) { tRaf = requestAnimationFrame(flush); }
+    };
+    var onLeave = function () { last = null; tStart = null; tMode = 0; };
     size();
     host.addEventListener('pointermove', onMove);
     host.addEventListener('pointerleave', onLeave);
-    host.addEventListener('touchstart', onLeave, { passive: true });
+    host.addEventListener('touchstart', onTStart, { passive: true });
     host.addEventListener('touchmove', onTouch, { passive: true });
     host.addEventListener('touchend', onLeave, { passive: true });
     var ro = null;
     if (window.ResizeObserver) { ro = new ResizeObserver(function () { size(); }); ro.observe(host); }
     self.cleanup.push(function () {
       host.removeEventListener('pointermove', onMove); host.removeEventListener('pointerleave', onLeave);
-      host.removeEventListener('touchstart', onLeave); host.removeEventListener('touchmove', onTouch); host.removeEventListener('touchend', onLeave);
+      host.removeEventListener('touchstart', onTStart); host.removeEventListener('touchmove', onTouch); host.removeEventListener('touchend', onLeave);
       if (ro) { ro.disconnect(); }
     });
     // Namoyish: sahifa o'zi bir marta polirovka qilib ko'rsatadi
@@ -808,33 +855,33 @@ class Component extends DCLogic {
     var accent = this.props.accent ?? '#D7182A';
 
     var services = [
-      { key: 'Tonirovka', title: 'Tonirovka', time: '1,5 soat', price: 'dan 180 000 so‘m',
-        desc: 'Oynaga plyonka yopishtiramiz. Quyosh issig‘i va zararli nuri salonga kirmaydi.',
+      { key: 'Tonirovka', title: 'Tonirovka', old: '400 000 so‘m', img: 'images/1d95644a7a9f884b48a34bc4643c7620.webp', alt: 'Usta oq avtomobil oynasiga tonirovka plyonkasini rakel bilan yopishtirmoqda', time: '1,5 soat', price: '180 000 so‘mdan',
+        desc: 'Oynaga plyonka yopishtiramiz. Quyosh issig‘i va zararli nuri salonga kirmaydi. Narx orqa yon oynalar va orqa oyna (sfera) uchun.',
         points: ['Qonun ruxsat bergan darajada qoraytiramiz', 'Plyonka tekis yopishadi, pufakcha qolmaydi', 'Ichki plastikning rangi quyoshda o‘chmaydi'] },
-      { key: 'Broniplyonka', title: 'Broniplyonka', time: '4 soat', price: 'dan 2 900 000 so‘m',
-        desc: 'Ko‘zga ko‘rinmaydigan shaffof plyonka bo‘yoqni tosh tegishi va tirnalishdan saqlaydi.',
+      { key: 'Broniplyonka', title: 'Broniplyonka', old: '4 800 000 so‘m', img: 'images/84c68e7901892be0d0d4b0898c7b0043.webp', alt: 'Usta qora avtomobil kapotiga broniplyonkani rakel bilan yopishtirmoqda', time: '4 soat', price: '2 900 000 so‘mdan',
+        desc: 'Ko‘zga ko‘rinmaydigan shaffof plyonka bo‘yoqni tosh tegishi va tirnalishdan saqlaydi. Narx old qism uchun.',
         points: ['Faqat old qismga yoki butun mashinaga', 'Tosh tekkanidan bo‘yoq ko‘chmaydi', 'Sotganda mashina qimmatroq ketadi'] },
-      { key: 'Polirovka', title: 'Polirovka', time: '4 soat', price: 'dan 600 000 so‘m',
+      { key: 'Polirovka', title: 'Polirovka', old: '1 200 000 so‘m', img: 'images/ef6ce817bc1d18f6b09b9c0706b30db5.webp', alt: 'Qora avtomobil kapoti polirovka mashinasi bilan yaltiratilmoqda', time: '4 soat', price: '600 000 so‘mdan',
         desc: 'Mashinani polirovka qilib, ustidan himoya qatlami suramiz. Bo‘yoq yangidek yaltiraydi.',
         points: ['Mayda tirnalish va xira joylar ketadi', 'Bo‘yoq uzoq vaqt yaltirab turadi', 'Yuvish osonlashadi'] },
-      { key: 'Ximchistka', title: 'Ximchistka', time: '4 soat', price: 'dan 600 000 so‘m',
-        desc: 'Mashina ichini to‘liq yuvib tozalaymiz: o‘rindiqlar, shift, gilamlar va eshiklar.',
+      { key: 'Ximchistka', title: 'Ximchistka', old: '900 000 so‘m', img: 'images/fdfd6f69421010277c1f235ed518708a.webp', alt: 'Kulrang mato o‘rindiq ekstraktor bilan tozalanmoqda', time: '4 soat', price: '600 000 so‘mdan',
+        desc: 'Salon qismini to‘liq yuvib tozalaymiz: o‘rindiqlar, shift, gilamlar va eshiklar.',
         points: ['Dog‘lar va yomon hid ketadi', 'Ichki plastik tozalanib, rangi yangilanadi', 'Mashina ichi toza hid beradi'] },
-      { key: 'Shumoizolyatsiya', title: 'Shumoizolyatsiya', time: '4 soat', price: 'dan 600 000 so‘m',
-        desc: 'Eshiklar, pol va bagajga ovoz o‘tkazmaydigan maxsus qatlam yopishtiramiz.',
+      { key: 'Shumoizolyatsiya', title: 'Shumoizolyatsiya', old: '1 200 000 so‘m', img: 'images/edf5470982afd5e848e1b372b4c3e458.webp', alt: 'Eshik ichiga shumoizolyatsiya qatlami yopishtirilmoqda', time: '4 soat', price: '600 000 so‘mdan',
+        desc: 'Eshiklar, pol va bagajga ovoz o‘tkazmaydigan maxsus qatlam yopishtiramiz. Narx 4 ta eshik uchun.',
         points: ['Yo‘lda g‘ildirak va shamol ovozi kam eshitiladi', 'Musiqa tiniqroq eshitiladi', 'Qishda salon issiqroq turadi'] }
     ].map(function (s) {
       return Object.assign({}, s, { choose: function () { self.setChosen([s.key]); } });
     });
 
     var shop = [
-      { key: 'Disk', title: 'Disk', price: 'dan 1 800 000 so‘m',
+      { key: 'Disk', title: 'Disk', img: 'images/35913eccffa5b62e4de41e0c7f764509.webp', alt: 'Qizil supportli qora litoy disk', price: '1 800 000 so‘mdan',
         desc: 'Litoy va shtamp disklar, turli diametr va rangda. O‘rnatib beramiz.' },
-      { key: 'Balon', title: 'Balon', price: 'dan 320 000 so‘m',
+      { key: 'Balon', title: 'Balon', img: 'images/576dfbe491f75625d54719c429cb4eac.webp', alt: 'Do‘kon javonida yangi balonlar', price: '320 000 so‘mdan',
         desc: 'Yozgi va qishki balonlar. Almashtirish va o‘rnatish shu yerda.' },
-      { key: 'Chexol va polik', title: 'Chexol va polik', price: 'dan [NARX] so‘m',
-        desc: 'Modelingizga mos chexollar va 3D poliklar.' },
-      { key: 'Aksessuarlar', title: 'Aksessuarlar', price: 'modelga qarab',
+      { key: 'Chexol va polik', title: 'Chexol va polik', img: 'images/218d9b20a01c2a9e02d0d0cef59b7173.webp', alt: 'Qizil chokli qora eko-charm chexol va 3D polik', price: '200 000 so‘mdan',
+        desc: 'Modelingizga mos chexollar (450 000 so‘mdan) va 3D poliklar (200 000 so‘mdan).' },
+      { key: 'Aksessuarlar', title: 'Aksessuarlar', img: 'images/0123e99e932c29ac5931914b4b2b8e36.webp', alt: 'Telefon ushlagich, videoregistrator, rul g‘ilofi va boshqa aksessuarlar', price: 'modelga qarab',
         desc: 'Mashinangiz uchun kerakli aksessuarlar va elektrik xizmati.' }
     ].map(function (s) {
       return Object.assign({}, s, { choose: function () { self.setChosen([s.key]); } });
@@ -850,13 +897,13 @@ class Component extends DCLogic {
     ];
 
     var pkgDefs = [
-      { name: 'Start', for: 'Har kuni haydaydiganlar uchun', alone: '[NARX] so‘m', price: '[NARX] so‘m', save: '[SUMMA] so‘m',
+      { name: 'Start', for: 'Har kuni haydaydiganlar uchun', alone: '1 300 000 so‘m', price: '750 000 so‘m', save: '550 000 so‘m', hasNums: true, hasSave: true,
         items: ['Tonirovka', 'Salon ximchistkasi'], pick: ['Tonirovka', 'Ximchistka'], featured: false },
-      { name: 'Optimal', for: 'Yangi olingan mashina uchun', alone: '[NARX] so‘m', price: '[NARX] so‘m', save: '[SUMMA] so‘m',
+      { name: 'Optimal', for: 'Yangi olingan mashina uchun', alone: '7 300 000 so‘m', price: '3 980 000 so‘m', save: '3 320 000 so‘m', hasNums: true, hasSave: true,
         items: ['Tonirovka', 'Old qismga broniplyonka', 'Polirovka', 'Salon ximchistkasi'], pick: ['Tonirovka', 'Broniplyonka', 'Polirovka', 'Ximchistka'], featured: true },
-      { name: 'To‘liq', for: 'Hammasi bir tashrifda', alone: '[NARX] so‘m', price: '[NARX] so‘m', save: '[SUMMA] so‘m',
+      { name: 'To‘liq', for: 'Hammasi bir tashrifda', alone: '8 500 000 so‘m', price: '4 580 000 so‘m', save: '3 920 000 so‘m', hasNums: true, hasSave: true,
         items: ['Tonirovka', 'Broniplyonka', 'Polirovka', 'Ximchistka', 'Shumoizolyatsiya'], pick: names.slice(0, 5), featured: false },
-      { name: 'Disk + yaltiroq', for: 'Yangi disk olayotganlar uchun', alone: '[NARX] so‘m', price: '[NARX] so‘m', save: '[SUMMA] so‘m',
+      { name: 'Disk + yaltiroq', for: 'Yangi disk olayotganlar uchun', alone: '3 000 000 so‘m', price: '2 400 000 so‘m', save: '600 000 so‘m + fara polirovkasi bepul', hasNums: true, hasSave: true,
         items: ['Disk komplekti (o‘rnatish bilan)', 'Polirovka', 'Fara polirovkasi'], pick: ['Disk', 'Polirovka'], featured: false }
     ];
     var packages = pkgDefs.map(function (k) {
@@ -869,12 +916,12 @@ class Component extends DCLogic {
     });
 
     var media = [
-      { label: '[VIDEO: broniplyonka yopishtirilishi]', service: 'Broniplyonka', video: true, photo: false },
-      { label: '[RASM: tonirovka, oldin / keyin]', service: 'Tonirovka', video: false, photo: true },
-      { label: '[RASM: ximchistka, oldin / keyin]', service: 'Ximchistka', video: false, photo: true },
-      { label: '[VIDEO: polirovka jarayoni]', service: 'Polirovka', video: true, photo: false },
-      { label: '[RASM: shumoizolyatsiya]', service: 'Shumoizolyatsiya', video: false, photo: true },
-      { label: '[RASM: tayyor mashina]', service: 'Paket', video: false, photo: true }
+      { car: 'BYD Chazor', service: 'Tonirovka va balon', img: 'images/f8ec8fb21083750ca55d5f915e2dd0db.webp', href: 'https://www.instagram.com/automaximus_shop/reel/Csi_dkrLtaj/' },
+      { car: 'Mercedes-Benz E-class', service: 'To‘liq shumoizolyatsiya', img: 'images/3a979383c724213b2e7195e198f8b7ed.webp', href: 'https://www.instagram.com/automaximus_shop/reel/C3P8UKcMFrP/' },
+      { car: 'Chevrolet Tracker 2', service: 'Kompleks tayyorlash', img: 'images/f40c53d473f05bcbde6bad1f56251cb1.webp', href: 'https://www.instagram.com/automaximus_shop/reel/DP1Q3-QjHq1/' },
+      { car: 'Chevrolet Onix Premier', service: 'Yangi mashinaga barcha ishlar', img: 'images/6c9223619beda7c7c08ac3b53bc192ae.webp', href: 'https://www.instagram.com/automaximus_shop/reel/DQEvEvvDBfH/' },
+      { car: 'Chevrolet Gentra', service: 'Yangi disk o‘rnatildi', img: 'images/ed57ea16953fff3ff57a52e10d4247ba.webp', href: 'https://www.instagram.com/automaximus_shop/reel/CubkUvEs2yC/' },
+      { car: 'Chevrolet Tahoe', service: 'Shumoizolyatsiya va salon', img: 'images/09735e2929bbf01151958ef14599944f.webp', href: 'https://www.instagram.com/automaximus_shop/reel/C7dnH0QMIhK/' }
     ];
 
     var pills = names.map(function (n) {
