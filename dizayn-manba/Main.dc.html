@@ -1,0 +1,967 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Automaximus — detailing studiya va avto do‘kon</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100..125,400..800;1,100..125,400..700&amp;display=swap">
+<style>
+body{margin:0;background:#0E0E10;color:#F2F2F4;font-family:'Archivo',system-ui,sans-serif;font-stretch:100%;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+*{box-sizing:border-box}
+button,input{font-family:inherit}
+p{text-wrap:pretty}
+h1,h2,h3{text-wrap:balance}
+a{color:#D7182A}a:hover{color:#B01222}
+::selection{background:#D7182A;color:#FFFFFF}
+html{accent-color:#D7182A;caret-color:#D7182A}
+.ic{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.sw3{stroke-width:3}.sw5{stroke-width:5}.sw8{stroke-width:8}
+.btn{cursor:pointer}
+.btn-red:hover{background:#B01222 !important;color:#FFFFFF !important}
+.btn-line:hover{border-color:#D7182A !important;color:#FF6B76 !important}
+.card:hover{border-color:rgba(215,24,42,.55) !important;box-shadow:0 18px 40px -20px rgba(215,24,42,.45)}
+.btn:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible,button:focus-visible{outline:3px solid #141414;outline-offset:3px}
+#yozilish a:focus-visible{outline-color:#FFFFFF}
+input::placeholder{color:#8A8A8A}
+details summary{list-style:none;cursor:pointer}
+details summary::-webkit-details-marker{display:none}
+details[open] .plus{transform:rotate(45deg)}
+.mbar{display:none}
+.navphone{display:none !important}
+@media (max-width:1120px){.navlinks{display:none !important}.mnav{display:flex !important;gap:8px;overflow-x:auto;padding:0 clamp(16px,4vw,48px) 10px;scrollbar-width:none}}
+@media (max-width:760px){.navlinks{display:none !important}.navphone{display:none !important}.mbar{display:flex !important}.pagepad{padding-bottom:76px}}
+/* ===== Zamonaviy qatlam: bento, lenta, donadorlik ===== */
+.price{font-variant-numeric:tabular-nums lining-nums}
+.grain{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.ticker-wrap{position:relative;overflow:hidden;padding:18px 0;background:#0E0E10}
+.ticker{transform:rotate(-1.4deg);margin:0 -4%;background:#D7182A;color:#FFFFFF;border-top:4px solid #FFFFFF;border-bottom:4px solid #FFFFFF;overflow:hidden}
+.ticker-track{display:flex;align-items:center;width:max-content;padding:15px 0;animation:tick 42s linear infinite;will-change:transform;backface-visibility:hidden}
+.ticker-group{display:flex;align-items:center;gap:34px;padding-right:34px;flex:none}
+@media (min-width:761px){.ticker{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%)}}
+@media (hover:hover){.ticker:hover .ticker-track{animation-play-state:paused}}
+@media (max-width:760px){.ticker-track{animation-duration:30s}}
+@media (prefers-reduced-motion:reduce){.ticker-track{animation:none}}
+.ticker-item{display:flex;align-items:center;gap:34px;color:#FFFFFF;font-stretch:125%;font-weight:800;font-size:clamp(16px,1.6vw,22px);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+@keyframes tick{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+.bento{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.bento-hero{grid-column:span 2;grid-row:span 2}
+.bento-wide{grid-column:span 2}
+.svcgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.svcgrid > *:first-child{grid-column:span 2}
+.svcgrid > *:first-child .svc-media{aspect-ratio:21/9}
+.outline-word{position:absolute;left:50%;bottom:-0.18em;transform:translateX(-50%);font-stretch:125%;font-weight:800;font-size:clamp(80px,15vw,230px);line-height:1;letter-spacing:-.02em;white-space:nowrap;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.09);pointer-events:none;user-select:none}
+.mnav{display:none}
+.fab{position:fixed;right:24px;bottom:24px;z-index:25;width:58px;height:58px;border-radius:50%;background:#141414;color:#FFFFFF;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 28px -12px rgba(0,0,0,.55);text-decoration:none}
+.fab:hover{background:#D7182A;color:#FFFFFF}
+@media (max-width:1000px){.svcgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.bento{grid-template-columns:repeat(2,minmax(0,1fr))}.bento-hero{grid-row:auto}}
+@media (max-width:640px){.svcgrid{grid-template-columns:1fr}.svcgrid > *:first-child{grid-column:auto}.svcgrid > *:first-child .svc-media{aspect-ratio:16/9}.bento{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.bento-hero,.bento-wide{grid-column:span 2}.bento .card{min-height:0 !important;padding:16px !important;gap:12px !important}.bento-hero{min-height:0 !important}}
+@media (max-width:760px){.mnav{display:flex;gap:8px;overflow-x:auto;padding:0 16px 10px;scrollbar-width:none}.mnav::-webkit-scrollbar{display:none}.tb-phone{display:none !important}.fab{display:none}}
+/* ===== Brend fonlari: motorsport livereya ===== */
+.bg-film{background-color:#F6F6F6;background-image:repeating-linear-gradient(135deg,rgba(20,20,20,.04) 0 1px,transparent 1px 13px)}
+.bg-carbon{background-color:#131313;background-image:linear-gradient(27deg,#151515 5px,transparent 5px),linear-gradient(207deg,#151515 5px,transparent 5px),linear-gradient(27deg,#222 5px,transparent 5px),linear-gradient(207deg,#222 5px,transparent 5px),linear-gradient(90deg,#1b1b1b 10px,transparent 10px),linear-gradient(#1d1d1d 25%,#1a1a1a 25%,#1a1a1a 50%,transparent 50%,transparent 75%,#242424 75%,#242424);background-position:0 5px,10px 0,0 10px,10px 5px,0 0,0 0;background-size:20px 20px}
+.bg-speed{background-image:repeating-linear-gradient(115deg,rgba(255,255,255,.075) 0 2px,transparent 2px 26px),radial-gradient(70% 90% at 0% 0%,rgba(255,255,255,.16),rgba(255,255,255,0) 60%)}
+.checker{height:14px;background:conic-gradient(#141414 25%,#FFFFFF 0 50%,#141414 0 75%,#FFFFFF 0) 0 0/14px 14px}
+.livery{position:absolute;z-index:0;top:-20%;bottom:-20%;transform:skewX(-18deg);pointer-events:none}
+.hero-in{z-index:1}
+@media (max-width:1180px){.livery{display:none}}
+.wm{position:absolute;pointer-events:none}
+@media (max-width:760px){.livery{display:none}.wm{opacity:.6}.navcta{display:none !important}.navlogo{height:30px !important;max-width:calc(100vw - 40px)}}
+/* ===== Silliq effektlar (impeccable: narx → tanlash → yozilish) ===== */
+:root{--ease-out:cubic-bezier(.16,1,.3,1)}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+section[id]{scroll-margin-top:76px}
+a,button,summary,input{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.btn{transition:background-color .15s var(--ease-out),color .15s var(--ease-out),border-color .15s var(--ease-out),box-shadow .2s var(--ease-out),transform .12s var(--ease-out)}
+.btn:active{transform:scale(.97)}
+.card{transition:box-shadow .25s var(--ease-out),border-color .2s ease,transform .25s var(--ease-out)}
+@media (hover:hover){.card:hover{transform:translateY(-3px)}.btn-red:hover{box-shadow:0 10px 20px -10px rgba(215,24,42,.6)}}
+input{transition:border-color .15s ease,box-shadow .15s ease}
+input:focus{border-color:#D7182A !important;box-shadow:0 0 0 4px rgba(215,24,42,.14)}
+.plus{transition:transform .25s var(--ease-out)}
+.pill-on{animation:pill-pop .22s var(--ease-out)}
+@keyframes pill-pop{from{transform:scale(.9)}to{transform:none}}
+#yozilish:target .bookcard{animation:book-ring 1.1s var(--ease-out) .35s both}
+@keyframes book-ring{0%{box-shadow:0 0 0 0 rgba(255,255,255,.95),0 24px 48px -20px rgba(60,0,8,.45)}100%{box-shadow:0 0 0 20px rgba(255,255,255,0),0 24px 48px -20px rgba(60,0,8,.45)}}
+@supports (interpolate-size: allow-keywords){
+  :root{interpolate-size:allow-keywords}
+  details::details-content{block-size:0;overflow:hidden;transition:block-size .3s var(--ease-out),content-visibility .3s allow-discrete}
+  details[open]::details-content{block-size:auto}
+}
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion:no-preference){
+    .rv{animation:rv-in linear both;animation-timeline:view();animation-range:entry 5% entry 45%}
+    .pk:nth-child(2){animation-range:entry 12% entry 52%}
+    .pk:nth-child(3){animation-range:entry 19% entry 59%}
+  }
+}
+@keyframes rv-in{from{opacity:.3;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes hdr-sh{to{box-shadow:0 8px 20px -14px rgba(20,20,20,.45);background:rgba(255,255,255,.99)}}
+.mbar{padding-bottom:max(10px, env(safe-area-inset-bottom)) !important}
+/* ===== Hero fon: interaktiv polirovka — xira bo'yoq ostidan yaltiroq bo'yoq chiqadi ===== */
+.bg-polish{background-color:#0B0B0D}
+.gloss{position:absolute;inset:0;z-index:0;pointer-events:none;background-color:#0B0B0D;background-image:
+ linear-gradient(118deg, rgba(255,255,255,0) 22%, rgba(255,255,255,.16) 27%, rgba(255,255,255,0) 32%),
+ linear-gradient(118deg, rgba(255,255,255,0) 57%, rgba(255,255,255,.20) 62%, rgba(255,255,255,0) 67%),
+ linear-gradient(118deg, rgba(255,255,255,0) 72%, rgba(255,255,255,.12) 74%, rgba(255,255,255,0) 76%),
+ radial-gradient(60% 55% at 80% 110%, rgba(215,24,42,.65), rgba(215,24,42,0) 70%),
+ radial-gradient(45% 40% at 10% 105%, rgba(215,24,42,.35), rgba(215,24,42,0) 70%),
+ radial-gradient(35% 30% at 60% -5%, rgba(255,255,255,.18), rgba(255,255,255,0) 70%),
+ linear-gradient(180deg,#0B0B0D 0%,#17171B 60%,#0C0C0F 100%)}
+.matte{position:absolute;left:0;top:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+.ba-coat{position:absolute;left:0;right:0;top:34%;height:2px;background:linear-gradient(90deg,rgba(255,255,255,0) 10%,rgba(255,255,255,.5) 60%,rgba(255,255,255,.12) 100%);filter:blur(.4px);transform:skewY(-3deg)}
+.ba-shine{position:absolute;top:-20%;bottom:-20%;left:0;width:26%;background:linear-gradient(105deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.14) 28%,rgba(255,255,255,.75) 46%,rgba(255,255,255,.95) 50%,rgba(255,255,255,.75) 54%,rgba(255,255,255,.14) 72%,rgba(255,255,255,0) 100%);transform:translateX(-120%) skewX(-14deg);will-change:transform}
+.spark{position:absolute;width:30px;height:30px;will-change:transform,opacity}
+.spark.sp1{right:7%;top:16%}.spark.sp2{right:22%;bottom:10%;width:22px;height:22px}.spark.sp3{left:38%;top:12%;width:18px;height:18px}
+@media (prefers-reduced-motion:no-preference){
+ #top.is-live .ba-shine{animation:ba-shine 5s cubic-bezier(.45,0,.2,1) 1.6s infinite}
+ #top.is-live .spark{animation:ba-twinkle 5s ease-in-out 1.6s infinite both}
+ #top.is-live .spark.sp2{animation-delay:2.1s}#top.is-live .spark.sp3{animation-delay:2.5s}
+}
+@keyframes ba-shine{0%{transform:translateX(-120%) skewX(-14deg)}38%{transform:translateX(420%) skewX(-14deg)}100%{transform:translateX(420%) skewX(-14deg)}}
+@keyframes ba-twinkle{0%,100%{opacity:0;transform:scale(.3) rotate(0)}12%{opacity:1;transform:scale(1) rotate(45deg)}26%{opacity:0;transform:scale(.4) rotate(90deg)}}
+@media (prefers-reduced-motion:reduce){.spark{opacity:.8}}
+.polish-hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:2;display:flex;align-items:center;gap:10px;max-width:calc(100% - 32px);padding:8px 16px 8px 8px;border-radius:999px;background:rgba(12,12,15,.88);border:1px solid rgba(255,255,255,.18);color:#FFFFFF;font-size:14px;font-weight:700;line-height:1.3;pointer-events:none;white-space:nowrap}
+.ph-ic{flex:none;width:32px;height:32px;border-radius:50%;background:#D7182A;display:flex;align-items:center;justify-content:center}
+.ph-ok{background:#1F8A4C}
+.ph-mouse{display:none}
+@media (hover:hover) and (pointer:fine){.ph-touch{display:none}.ph-mouse{display:inline}}
+@media (max-width:420px){.polish-hint{white-space:normal;font-size:13px}}
+.ph-ic{position:relative}.ph-ic::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #D7182A;opacity:0}
+@media (prefers-reduced-motion:no-preference){#top.is-live .ph-ic::after{animation:ph-ring 2s ease-out infinite}}
+@keyframes ph-ring{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.6);opacity:0}}
+#top .board{background:rgba(12,12,15,.80) !important}
+.hero-in{position:relative;z-index:1}
+/* ===== Ichki bo'limlar: kechki ustaxona dunyosi ===== */
+.bg-garage{background-color:#0E0E10;background-image:radial-gradient(60% 50% at 0% 0%, rgba(215,24,42,.12), rgba(215,24,42,0) 70%)}
+.bg-floor{position:relative;overflow:hidden;background-color:#0D0D11;border-top:2px solid #D7182A;box-shadow:inset 0 14px 30px -18px rgba(215,24,42,.9);background-image:radial-gradient(70% 50% at 50% 0%, rgba(215,24,42,.10), rgba(215,24,42,0) 70%),linear-gradient(180deg,#121218 0%,#0C0C0F 100%)}
+.bg-floor > *:not(.stars){position:relative;z-index:1}
+.stars{position:absolute;inset:0;z-index:0;pointer-events:none}
+.stars i{position:absolute;inset:0;will-change:opacity}
+.twA{background-image:radial-gradient(circle, rgba(255,255,255,.95) 0 1.2px, rgba(255,255,255,0) 2.2px),radial-gradient(circle, rgba(255,255,255,.8) 0 1px, rgba(255,255,255,0) 1.8px);background-size:157px 157px,211px 211px;background-position:13px 29px,97px 140px;opacity:.75}
+.twB{background-image:radial-gradient(circle, rgba(255,120,130,.95) 0 1.4px, rgba(255,120,130,0) 2.6px),radial-gradient(circle, rgba(255,255,255,.9) 0 1.6px, rgba(255,255,255,0) 3px);background-size:233px 233px,307px 307px;background-position:61px 83px,190px 21px;opacity:.6}
+.twC{background-image:radial-gradient(circle, rgba(255,255,255,.55) 0 .8px, rgba(255,255,255,0) 1.4px);background-size:53px 53px;background-position:7px 11px;opacity:.35}
+.fstar{position:absolute;width:16px;height:16px;opacity:.55;will-change:transform,opacity}
+.fstar.f1{left:6%;top:9%}.fstar.f2{left:44%;top:4%;width:12px;height:12px}.fstar.f3{right:8%;top:16%;width:20px;height:20px}
+.fstar.f4{left:22%;top:52%;width:11px;height:11px}.fstar.f5{right:30%;top:61%;width:14px;height:14px}.fstar.f6{left:68%;bottom:6%;width:18px;height:18px}
+@media (prefers-reduced-motion:no-preference){
+ .bg-floor.is-live .twA{animation:tw 3.2s ease-in-out infinite alternate}
+ .bg-floor.is-live .twB{animation:tw 4.6s ease-in-out .9s infinite alternate}
+ .bg-floor.is-live .twC{animation:tw-soft 6s ease-in-out 1.7s infinite alternate}
+ .bg-floor.is-live .fstar{animation:fstar 4.8s ease-in-out infinite both}
+ .bg-floor.is-live .f2{animation-delay:.8s}.bg-floor.is-live .f3{animation-delay:1.6s}.bg-floor.is-live .f4{animation-delay:2.4s}.bg-floor.is-live .f5{animation-delay:3.2s}.bg-floor.is-live .f6{animation-delay:4s}
+}
+@keyframes tw{from{opacity:.15}to{opacity:1}}
+@keyframes tw-soft{from{opacity:.12}to{opacity:.5}}
+@keyframes fstar{0%,100%{opacity:0;transform:scale(.3) rotate(0)}14%{opacity:1;transform:scale(1.15) rotate(45deg)}30%{opacity:0;transform:scale(.4) rotate(90deg)}}
+.bg-rims{background-color:#0E0E11;background-image:radial-gradient(45% 70% at 100% 50%, rgba(215,24,42,.16), rgba(215,24,42,0) 70%)}
+.bg-rims > *:not(.rim){position:relative;z-index:1}
+.rim{position:absolute;z-index:0;pointer-events:none;width:900px;height:900px;right:-300px;top:50%;margin-top:-450px;border-radius:50%;-webkit-mask-image:radial-gradient(circle, #000 55%, rgba(0,0,0,.4) 66%, transparent 71%);mask-image:radial-gradient(circle, #000 55%, rgba(0,0,0,.4) 66%, transparent 71%)}
+.rim i{position:absolute;inset:0;border-radius:50%;will-change:transform}
+.rim-disc{background-image:
+ repeating-conic-gradient(from 0deg, rgba(255,255,255,.075) 0deg 4deg, rgba(255,255,255,0) 4deg 36deg),
+ repeating-radial-gradient(circle, rgba(255,255,255,.085) 0 1.5px, rgba(255,255,255,0) 1.5px 24px)}
+.rim-glint{background:conic-gradient(from 0deg, rgba(255,255,255,0) 0deg 300deg, rgba(255,255,255,.55) 340deg, rgba(255,255,255,.95) 352deg, rgba(255,255,255,0) 360deg);
+ -webkit-mask-image:repeating-radial-gradient(circle, #000 0 2px, transparent 2px 24px), repeating-conic-gradient(from 0deg, #000 0deg 4deg, transparent 4deg 36deg);
+ mask-image:repeating-radial-gradient(circle, #000 0 2px, transparent 2px 24px), repeating-conic-gradient(from 0deg, #000 0deg 4deg, transparent 4deg 36deg);opacity:.9}
+.rim-glint-red{transform:rotate(180deg);background:conic-gradient(from 0deg, rgba(215,24,42,0) 0deg 310deg, rgba(255,70,85,.75) 350deg, rgba(215,24,42,0) 360deg)}
+.rim-hub{inset:42% !important;background:radial-gradient(circle, #1E1E24 0 40%, rgba(215,24,42,.55) 41% 44%, rgba(255,255,255,.12) 45% 47%, rgba(0,0,0,0) 48%)}
+@media (prefers-reduced-motion:no-preference){
+ .bg-rims.is-live .rim-disc,.bg-rims.is-live .rim-hub{animation:rim-spin 40s linear infinite}
+ .bg-rims.is-live .rim-glint{animation:rim-glint 5.5s linear infinite}
+ .bg-rims.is-live .rim-glint-red{animation:rim-glint-red 8s linear infinite}
+}
+@keyframes rim-spin{to{transform:rotate(360deg)}}
+@keyframes rim-glint{to{transform:rotate(360deg)}}
+@keyframes rim-glint-red{from{transform:rotate(180deg)}to{transform:rotate(-180deg)}}
+@media (max-width:760px){.rim{width:560px;height:560px;right:-260px;top:120px;margin-top:0;-webkit-mask-image:none;mask-image:none;opacity:.8}.rim-glint{display:none}.fstar.f2,.fstar.f5,.fstar.f6{display:none}.twC{display:none}}
+.bg-reel{position:relative;background-color:#0C0C0E;background-image:
+ repeating-linear-gradient(90deg, rgba(255,255,255,.16) 0 14px, rgba(255,255,255,0) 14px 30px),
+ repeating-linear-gradient(90deg, rgba(255,255,255,.16) 0 14px, rgba(255,255,255,0) 14px 30px),
+ linear-gradient(#050506,#050506),linear-gradient(#050506,#050506);
+ background-size:100% 9px,100% 9px,100% 34px,100% 34px;background-position:0 12px,0 calc(100% - 12px),0 0,0 100%;background-repeat:repeat-x}
+.bg-quote{background-color:#141418;background-image:radial-gradient(50% 70% at 100% 100%, rgba(215,24,42,.16), rgba(215,24,42,0) 70%)}
+.bg-quote::before{content:"\201C";position:absolute;right:4%;top:-0.15em;font-size:clamp(220px,28vw,420px);line-height:1;font-weight:800;color:rgba(215,24,42,.14);pointer-events:none}
+#savollar details{border-top-color:rgba(255,255,255,.12) !important}
+#savollar details[open] summary{color:#FF6B76}
+.svc-media{background-image:linear-gradient(135deg, rgba(215,24,42,.10), rgba(215,24,42,0) 60%)}
+
+.btn-ghost:hover{background:rgba(255,255,255,.08) !important;border-color:#FFFFFF !important;color:#FFFFFF !important}
+#top a:focus-visible,#top .btn:focus-visible{outline-color:#FFFFFF}
+#top ::selection{background:#FFFFFF;color:#D7182A}
+
+/* ===== Narx taxtasi (hero) va do'kon ro'yxati ===== */
+.brow{display:flex;justify-content:space-between;align-items:baseline;gap:12px;min-height:44px;padding:10px 0;border-bottom:1px dashed rgba(255,255,255,.18);color:#FFFFFF;text-decoration:none;font-size:15px;font-weight:600;transition:color .15s var(--ease-out),padding .2s var(--ease-out)}
+.brow .price{font-weight:800;color:#FFFFFF;white-space:nowrap;font-size:14px}
+.brow:hover{color:#FF6B76}
+@media (hover:hover){.brow:hover{padding-left:6px}}
+.brow-combo{border-bottom:0;margin-top:8px;padding:10px 12px;border-radius:10px;background:#D7182A;font-weight:800}
+.brow-combo:hover{color:#FFFFFF;background:#B01222}
+.tg-big:hover{color:#D7182A !important;transform:translateY(-2px)}
+#yozilish .tg-big:focus-visible{outline-color:#FFFFFF}
+.board a:focus-visible{outline:3px solid #FFFFFF;outline-offset:2px}
+@media (max-width:520px){.board-cols{grid-template-columns:1fr !important}}
+.shoprow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr) 170px 150px;gap:18px 28px;align-items:center;padding:26px 0;border-bottom:1px solid rgba(255,255,255,.10);position:relative}
+.shoprow:first-child{border-top:3px solid #D7182A}
+@media (hover:hover){.shoprow:hover{background:linear-gradient(90deg,rgba(215,24,42,.10),rgba(215,24,42,0) 70%)}}
+.shoprow .price{text-align:right}
+@media (max-width:520px){.tb-x{display:none}}
+@media (max-width:860px){.shoprow{grid-template-columns:1fr auto;gap:10px 16px}.shoprow .sr-desc{grid-column:1 / -1;grid-row:2}.shoprow .sr-cta{grid-column:1 / -1}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .btn:active,.card:hover{transform:none !important}
+  .pill-on{animation:none}
+  #yozilish:target .bookcard{animation:book-fade .4s ease both}
+  @keyframes book-fade{from{opacity:.6}to{opacity:1}}
+}
+</style>
+</helmet>
+
+<div class="pagepad" style="width: 100%; background: #0E0E10; color: #F2F2F4; overflow-x: clip">
+
+  <!-- TOP BAR -->
+  <div style="background: {{accent}}; color: #FFFFFF; font-size: 14px">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 8px clamp(16px, 4vw, 48px); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 24px">
+      <div style="display: flex; flex-wrap: wrap; gap: 6px 20px; font-weight: 500">
+        <span>Bepul ko‘rik</span><span>Narx oldindan yoziladi</span><span class="tb-x">Disk va balon shu yerda</span>
+      </div>
+      <a href="tel:+998907777850" class="tb-phone" style="display: inline-flex; align-items: center; min-height: 32px; padding: 0 4px; color: #FFFFFF; font-weight: 700; text-decoration: none">+998 90 777 78 50</a>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <header class="hdr" style="position: sticky; top: 0; z-index: 10; background: #FFFFFF; border-bottom: 1px solid #E8E8E8">
+    <nav style="max-width: 1200px; margin: 0 auto; padding: 10px clamp(16px, 4vw, 48px); display: flex; align-items: center; justify-content: space-between; gap: 24px">
+      <a href="#top" aria-label="Automaximus — bosh sahifa" style="display: flex; align-items: center; min-height: 44px; text-decoration: none"><svg class="navlogo" role="img" aria-label="Automaximus — Detailing Studio" style="display: block; height: 38px; width: auto" viewBox="0 0 1660 170"><g transform="scale(0.56667)"><circle cx="150" cy="150" r="148" fill="#D7182A"></circle><circle cx="150" cy="150" r="140" fill="#FFFFFF"></circle><circle cx="150" cy="150" r="100" fill="none" stroke="#D7182A" class="sw3"></circle><g fill="#D7182A"><g transform="rotate(-58.848 150 150) translate(139.800 21.500) scale(0.17)"><path d="M0 100 L46 0 L74 0 L120 100 L96 100 L60 22 L24 100 Z M40.6 64 L79.4 64 L86.8 80 L33.2 80 Z"></path></g><g transform="rotate(-46.672 150 150) translate(139.800 21.500) scale(0.17)"><path d="M0 0 L22 0 L22 66 L34 78 L90 78 L102 66 L102 0 L124 0 L124 76 L100 100 L24 100 L0 76 Z"></path></g><g transform="rotate(-34.903 150 150) translate(140.650 21.500) scale(0.17)"><path d="M0 0 L110 0 L110 22 L66 22 L66 100 L44 100 L44 22 L0 22 Z"></path></g><g transform="rotate(-22.727 150 150) translate(138.950 21.500) scale(0.17)"><path d="M24 0 L106 0 L130 24 L130 76 L106 100 L24 100 L0 76 L0 24 Z M34 22 L22 34 L22 66 L34 78 L96 78 L108 66 L108 34 L96 22 Z"></path></g><g transform="rotate(-9.334 150 150) translate(138.100 21.500) scale(0.17)"><path d="M0 100 L0 0 L26 0 L70 56 L114 0 L140 0 L140 100 L118 100 L118 38 L78 88 L62 88 L22 38 L22 100 Z"></path></g><g transform="rotate(3.653 150 150) translate(139.800 21.500) scale(0.17)"><path d="M0 100 L46 0 L74 0 L120 100 L96 100 L60 22 L24 100 Z M40.6 64 L79.4 64 L86.8 80 L33.2 80 Z"></path></g><g transform="rotate(15.828 150 150) translate(139.800 21.500) scale(0.17)"><path d="M0 0 L26 0 L120 100 L94 100 Z M94 0 L120 0 L26 100 L0 100 Z"></path></g><g transform="rotate(24.026 150 150) translate(148.130 21.500) scale(0.17)"><path d="M0 0 L22 0 L22 100 L0 100 Z"></path></g><g transform="rotate(33.036 150 150) translate(138.100 21.500) scale(0.17)"><path d="M0 100 L0 0 L26 0 L70 56 L114 0 L140 0 L140 100 L118 100 L118 38 L78 88 L62 88 L22 38 L22 100 Z"></path></g><g transform="rotate(46.185 150 150) translate(139.460 21.500) scale(0.17)"><path d="M0 0 L22 0 L22 66 L34 78 L90 78 L102 66 L102 0 L124 0 L124 76 L100 100 L24 100 L0 76 Z"></path></g><g transform="rotate(58.685 150 150) translate(139.460 21.500) scale(0.17)"><path d="M19.4 0 L124 0 L124 22 L28 22 L22 28 L22 33 L28 39 L104.6 39 L124 58.4 L124 80.6 L104.6 100 L0 100 L0 78 L96 78 L102 72 L102 67 L96 61 L19.4 61 L0 41.6 L0 19.4 Z"></path></g><g transform="rotate(56.567 150 150) translate(142.250 261.750) scale(0.125)"><path d="M0 0 L94 0 L124 30 L124 70 L94 100 L0 100 Z M22 22 L22 78 L86 78 L102 62 L102 38 L86 22 Z"></path></g><g transform="rotate(47.827 150 150) translate(143.500 261.750) scale(0.125)"><path d="M0 0 L104 0 L104 22 L22 22 L22 39 L90 39 L90 61 L22 61 L22 78 L104 78 L104 100 L0 100 Z"></path></g><g transform="rotate(39.512 150 150) translate(143.125 261.750) scale(0.125)"><path d="M0 0 L110 0 L110 22 L66 22 L66 100 L44 100 L44 22 L0 22 Z"></path></g><g transform="rotate(30.712 150 150) translate(142.500 261.750) scale(0.125)"><path d="M0 100 L46 0 L74 0 L120 100 L96 100 L60 22 L24 100 Z M40.6 64 L79.4 64 L86.8 80 L33.2 80 Z"></path></g><g transform="rotate(24.581 150 150) translate(148.625 261.750) scale(0.125)"><path d="M0 0 L22 0 L22 100 L0 100 Z"></path></g><g transform="rotate(19.058 150 150) translate(143.750 261.750) scale(0.125)"><path d="M0 0 L22 0 L22 78 L100 78 L100 100 L0 100 Z"></path></g><g transform="rotate(13.535 150 150) translate(148.625 261.750) scale(0.125)"><path d="M0 0 L22 0 L22 100 L0 100 Z"></path></g><g transform="rotate(7.283 150 150) translate(142.250 261.750) scale(0.125)"><path d="M0 100 L0 0 L24 0 L102 64 L102 0 L124 0 L124 100 L100 100 L22 36 L22 100 Z"></path></g><g transform="rotate(-2.185 150 150) translate(142.000 261.750) scale(0.125)"><path d="M24 0 L128 0 L128 22 L34 22 L22 34 L22 66 L34 78 L94 78 L106 66 L106 61 L70 61 L70 39 L128 39 L128 76 L104 100 L24 100 L0 76 L0 24 Z"></path></g><g transform="rotate(-16.509 150 150) translate(142.250 261.750) scale(0.125)"><path d="M19.4 0 L124 0 L124 22 L28 22 L22 28 L22 33 L28 39 L104.6 39 L124 58.4 L124 80.6 L104.6 100 L0 100 L0 78 L96 78 L102 72 L102 67 L96 61 L19.4 61 L0 41.6 L0 19.4 Z"></path></g><g transform="rotate(-25.431 150 150) translate(143.125 261.750) scale(0.125)"><path d="M0 0 L110 0 L110 22 L66 22 L66 100 L44 100 L44 22 L0 22 Z"></path></g><g transform="rotate(-34.353 150 150) translate(142.250 261.750) scale(0.125)"><path d="M0 0 L22 0 L22 66 L34 78 L90 78 L102 66 L102 0 L124 0 L124 76 L100 100 L24 100 L0 76 Z"></path></g><g transform="rotate(-43.700 150 150) translate(142.250 261.750) scale(0.125)"><path d="M0 0 L94 0 L124 30 L124 70 L94 100 L0 100 Z M22 22 L22 78 L86 78 L102 62 L102 38 L86 22 Z"></path></g><g transform="rotate(-49.952 150 150) translate(148.625 261.750) scale(0.125)"><path d="M0 0 L22 0 L22 100 L0 100 Z"></path></g><g transform="rotate(-56.385 150 150) translate(141.875 261.750) scale(0.125)"><path d="M24 0 L106 0 L130 24 L130 76 L106 100 L24 100 L0 76 L0 24 Z M34 22 L22 34 L22 66 L34 78 L96 78 L108 66 L108 34 L96 22 Z"></path></g></g><path d="M46 150 L58 145 L58 155 Z M254 150 L242 145 L242 155 Z" fill="#D7182A"></path><g transform="translate(88 82) scale(0.62)"><path d="M100 0 L196 28 L196 112 C196 166 154 198 100 220 C46 198 4 166 4 112 L4 28 Z" fill="#D7182A"></path><path d="M100 0 L196 28 L196 112 C196 166 154 198 100 220 Z" fill="#8E0F1B" opacity="0.55"></path><path d="M100 14 L184 38 L184 112 C184 158 148 186 100 206 C52 186 16 158 16 112 L16 38 Z" fill="none" stroke="#FFFFFF" class="sw5"></path><path d="M48 172 L88 52 L112 52 L152 172 L128 172 L100 88 L72 172 Z" fill="#FFFFFF"></path><path d="M62 136 L140 122 L144 134 L60 148 Z" fill="#D7182A"></path></g></g><g transform="translate(210 35)"><path d="M 0 100 L 46 0 L 74 0 L 120 100 L 96 100 L 60 22 L 24 100 Z M 40.6 64 L 79.4 64 L 86.8 80 L 33.2 80 Z M 138 0 L 160 0 L 160 66 L 172 78 L 228 78 L 240 66 L 240 0 L 262 0 L 262 76 L 238 100 L 162 100 L 138 76 Z M 276 0 L 386 0 L 386 22 L 342 22 L 342 100 L 320 100 L 320 22 L 276 22 Z M 428 0 L 510 0 L 534 24 L 534 76 L 510 100 L 428 100 L 404 76 L 404 24 Z M 438 22 L 426 34 L 426 66 L 438 78 L 500 78 L 512 66 L 512 34 L 500 22 Z M 552 100 L 552 0 L 578 0 L 622 56 L 666 0 L 692 0 L 692 100 L 670 100 L 670 38 L 630 88 L 614 88 L 574 38 L 574 100 Z M 710 100 L 756 0 L 784 0 L 830 100 L 806 100 L 770 22 L 734 100 Z M 750.6 64 L 789.4 64 L 796.8 80 L 743.2 80 Z M 848 0 L 874 0 L 968 100 L 942 100 Z M 942 0 L 968 0 L 874 100 L 848 100 Z M 986 0 L 1008 0 L 1008 100 L 986 100 Z M 1026 100 L 1026 0 L 1052 0 L 1096 56 L 1140 0 L 1166 0 L 1166 100 L 1144 100 L 1144 38 L 1104 88 L 1088 88 L 1048 38 L 1048 100 Z M 1184 0 L 1206 0 L 1206 66 L 1218 78 L 1274 78 L 1286 66 L 1286 0 L 1308 0 L 1308 76 L 1284 100 L 1208 100 L 1184 76 Z M 1345.4 0 L 1450 0 L 1450 22 L 1354 22 L 1348 28 L 1348 33 L 1354 39 L 1430.6 39 L 1450 58.4 L 1450 80.6 L 1430.6 100 L 1326 100 L 1326 78 L 1422 78 L 1428 72 L 1428 67 L 1422 61 L 1345.4 61 L 1326 41.6 L 1326 19.4 Z" fill="#141414"></path></g></svg></a>
+      <div class="navlinks" style="display: flex; gap: 28px; font-size: 15px; font-weight: 600">
+        <a href="#narxlar" style="color: #141414; text-decoration: none">Narxlar</a>
+        <a href="#xizmatlar" style="color: #141414; text-decoration: none">Detailing</a>
+        <a href="#dokon" style="color: #141414; text-decoration: none">Do‘kon</a>
+        <a href="#paketlar" style="color: #141414; text-decoration: none">Paketlar</a>
+        <a href="#ishlar" style="color: #141414; text-decoration: none">Ishlarimiz</a>
+        <a href="#savollar" style="color: #141414; text-decoration: none">Savollar</a>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px">
+        <a href="tel:+998907777850" class="btn btn-line navphone" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: 10px; border: 1.5px solid #D4D4D4; color: #141414; font-weight: 600; font-size: 15px; text-decoration: none">
+          <svg class="ic" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"></path></svg>Qo‘ng‘iroq
+        </a>
+        <a href="{{tgHref}}" class="btn btn-red navcta" style="display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; min-height: 44px; padding: 0 20px; border-radius: 10px; background: {{accent}}; color: #FFFFFF; font-weight: 700; font-size: 15px; text-decoration: none"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 4L3 11l6 2 2 6 3-4 5 4z"></path><path d="M9 13l12-9"></path></svg>Telegramda yozish</a>
+      </div>
+    </nav>
+    <div class="mnav" aria-label="Bo‘limlar">
+      <a href="#narxlar" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px; background: #F2F2F2; color: #141414; font-weight: 600; font-size: 14px; text-decoration: none; white-space: nowrap">Narxlar</a>
+      <a href="#xizmatlar" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px; background: #F2F2F2; color: #141414; font-weight: 600; font-size: 14px; text-decoration: none; white-space: nowrap">Detailing</a>
+      <a href="#dokon" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px; background: #F2F2F2; color: #141414; font-weight: 600; font-size: 14px; text-decoration: none; white-space: nowrap">Do‘kon</a>
+      <a href="#paketlar" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px; background: #F2F2F2; color: #141414; font-weight: 600; font-size: 14px; text-decoration: none; white-space: nowrap">Paketlar</a>
+      <a href="#ishlar" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px; background: #F2F2F2; color: #141414; font-weight: 600; font-size: 14px; text-decoration: none; white-space: nowrap">Ishlarimiz</a>
+      <a href="#savollar" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px; background: #F2F2F2; color: #141414; font-weight: 600; font-size: 14px; text-decoration: none; white-space: nowrap">Savollar</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="top" ref="{{heroRef}}" class="bg-polish{{heroLive}}" style="position: relative; overflow: hidden; padding: clamp(48px, 7vw, 96px) clamp(16px, 4vw, 48px) clamp(64px, 7vw, 96px); color: #FFFFFF; touch-action: pan-y">
+    <div class="gloss" aria-hidden="true"><div class="ba-coat"></div><div class="ba-shine"></div><svg class="spark sp1" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 C12.8 7.2 16.8 11.2 24 12 C16.8 12.8 12.8 16.8 12 24 C11.2 16.8 7.2 12.8 0 12 C7.2 11.2 11.2 7.2 12 0 Z" fill="#FFFFFF"></path></svg><svg class="spark sp2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 C12.8 7.2 16.8 11.2 24 12 C16.8 12.8 12.8 16.8 12 24 C11.2 16.8 7.2 12.8 0 12 C7.2 11.2 11.2 7.2 12 0 Z" fill="#FFFFFF"></path></svg><svg class="spark sp3" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 C12.8 7.2 16.8 11.2 24 12 C16.8 12.8 12.8 16.8 12 24 C11.2 16.8 7.2 12.8 0 12 C7.2 11.2 11.2 7.2 12 0 Z" fill="#FFFFFF"></path></svg></div>
+    <canvas class="matte" ref="{{cvRef}}" aria-hidden="true"></canvas>
+    <div class="polish-hint" aria-hidden="true">
+      <sc-if value="{{polishFresh}}" hint-placeholder-val="{{true}}">
+        <span class="ph-ic"><svg class="ic" width="18" height="18" viewBox="0 0 24 24"><path d="M9 11V5.5a1.5 1.5 0 013 0V11"></path><path d="M12 10.5V4.5a1.5 1.5 0 013 0V11"></path><path d="M15 10.5v-4a1.5 1.5 0 013 0V15a6 6 0 01-6 6h-1a6 6 0 01-4.6-2.2L4 15.5a1.6 1.6 0 012.4-2.1L9 16V11"></path></svg></span>
+        <span class="ph-touch">Barmog‘ingiz bilan surting — polirovka qiling</span><span class="ph-mouse">Sichqonchani yurgizing — polirovka qiling</span>
+      </sc-if>
+      <sc-if value="{{polishDone}}" hint-placeholder-val="{{false}}">
+        <span class="ph-ic ph-ok"><svg class="ic" width="18" height="18" viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"></path></svg></span>
+        <span>Ana, yangidek yaltiraydi! Mashinangiz ham shunday bo‘ladi.</span>
+      </sc-if>
+    </div>
+    <div class="hero-in" style="position: relative; max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
+      <div style="flex: 1 1 460px; display: flex; flex-direction: column; gap: 22px">
+        <h1 style="margin: 0; padding-bottom: 0.14em; font-stretch: 125%; font-weight: 800; font-size: clamp(34px, 5vw, 64px); line-height: 1.1; letter-spacing: -0.03em">Mashinangiz yangidek bo‘ladi — <span style="color: {{accent}}">narxi hamyonbop.</span></h1>
+        <p style="margin: 0; max-width: 560px; font-size: clamp(17px, 1.5vw, 19px); line-height: 1.6; color: #CFCFD4">Tonirovka, broniplyonka, polirovka, ximchistka va shumoizolyatsiya. Shu yerning o‘zida disk, balon va aksessuarlar do‘koni ham bor. Narx ishdan oldin yozib beriladi va keyin oshmaydi.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px">
+          <a href="{{tgHref}}" class="btn btn-red" style="display: inline-flex; align-items: center; gap: 10px; min-height: 56px; padding: 0 28px; border-radius: 12px; background: {{accent}}; color: #FFFFFF; font-weight: 700; font-size: 17px; text-decoration: none">
+            <svg class="ic" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 4L3 11l6 2 2 6 3-4 5 4z"></path><path d="M9 13l12-9"></path></svg>
+            Telegramda narxini bilish
+          </a>
+          <a href="tel:+998907777850" class="btn btn-ghost" style="display: inline-flex; align-items: center; gap: 10px; min-height: 56px; padding: 0 24px; border-radius: 12px; border: 1.5px solid rgba(255,255,255,.38); color: #FFFFFF; font-weight: 600; font-size: 17px; text-decoration: none">
+            <svg class="ic" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"></path></svg>
+            Qo‘ng‘iroq qilish
+          </a>
+        </div>
+        <ul style="list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 22px; font-size: 15px; font-weight: 600; color: #EDEDF0">
+          <li style="display: flex; align-items: center; gap: 8px"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" style="color: {{accent}}"><path d="M5 12l4 4 10-10"></path></svg>Bepul ko‘rik</li>
+          <li style="display: flex; align-items: center; gap: 8px"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" style="color: {{accent}}"><path d="M5 12l4 4 10-10"></path></svg>Narx oshmaydi</li>
+          
+        </ul>
+      </div>
+      <div style="flex: 1 1 460px">
+        <div id="narxlar" class="board bg-carbon" style="position: relative; scroll-margin-top: 90px; border: 1px solid rgba(255,255,255,.14); border-radius: 20px; color: #FFFFFF; padding: clamp(20px, 3vw, 30px); box-shadow: 0 30px 60px -30px rgba(20,20,20,.55); overflow: hidden">
+          <div class="checker" aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 10px; background-size: 10px 10px"></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-top: 8px">
+            <h2 style="margin: 0; font-stretch: 125%; font-weight: 800; font-size: clamp(22px, 2.2vw, 28px); letter-spacing: -0.015em; line-height: 1.1">Bir tashrifda hammasi</h2>
+            <span style="font-size: 13px; color: #BDBDBD">Tanlang — narxini aytamiz</span>
+          </div>
+          <div class="board-cols" style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px 26px; margin-top: 20px">
+            <div>
+              <h3 style="margin: 0 0 6px; font-size: 14px; font-weight: 700; color: #FF6B76; letter-spacing: .02em">Detailing</h3>
+              <sc-for list="{{services}}" as="s" hint-placeholder-count="5">
+                <a href="#yozilish" onClick="{{s.choose}}" class="brow"><span>{{s.title}}</span><span class="price">{{s.price}}</span></a>
+              </sc-for>
+            </div>
+            <div>
+              <h3 style="margin: 0 0 6px; font-size: 14px; font-weight: 700; color: #FF6B76; letter-spacing: .02em">Do‘kon</h3>
+              <sc-for list="{{shop}}" as="s" hint-placeholder-count="4">
+                <a href="#yozilish" onClick="{{s.choose}}" class="brow"><span>{{s.title}}</span><span class="price">{{s.price}}</span></a>
+              </sc-for>
+              <a href="#paketlar" class="brow brow-combo"><span>Birga olsangiz</span><span>arzonroq</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker"><div class="ticker-track"><div class="ticker-group"><span class="ticker-item">Narxlar ochiq<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Yashirin to‘lov yo‘q<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Narx oshmaydi<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Bepul ko‘rik<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Tonirovka<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Broniplyonka<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Polirovka<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Ximchistka<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Shumoizolyatsiya<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Disk<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Balon<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Chexol va polik<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span></div><div class="ticker-group"><span class="ticker-item">Narxlar ochiq<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Yashirin to‘lov yo‘q<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Narx oshmaydi<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Bepul ko‘rik<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Tonirovka<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Broniplyonka<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Polirovka<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Ximchistka<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Shumoizolyatsiya<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Disk<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Balon<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span><span class="ticker-item">Chexol va polik<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FFFFFF"></path></svg></span></div></div></div>
+  </div>
+
+  <!-- NOT CHEAP-QUALITY (bento) -->
+  <section class="bg-garage" style="padding: clamp(56px, 7vw, 96px) clamp(16px, 4vw, 48px)">
+    <div class="bento" style="max-width: 1200px; margin: 0 auto">
+      <div class="bento-hero" style="position: relative; overflow: hidden; border-radius: 22px; background: {{accent}}; color: #FFFFFF; padding: clamp(26px, 3.4vw, 44px); display: flex; flex-direction: column; justify-content: space-between; gap: 24px; min-height: 300px">
+        <svg viewBox="0 0 200 220" aria-hidden="true" style="position: absolute; right: -50px; bottom: -70px; width: 300px; height: auto; pointer-events: none"><path d="M100 0 L196 28 L196 112 C196 166 154 198 100 220 C46 198 4 166 4 112 L4 28 Z" fill="#FFFFFF" opacity="0.1"></path></svg>
+        <h2 style="position: relative; margin: 0; font-stretch: 125%; font-weight: 800; font-size: clamp(30px, 3.6vw, 48px); line-height: 1.06; letter-spacing: -0.025em">Arzon — lekin chala emas.</h2>
+        <p style="position: relative; margin: 0; font-size: 17px; line-height: 1.6; max-width: 420px; color: #FFFFFF">Hamyonbop narx sifatni kamaytirish hisobiga emas. Qaysi xizmatni tanlamang, har bir ishga shular kiradi.</p>
+      </div>
+      <sc-for list="{{included}}" as="it" hint-placeholder-count="6">
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; gap: 18px; padding: 22px; border-radius: 22px; background: #1A1A1F; border: 1px solid rgba(255,255,255,.08); min-height: 143px">
+          <span style="width: 36px; height: 36px; border-radius: 10px; background: {{accent}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4 10-10"></path></svg></span>
+          <span style="font-size: 16px; font-weight: 700; line-height: 1.4">{{it}}</span>
+        </div>
+      </sc-for>
+      <a href="#yozilish" class="bento-wide btn" style="display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 24px 26px; border-radius: 22px; background: #F4F4F6; color: #0E0E10; text-decoration: none; min-height: 143px">
+        <span style="font-stretch: 125%; font-weight: 800; font-size: clamp(20px, 2vw, 26px); line-height: 1.15; letter-spacing: -0.015em">Mashinangiz uchun aniq narxni biling</span>
+        <span style="flex: none; width: 52px; height: 52px; border-radius: 50%; background: {{accent}}; display: flex; align-items: center; justify-content: center"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="xizmatlar" ref="{{floorRef}}" class="bg-floor{{floorLive}}" style="padding: clamp(64px, 8vw, 104px) clamp(16px, 4vw, 48px)">
+    <div class="stars" aria-hidden="true"><i class="twA"></i><i class="twB"></i><i class="twC"></i><svg class="fstar f1" viewBox="0 0 24 24"><path d="M12 0 C12.8 7.2 16.8 11.2 24 12 C16.8 12.8 12.8 16.8 12 24 C11.2 16.8 7.2 12.8 0 12 C7.2 11.2 11.2 7.2 12 0 Z" fill="#FFFFFF"></path></svg><svg class="fstar f2" viewBox="0 0 24 24"><path d="M12 0 C12.8 7.2 16.8 11.2 24 12 C16.8 12.8 12.8 16.8 12 24 C11.2 16.8 7.2 12.8 0 12 C7.2 11.2 11.2 7.2 12 0 Z" fill="#FFFFFF"></path></svg><svg class="fstar f3" viewBox="0 0 24 24"><path d="M12 0 C12.8 7.2 16.8 11.2 24 12 C16.8 12.8 12.8 16.8 12 24 C11.2 16.8 7.2 12.8 0 12 C7.2 11.2 11.2 7.2 12 0 Z" fill="#FFFFFF"></path></svg><svg class="fstar f4" viewBox="0 0 24 24"><path d="M12 0 C12.8 7.2 16.8 11.2 24 12 C16.8 12.8 12.8 16.8 12 24 C11.2 16.8 7.2 12.8 0 12 C7.2 11.2 11.2 7.2 12 0 Z" fill="#FFFFFF"></path></svg><svg class="fstar f5" viewBox="0 0 24 24"><path d="M12 0 C12.8 7.2 16.8 11.2 24 12 C16.8 12.8 12.8 16.8 12 24 C11.2 16.8 7.2 12.8 0 12 C7.2 11.2 11.2 7.2 12 0 Z" fill="#FFFFFF"></path></svg><svg class="fstar f6" viewBox="0 0 24 24"><path d="M12 0 C12.8 7.2 16.8 11.2 24 12 C16.8 12.8 12.8 16.8 12 24 C11.2 16.8 7.2 12.8 0 12 C7.2 11.2 11.2 7.2 12 0 Z" fill="#FFFFFF"></path></svg></div>
+    <div style="max-width: 1200px; margin: 0 auto">
+      <h2 style="margin: 0; font-stretch: 125%; font-weight: 800; font-size: clamp(28px, 3.4vw, 44px); line-height: 1.1; letter-spacing: -0.025em">Detailing xizmatlari</h2>
+      <p style="margin: 12px 0 0; font-size: 17px; color: #B6B6BE">Har birini alohida yoki paket qilib olishingiz mumkin.</p>
+      <div class="svcgrid" style="margin-top: 40px">
+        <sc-for list="{{services}}" as="s" hint-placeholder-count="5">
+          <article class="card" style="display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,.10); border-radius: 18px; background: #17171C; overflow: hidden">
+            <div class="svc-media" style="aspect-ratio: 16 / 9; background: #202027; border-bottom: 1px solid rgba(255,255,255,.10); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #A2A2AA; font-size: 14px; text-align: center; padding: 12px">
+              <svg class="ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="2"></circle><path d="M21 16l-5-5-8 8"></path></svg>
+              <span>[RASM yoki VIDEO: {{s.title}}]</span>
+            </div>
+            <div style="padding: 24px; display: flex; flex-direction: column; gap: 14px; flex: 1">
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap">
+                <h3 style="margin: 0; font-stretch: 125%; font-weight: 750; font-size: 22px; letter-spacing: -0.015em">{{s.title}}</h3>
+                <span style="font-size: 13px; font-weight: 600; color: #B6B6BE; padding: 5px 10px; border-radius: 999px; background: #24242B">{{s.time}}</span>
+              </div>
+              <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #B6B6BE">{{s.desc}}</p>
+              <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px">
+                <sc-for list="{{s.points}}" as="p" hint-placeholder-count="3">
+                  <li style="display: flex; gap: 10px; align-items: flex-start; font-size: 15px; line-height: 1.5">
+                    <svg class="ic" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="color: {{accent}}; margin-top: 2px"><path d="M5 12l4 4 10-10"></path></svg>
+                    <span>{{p}}</span>
+                  </li>
+                </sc-for>
+              </ul>
+              <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.10); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap">
+                <span class="price" style="font-weight: 800; font-size: 20px; color: {{accent}}">{{s.price}}</span>
+                <a href="#yozilish" onClick="{{s.choose}}" class="btn btn-red" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 10px; background: {{accent}}; color: #FFFFFF; font-size: 15px; font-weight: 700; text-decoration: none">Yozilish</a>
+              </div>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOP -->
+  <section id="dokon" ref="{{rimsRef}}" class="bg-rims{{rimsLive}}" style="position: relative; overflow: hidden; padding: clamp(64px, 8vw, 104px) clamp(16px, 4vw, 48px)">
+    <div class="rim" aria-hidden="true"><i class="rim-disc"></i><i class="rim-glint"></i><i class="rim-glint rim-glint-red"></i><i class="rim-hub"></i></div>
+    <div style="max-width: 1200px; margin: 0 auto">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px 40px">
+        <div style="max-width: 640px">
+          <h2 style="margin: 0; font-stretch: 125%; font-weight: 800; font-size: clamp(28px, 3.4vw, 44px); line-height: 1.1; letter-spacing: -0.025em">Disk, balon va aksessuarlar <span style="color: {{accent}}">shu yerning o‘zida.</span></h2>
+          <p style="margin: 12px 0 0; font-size: 17px; line-height: 1.6; color: #B6B6BE">Detailingga kelganingizda yangi disk yoki balonni ham tanlab, o‘rnatib beramiz. Boshqa joyga borish shart emas.</p>
+        </div>
+        <a href="{{tgShop}}" class="btn btn-line" style="display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 22px; border-radius: 12px; border: 1.5px solid rgba(255,255,255,.28); color: #F2F2F4; font-weight: 700; font-size: 16px; text-decoration: none">
+          <svg class="ic" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 4L3 11l6 2 2 6 3-4 5 4z"></path><path d="M9 13l12-9"></path></svg>
+          Modelingizga mosini so‘rash
+        </a>
+      </div>
+      <div style="margin-top: 40px">
+        <sc-for list="{{shop}}" as="s" hint-placeholder-count="4">
+          <div class="shoprow">
+            <h3 style="margin: 0; font-stretch: 125%; font-weight: 800; font-size: clamp(22px, 2.2vw, 28px); letter-spacing: -0.015em; line-height: 1.15">{{s.title}}</h3>
+            <p class="sr-desc" style="margin: 0; font-size: 16px; line-height: 1.55; color: #B6B6BE">{{s.desc}}</p>
+            <span class="price" style="font-weight: 800; font-size: 20px; color: {{accent}}; white-space: nowrap">{{s.price}}</span>
+            <a href="{{tgShop}}" class="btn btn-red sr-cta" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 20px; border-radius: 10px; background: {{accent}}; color: #FFFFFF; font-size: 15px; font-weight: 700; text-decoration: none; white-space: nowrap">Narxini so‘rash</a>
+          </div>
+        </sc-for>
+      </div>
+      <p style="margin: 20px 0 0; font-size: 15px; color: #B6B6BE">Mashina rusumi va o‘lchamni yozing (masalan, <b>Malibu 2, R17</b>). Mos variantlarni rasm va narxi bilan yuboramiz.</p>
+    </div>
+  </section>
+
+  <!-- PACKAGES -->
+  <section id="paketlar" style="padding: clamp(56px, 7vw, 96px) clamp(16px, 4vw, 48px); background: linear-gradient(#D7182A, #D7182A) top left / 100% 6px no-repeat, linear-gradient(#FFFFFF, #FFFFFF) 0 10px / 100% 2px no-repeat, radial-gradient(55% 60% at 50% 0%, rgba(215,24,42,.30), rgba(215,24,42,0) 70%), #0E0E10">
+    <div style="max-width: 1200px; margin: 0 auto">
+      <div style="text-align: center">
+        <h2 style="margin: 0; font-stretch: 125%; font-weight: 800; font-size: clamp(28px, 3.4vw, 44px); line-height: 1.1; letter-spacing: -0.025em">Paket olsangiz — arzonroq.</h2>
+        <p style="margin: 12px auto 0; font-size: 17px; color: #B6B6BE; max-width: 560px">Xizmatlarni, hatto disk bilan birga, bitta tashrifda olsangiz, alohida olgandan ko‘ra kamroq to‘laysiz.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; margin-top: 48px; align-items: stretch">
+        <sc-for list="{{packages}}" as="k" hint-placeholder-count="4">
+          <div class="rv pk" style="position: relative; display: flex; flex-direction: column; gap: 18px; padding: 32px 28px; border-radius: 20px; border: {{k.border}}; background: #17171C; box-shadow: {{k.shadow}}">
+            <sc-if value="{{k.featured}}" hint-placeholder-val="{{false}}">
+              <div style="position: absolute; top: -14px; left: 28px; padding: 6px 14px; border-radius: 999px; background: {{accent}}; color: #FFFFFF; font-size: 13px; font-weight: 700">Eng ko‘p tanlanadi</div>
+            </sc-if>
+            <div>
+              <div style="font-stretch: 125%; font-weight: 800; font-size: 24px; letter-spacing: -0.015em">{{k.name}}</div>
+              <div style="font-size: 15px; color: #A2A2AA; margin-top: 4px; line-height: 1.5">{{k.for}}</div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 4px">
+              <span style="font-size: 15px; color: #A2A2AA">Alohida: <s>{{k.alone}}</s></span>
+              <span style="font-size: 28px; font-weight: 800; letter-spacing: -0.01em">{{k.price}}</span>
+              <span style="align-self: flex-start; margin-top: 4px; padding: 5px 12px; border-radius: 999px; background: rgba(215,24,42,.18); color: #FF7A84; font-size: 14px; font-weight: 700">Tejaysiz: {{k.save}}</span>
+            </div>
+            <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
+              <sc-for list="{{k.items}}" as="i" hint-placeholder-count="3">
+                <li style="display: flex; gap: 10px; align-items: flex-start; font-size: 15px; line-height: 1.5">
+                  <svg class="ic" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="color: {{accent}}; margin-top: 2px"><path d="M5 12l4 4 10-10"></path></svg>
+                  <span>{{i}}</span>
+                </li>
+              </sc-for>
+            </ul>
+            <div style="margin-top: auto; display: flex; flex-direction: column">
+              <sc-if value="{{k.featured}}" hint-placeholder-val="{{false}}">
+                <a href="#yozilish" onClick="{{k.choose}}" class="btn btn-red" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 12px; background: {{accent}}; color: #FFFFFF; font-weight: 700; font-size: 16px; text-decoration: none">Shu paketni tanlash</a>
+              </sc-if>
+              <sc-if value="{{k.plain}}" hint-placeholder-val="{{true}}">
+                <a href="#yozilish" onClick="{{k.choose}}" class="btn btn-line" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 12px; border: 1.5px solid rgba(255,255,255,.28); color: #F2F2F4; font-weight: 700; font-size: 16px; text-decoration: none">Shu paketni tanlash</a>
+              </sc-if>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <p style="text-align: center; margin: 24px 0 0; font-size: 14px; color: #A2A2AA">Aniq narx mashina turiga qarab ko‘rikda aytiladi.</p>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="jarayon" class="bg-carbon" style="position: relative; overflow: hidden; padding: clamp(56px, 7vw, 96px) clamp(16px, 4vw, 48px) clamp(90px, 12vw, 170px); color: #FFFFFF">
+    <div class="outline-word" aria-hidden="true">AUTOMAXIMUS</div>
+    <div style="position: relative; max-width: 1200px; margin: 0 auto">
+      <h2 style="margin: 0; font-stretch: 125%; font-weight: 800; font-size: clamp(28px, 3.4vw, 44px); line-height: 1.1; letter-spacing: -0.025em">Qanday ishlaymiz</h2>
+      <p style="margin: 12px 0 0; font-size: 17px; color: #C8C8C8">To‘rt oddiy qadam. Kutilmagan narsa yo‘q.</p>
+      <ol style="list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px">
+        <li style="padding: 26px; border-radius: 16px; background: rgba(28,28,28,.94); box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 16px 30px -20px rgba(0,0,0,.8)">
+          <div style="width: 44px; height: 44px; border-radius: 12px; background: {{accent}}; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px">1</div>
+          <div style="font-weight: 700; font-size: 18px; margin-top: 16px">Bepul ko‘rik</div>
+          <div style="font-size: 15px; line-height: 1.6; color: #C8C8C8; margin-top: 6px">Usta mashinangizni ko‘rib, nima kerakligini tushuntiradi.</div>
+        </li>
+        <li style="padding: 26px; border-radius: 16px; background: rgba(28,28,28,.94); box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 16px 30px -20px rgba(0,0,0,.8)">
+          <div style="width: 44px; height: 44px; border-radius: 12px; background: {{accent}}; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px">2</div>
+          <div style="font-weight: 700; font-size: 18px; margin-top: 16px">Narxni kelishamiz</div>
+          <div style="font-size: 15px; line-height: 1.6; color: #C8C8C8; margin-top: 6px">Narx va muddatni yozib beramiz. Keyin narx oshmaydi.</div>
+        </li>
+        <li style="padding: 26px; border-radius: 16px; background: rgba(28,28,28,.94); box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 16px 30px -20px rgba(0,0,0,.8)">
+          <div style="width: 44px; height: 44px; border-radius: 12px; background: {{accent}}; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px">3</div>
+          <div style="font-weight: 700; font-size: 18px; margin-top: 16px">Ishni bajaramiz</div>
+          <div style="font-size: 15px; line-height: 1.6; color: #C8C8C8; margin-top: 6px">Toza xonada ishlaymiz, jarayon rasmlarini Telegramga yuboramiz.</div>
+        </li>
+        <li style="padding: 26px; border-radius: 16px; background: rgba(28,28,28,.94); box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 16px 30px -20px rgba(0,0,0,.8)">
+          <div style="width: 44px; height: 44px; border-radius: 12px; background: {{accent}}; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px">4</div>
+          <div style="font-weight: 700; font-size: 18px; margin-top: 16px">Topshiramiz</div>
+          <div style="font-size: 15px; line-height: 1.6; color: #C8C8C8; margin-top: 6px">Natijani birga ko‘ramiz va mashinani asrash bo‘yicha maslahat beramiz.</div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- WORKS -->
+  <section id="ishlar" class="bg-reel" style="padding: clamp(80px, 9vw, 120px) clamp(16px, 4vw, 48px)">
+    <div style="max-width: 1200px; margin: 0 auto">
+      <h2 style="margin: 0; font-stretch: 125%; font-weight: 800; font-size: clamp(28px, 3.4vw, 44px); line-height: 1.1; letter-spacing: -0.025em">Ishlarimiz</h2>
+      <p style="margin: 12px 0 0; font-size: 17px; color: #B6B6BE">Oldin va keyin — o‘z studiyamizdagi real rasmlar va videolar.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 40px">
+        <sc-for list="{{media}}" as="m" hint-placeholder-count="6">
+          <figure style="margin: 0">
+            <div style="aspect-ratio: 4 / 3; border-radius: 16px; background: #202027; border: 2px dashed rgba(255,255,255,.18); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #A2A2AA; font-size: 14px; text-align: center; padding: 16px">
+              <sc-if value="{{m.video}}" hint-placeholder-val="{{false}}"><svg class="ic" width="36" height="36" viewBox="0 0 24 24" aria-hidden="true" style="color: #D7182A"><circle cx="12" cy="12" r="10"></circle><path d="M10 8l6 4-6 4z"></path></svg></sc-if>
+              <sc-if value="{{m.photo}}" hint-placeholder-val="{{true}}"><svg class="ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="2"></circle><path d="M21 16l-5-5-8 8"></path></svg></sc-if>
+              <span>{{m.label}}</span>
+            </div>
+            <figcaption style="margin-top: 10px; font-size: 14px; color: #A2A2AA">[MASHINA MODELI] · {{m.service}}</figcaption>
+          </figure>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="bg-quote" style="position: relative; overflow: hidden; padding: clamp(64px, 8vw, 104px) clamp(16px, 4vw, 48px)">
+    <div style="max-width: 1200px; margin: 0 auto">
+      <h2 style="margin: 0; font-stretch: 125%; font-weight: 800; font-size: clamp(28px, 3.4vw, 44px); line-height: 1.1; letter-spacing: -0.025em">Mijozlarimiz nima deydi</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 40px">
+        <blockquote style="margin: 0; padding: 26px; border-radius: 16px; background: #17171C; border: 1px solid rgba(255,255,255,.10)">
+          <p style="margin: 0; font-size: 17px; line-height: 1.6">“[Haqiqiy mijoz fikri — Instagram yoki Google sharhidan]”</p>
+          <footer style="margin-top: 16px; font-size: 14px; font-weight: 600; color: #A2A2AA">[Mijoz ismi] · [Mashina] · [Xizmat]</footer>
+        </blockquote>
+        <blockquote style="margin: 0; padding: 26px; border-radius: 16px; background: #17171C; border: 1px solid rgba(255,255,255,.10)">
+          <p style="margin: 0; font-size: 17px; line-height: 1.6">“[Haqiqiy mijoz fikri — Instagram yoki Google sharhidan]”</p>
+          <footer style="margin-top: 16px; font-size: 14px; font-weight: 600; color: #A2A2AA">[Mijoz ismi] · [Mashina] · [Xizmat]</footer>
+        </blockquote>
+        <blockquote style="margin: 0; padding: 26px; border-radius: 16px; background: #17171C; border: 1px solid rgba(255,255,255,.10)">
+          <p style="margin: 0; font-size: 17px; line-height: 1.6">“[Haqiqiy mijoz fikri — Instagram yoki Google sharhidan]”</p>
+          <footer style="margin-top: 16px; font-size: 14px; font-weight: 600; color: #A2A2AA">[Mijoz ismi] · [Mashina] · [Xizmat]</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="savollar" style="padding: clamp(64px, 8vw, 104px) clamp(16px, 4vw, 48px); background: #0E0E10; border-top: 1px solid rgba(255,255,255,.08)">
+    <div style="max-width: 860px; margin: 0 auto">
+      <h2 style="margin: 0 0 32px; font-stretch: 125%; font-weight: 800; font-size: clamp(28px, 3.4vw, 44px); line-height: 1.1; letter-spacing: -0.025em">Ko‘p beriladigan savollar</h2>
+      <sc-for list="{{faq}}" as="f" hint-placeholder-count="6">
+        <details style="border-top: 1px solid rgba(255,255,255,.10)">
+          <summary style="display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 64px; font-size: 17px; font-weight: 700">
+            <span>{{f.q}}</span>
+            <svg class="ic plus" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="color: {{accent}}"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+          </summary>
+          <p style="margin: 0 0 22px; font-size: 16px; line-height: 1.7; color: #B6B6BE; max-width: 700px">{{f.a}}</p>
+        </details>
+      </sc-for>
+      <div style="border-top: 1px solid rgba(255,255,255,.10)"></div>
+    </div>
+  </section>
+
+  <!-- BOOKING -->
+  <section id="yozilish" class="bg-speed" style="position: relative; overflow: hidden; padding: clamp(56px, 7vw, 96px) clamp(16px, 4vw, 48px); background-color: {{accent}}; color: #FFFFFF">
+    <svg class="wm" viewBox="0 0 200 220" aria-hidden="true" style="left: -60px; bottom: -110px; width: 440px; height: auto"><path d="M100 0 L196 28 L196 112 C196 166 154 198 100 220 C46 198 4 166 4 112 L4 28 Z" fill="#FFFFFF" opacity="0.08"></path></svg>
+    <div style="position: relative; max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start">
+      <div style="flex: 1 1 360px">
+        <h2 style="margin: 0; font-stretch: 125%; font-weight: 800; font-size: clamp(30px, 4vw, 52px); line-height: 1.06; letter-spacing: -0.025em">Narxni 1 daqiqada bilib oling.</h2>
+        <p style="margin: 18px 0 0; font-size: 18px; line-height: 1.6; max-width: 440px; color: #FFFFFF">Telegram botimizga mashinangiz rusumini va nima kerakligini yozing. Narx va bo‘sh vaqtni aytamiz. Bepul, hech narsaga majburlamaydi.</p>
+        <a href="{{tgHref}}" class="btn tg-big" style="display: inline-flex; align-items: center; gap: 12px; margin-top: 28px; min-height: 60px; padding: 0 28px; border-radius: 14px; background: #FFFFFF; color: #141414; font-weight: 800; font-size: 18px; text-decoration: none; box-shadow: 0 18px 36px -18px rgba(60,0,8,.6)">
+          <svg class="ic" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="color: #229ED9"><path d="M21 4L3 11l6 2 2 6 3-4 5 4z"></path><path d="M9 13l12-9"></path></svg>
+          Telegram orqali yozish
+        </a>
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 28px; font-size: 16px">
+          <a href="tel:+998907777850" style="display: flex; gap: 12px; align-items: center; color: #FFFFFF; text-decoration: none; min-height: 44px; font-weight: 700; font-size: 20px">
+            <svg class="ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"></path></svg>
+            +998 90 777 78 50
+          </a>
+          <div style="display: flex; gap: 12px; align-items: center">
+            <svg class="ic" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.5-7-12a7 7 0 0114 0c0 5.5-7 12-7 12z"></path><circle cx="12" cy="9" r="2.5"></circle></svg>
+            [MANZIL]
+          </div>
+          <div style="display: flex; gap: 12px; align-items: center">
+            <svg class="ic" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+            [ISH VAQTI]
+          </div>
+        </div>
+      </div>
+
+      <div class="bookcard" style="flex: 1 1 480px; padding: clamp(22px, 4vw, 36px); border-radius: 20px; background: #FFFFFF; color: #141414; box-shadow: 0 24px 48px -20px rgba(60,0,8,.45)">
+        <sc-if value="{{sent}}" hint-placeholder-val="{{false}}">
+          <div role="status" style="display: flex; flex-direction: column; gap: 14px; align-items: flex-start; padding: 16px 0">
+            <svg class="ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true" style="color: #1F8A4C"><circle cx="12" cy="12" r="9"></circle><path d="M8 12l3 3 5-6"></path></svg>
+            <div style="font-stretch: 125%; font-size: 26px; font-weight: 800; line-height: 1.2">Rahmat! So‘rovingiz qabul qilindi.</div>
+            <div style="font-size: 16px; line-height: 1.6; color: #4A4A4A">Tanlangan xizmatlar: {{chosenText}}. Tez orada qo‘ng‘iroq qilamiz.</div>
+            <button type="button" onClick="{{reset}}" class="btn btn-line" style="min-height: 44px; padding: 0 20px; border-radius: 10px; border: 1.5px solid #CFCFCF; background: #FFFFFF; color: #141414; font-size: 15px; font-weight: 600">Yangi so‘rov</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{notSent}}" hint-placeholder-val="{{true}}">
+          <form onSubmit="{{submit}}" style="position: relative; display: flex; flex-direction: column; gap: 20px">
+            <div style="font-stretch: 125%; font-weight: 800; font-size: 22px; line-height: 1.3; letter-spacing: -0.01em">Yoki raqamingizni qoldiring, o‘zimiz qo‘ng‘iroq qilamiz</div>
+            <fieldset style="border: 0; margin: 0; padding: 0">
+              <legend style="font-size: 15px; font-weight: 700; margin-bottom: 12px; padding: 0">Qaysi xizmat kerak?</legend>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                <sc-for list="{{pills}}" as="p" hint-placeholder-count="5">
+                  <sc-if value="{{p.on}}" hint-placeholder-val="{{false}}">
+                    <button type="button" aria-pressed="true" onClick="{{p.toggle}}" class="btn pill-on" style="display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 16px; border-radius: 10px; border: 1.5px solid #D7182A; background: #D7182A; color: #FFFFFF; font-size: 15px; font-weight: 700">
+                      <svg class="ic" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4 10-10"></path></svg>{{p.label}}
+                    </button>
+                  </sc-if>
+                  <sc-if value="{{p.off}}" hint-placeholder-val="{{true}}">
+                    <button type="button" aria-pressed="false" onClick="{{p.toggle}}" class="btn btn-line" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 10px; border: 1.5px solid #CFCFCF; background: #FFFFFF; color: #141414; font-size: 15px; font-weight: 600">{{p.label}}</button>
+                  </sc-if>
+                </sc-for>
+              </div>
+            </fieldset>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px">
+              <div style="display: flex; flex-direction: column; gap: 6px">
+                <label for="am-name" style="font-size: 15px; font-weight: 700">Ismingiz</label>
+                <input id="am-name" name="name" required="required" autocomplete="name" placeholder="Masalan, Jasur" style="min-height: 52px; padding: 0 14px; border-radius: 10px; border: 1.5px solid #CFCFCF; background: #FFFFFF; color: #141414; font-size: 16px">
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 6px">
+                <label for="am-phone" style="font-size: 15px; font-weight: 700">Telefon raqam</label>
+                <input id="am-phone" name="phone" type="tel" required="required" autocomplete="tel" inputmode="tel" placeholder="+998 __ ___ __ __" style="min-height: 52px; padding: 0 14px; border-radius: 10px; border: 1.5px solid #CFCFCF; background: #FFFFFF; color: #141414; font-size: 16px">
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="am-car" style="font-size: 15px; font-weight: 700">Mashina rusumi <span style="font-weight: 400; color: #5C5C5C">(ixtiyoriy)</span></label>
+              <input id="am-car" name="car" placeholder="Masalan, Chevrolet Cobalt" style="min-height: 52px; padding: 0 14px; border-radius: 10px; border: 1.5px solid #CFCFCF; background: #FFFFFF; color: #141414; font-size: 16px">
+            </div>
+            <div aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden">
+              <label for="am-web">Bu maydonni bo‘sh qoldiring</label>
+              <input id="am-web" name="website" tabindex="-1" autocomplete="off">
+            </div>
+            <sc-if value="{{error}}" hint-placeholder-val="{{false}}">
+              <p role="alert" style="margin: 0; padding: 12px 14px; border-radius: 10px; background: #FDECEE; color: #A80F1E; font-size: 15px; font-weight: 600; line-height: 1.5">So‘rovni yuborib bo‘lmadi. Iltimos, <a href="{{tgHref}}" style="color: #A80F1E">Telegramda yozing</a> yoki qo‘ng‘iroq qiling: <a href="tel:+998907777850" style="color: #A80F1E">+998 90 777 78 50</a></p>
+            </sc-if>
+            <button type="submit" class="btn btn-red" style="display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; border: 0; border-radius: 12px; background: #D7182A; color: #FFFFFF; font-size: 17px; font-weight: 800">{{submitLabel}}</button>
+            <p style="margin: 0; font-size: 13px; line-height: 1.5; color: #5C5C5C">Raqamingiz faqat qo‘ng‘iroq uchun ishlatiladi.</p>
+          </form>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="checker" aria-hidden="true"></div>
+  <footer class="bg-carbon" style="padding: 44px clamp(16px, 4vw, 48px); color: #FFFFFF">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px">
+      <svg role="img" aria-label="Automaximus — Detailing Studio" style="display: block; height: 52px; width: auto" viewBox="0 0 1660 170"><g transform="scale(0.56667)"><circle cx="150" cy="150" r="148" fill="#FFFFFF"></circle><circle cx="150" cy="150" r="140" fill="#D7182A"></circle><circle cx="150" cy="150" r="100" fill="none" stroke="#FFFFFF" class="sw3"></circle><g fill="#FFFFFF"><g transform="rotate(-58.848 150 150) translate(139.800 21.500) scale(0.17)"><path d="M0 100 L46 0 L74 0 L120 100 L96 100 L60 22 L24 100 Z M40.6 64 L79.4 64 L86.8 80 L33.2 80 Z"></path></g><g transform="rotate(-46.672 150 150) translate(139.800 21.500) scale(0.17)"><path d="M0 0 L22 0 L22 66 L34 78 L90 78 L102 66 L102 0 L124 0 L124 76 L100 100 L24 100 L0 76 Z"></path></g><g transform="rotate(-34.903 150 150) translate(140.650 21.500) scale(0.17)"><path d="M0 0 L110 0 L110 22 L66 22 L66 100 L44 100 L44 22 L0 22 Z"></path></g><g transform="rotate(-22.727 150 150) translate(138.950 21.500) scale(0.17)"><path d="M24 0 L106 0 L130 24 L130 76 L106 100 L24 100 L0 76 L0 24 Z M34 22 L22 34 L22 66 L34 78 L96 78 L108 66 L108 34 L96 22 Z"></path></g><g transform="rotate(-9.334 150 150) translate(138.100 21.500) scale(0.17)"><path d="M0 100 L0 0 L26 0 L70 56 L114 0 L140 0 L140 100 L118 100 L118 38 L78 88 L62 88 L22 38 L22 100 Z"></path></g><g transform="rotate(3.653 150 150) translate(139.800 21.500) scale(0.17)"><path d="M0 100 L46 0 L74 0 L120 100 L96 100 L60 22 L24 100 Z M40.6 64 L79.4 64 L86.8 80 L33.2 80 Z"></path></g><g transform="rotate(15.828 150 150) translate(139.800 21.500) scale(0.17)"><path d="M0 0 L26 0 L120 100 L94 100 Z M94 0 L120 0 L26 100 L0 100 Z"></path></g><g transform="rotate(24.026 150 150) translate(148.130 21.500) scale(0.17)"><path d="M0 0 L22 0 L22 100 L0 100 Z"></path></g><g transform="rotate(33.036 150 150) translate(138.100 21.500) scale(0.17)"><path d="M0 100 L0 0 L26 0 L70 56 L114 0 L140 0 L140 100 L118 100 L118 38 L78 88 L62 88 L22 38 L22 100 Z"></path></g><g transform="rotate(46.185 150 150) translate(139.460 21.500) scale(0.17)"><path d="M0 0 L22 0 L22 66 L34 78 L90 78 L102 66 L102 0 L124 0 L124 76 L100 100 L24 100 L0 76 Z"></path></g><g transform="rotate(58.685 150 150) translate(139.460 21.500) scale(0.17)"><path d="M19.4 0 L124 0 L124 22 L28 22 L22 28 L22 33 L28 39 L104.6 39 L124 58.4 L124 80.6 L104.6 100 L0 100 L0 78 L96 78 L102 72 L102 67 L96 61 L19.4 61 L0 41.6 L0 19.4 Z"></path></g><g transform="rotate(56.567 150 150) translate(142.250 261.750) scale(0.125)"><path d="M0 0 L94 0 L124 30 L124 70 L94 100 L0 100 Z M22 22 L22 78 L86 78 L102 62 L102 38 L86 22 Z"></path></g><g transform="rotate(47.827 150 150) translate(143.500 261.750) scale(0.125)"><path d="M0 0 L104 0 L104 22 L22 22 L22 39 L90 39 L90 61 L22 61 L22 78 L104 78 L104 100 L0 100 Z"></path></g><g transform="rotate(39.512 150 150) translate(143.125 261.750) scale(0.125)"><path d="M0 0 L110 0 L110 22 L66 22 L66 100 L44 100 L44 22 L0 22 Z"></path></g><g transform="rotate(30.712 150 150) translate(142.500 261.750) scale(0.125)"><path d="M0 100 L46 0 L74 0 L120 100 L96 100 L60 22 L24 100 Z M40.6 64 L79.4 64 L86.8 80 L33.2 80 Z"></path></g><g transform="rotate(24.581 150 150) translate(148.625 261.750) scale(0.125)"><path d="M0 0 L22 0 L22 100 L0 100 Z"></path></g><g transform="rotate(19.058 150 150) translate(143.750 261.750) scale(0.125)"><path d="M0 0 L22 0 L22 78 L100 78 L100 100 L0 100 Z"></path></g><g transform="rotate(13.535 150 150) translate(148.625 261.750) scale(0.125)"><path d="M0 0 L22 0 L22 100 L0 100 Z"></path></g><g transform="rotate(7.283 150 150) translate(142.250 261.750) scale(0.125)"><path d="M0 100 L0 0 L24 0 L102 64 L102 0 L124 0 L124 100 L100 100 L22 36 L22 100 Z"></path></g><g transform="rotate(-2.185 150 150) translate(142.000 261.750) scale(0.125)"><path d="M24 0 L128 0 L128 22 L34 22 L22 34 L22 66 L34 78 L94 78 L106 66 L106 61 L70 61 L70 39 L128 39 L128 76 L104 100 L24 100 L0 76 L0 24 Z"></path></g><g transform="rotate(-16.509 150 150) translate(142.250 261.750) scale(0.125)"><path d="M19.4 0 L124 0 L124 22 L28 22 L22 28 L22 33 L28 39 L104.6 39 L124 58.4 L124 80.6 L104.6 100 L0 100 L0 78 L96 78 L102 72 L102 67 L96 61 L19.4 61 L0 41.6 L0 19.4 Z"></path></g><g transform="rotate(-25.431 150 150) translate(143.125 261.750) scale(0.125)"><path d="M0 0 L110 0 L110 22 L66 22 L66 100 L44 100 L44 22 L0 22 Z"></path></g><g transform="rotate(-34.353 150 150) translate(142.250 261.750) scale(0.125)"><path d="M0 0 L22 0 L22 66 L34 78 L90 78 L102 66 L102 0 L124 0 L124 76 L100 100 L24 100 L0 76 Z"></path></g><g transform="rotate(-43.700 150 150) translate(142.250 261.750) scale(0.125)"><path d="M0 0 L94 0 L124 30 L124 70 L94 100 L0 100 Z M22 22 L22 78 L86 78 L102 62 L102 38 L86 22 Z"></path></g><g transform="rotate(-49.952 150 150) translate(148.625 261.750) scale(0.125)"><path d="M0 0 L22 0 L22 100 L0 100 Z"></path></g><g transform="rotate(-56.385 150 150) translate(141.875 261.750) scale(0.125)"><path d="M24 0 L106 0 L130 24 L130 76 L106 100 L24 100 L0 76 L0 24 Z M34 22 L22 34 L22 66 L34 78 L96 78 L108 66 L108 34 L96 22 Z"></path></g></g><path d="M46 150 L58 145 L58 155 Z M254 150 L242 145 L242 155 Z" fill="#FFFFFF"></path><g transform="translate(88 82) scale(0.62)"><path d="M100 0 L196 28 L196 112 C196 166 154 198 100 220 C46 198 4 166 4 112 L4 28 Z" fill="#FFFFFF"></path><path d="M100 0 L196 28 L196 112 C196 166 154 198 100 220 Z" fill="#C9C9C9" opacity="0.55"></path><path d="M100 14 L184 38 L184 112 C184 158 148 186 100 206 C52 186 16 158 16 112 L16 38 Z" fill="none" stroke="#D7182A" class="sw5"></path><path d="M48 172 L88 52 L112 52 L152 172 L128 172 L100 88 L72 172 Z" fill="#D7182A"></path><path d="M62 136 L140 122 L144 134 L60 148 Z" fill="#FFFFFF"></path></g></g><g transform="translate(210 35)"><path d="M 0 100 L 46 0 L 74 0 L 120 100 L 96 100 L 60 22 L 24 100 Z M 40.6 64 L 79.4 64 L 86.8 80 L 33.2 80 Z M 138 0 L 160 0 L 160 66 L 172 78 L 228 78 L 240 66 L 240 0 L 262 0 L 262 76 L 238 100 L 162 100 L 138 76 Z M 276 0 L 386 0 L 386 22 L 342 22 L 342 100 L 320 100 L 320 22 L 276 22 Z M 428 0 L 510 0 L 534 24 L 534 76 L 510 100 L 428 100 L 404 76 L 404 24 Z M 438 22 L 426 34 L 426 66 L 438 78 L 500 78 L 512 66 L 512 34 L 500 22 Z M 552 100 L 552 0 L 578 0 L 622 56 L 666 0 L 692 0 L 692 100 L 670 100 L 670 38 L 630 88 L 614 88 L 574 38 L 574 100 Z M 710 100 L 756 0 L 784 0 L 830 100 L 806 100 L 770 22 L 734 100 Z M 750.6 64 L 789.4 64 L 796.8 80 L 743.2 80 Z M 848 0 L 874 0 L 968 100 L 942 100 Z M 942 0 L 968 0 L 874 100 L 848 100 Z M 986 0 L 1008 0 L 1008 100 L 986 100 Z M 1026 100 L 1026 0 L 1052 0 L 1096 56 L 1140 0 L 1166 0 L 1166 100 L 1144 100 L 1144 38 L 1104 88 L 1088 88 L 1048 38 L 1048 100 Z M 1184 0 L 1206 0 L 1206 66 L 1218 78 L 1274 78 L 1286 66 L 1286 0 L 1308 0 L 1308 76 L 1284 100 L 1208 100 L 1184 76 Z M 1345.4 0 L 1450 0 L 1450 22 L 1354 22 L 1348 28 L 1348 33 L 1354 39 L 1430.6 39 L 1450 58.4 L 1450 80.6 L 1430.6 100 L 1326 100 L 1326 78 L 1422 78 L 1428 72 L 1428 67 L 1422 61 L 1345.4 61 L 1326 41.6 L 1326 19.4 Z" fill="#FFFFFF"></path></g></svg>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 15px">
+        <a href="https://www.instagram.com/automaximus_shop/" style="color: #FFFFFF; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">Instagram</a>
+        <a href="{{tgHref}}" style="color: #FFFFFF; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">Telegram</a>
+        <a href="tel:+998907777850" style="color: #FFFFFF; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">+998 90 777 78 50</a>
+      </div>
+      <div style="font-size: 13px; color: #A3A3A3; width: 100%">© Automaximus · Detailing studiya va avto do‘kon · [MANZIL]</div>
+    </div>
+  </footer>
+
+  <!-- FLOATING TELEGRAM -->
+  <a href="{{tgHref}}" class="fab btn" aria-label="Telegram orqali yozish">
+    <svg class="ic" width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 4L3 11l6 2 2 6 3-4 5 4z"></path><path d="M9 13l12-9"></path></svg>
+  </a>
+
+  <!-- MOBILE CALL BAR -->
+  <div class="mbar" style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; gap: 8px; padding: 10px 12px; background: #FFFFFF; border-top: 1px solid #E6E6E6; box-shadow: 0 -8px 20px -12px rgba(0,0,0,.3)">
+    <a href="tel:+998907777850" class="btn btn-line" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; border-radius: 12px; border: 1.5px solid #CFCFCF; color: #141414; font-weight: 700; text-decoration: none">
+      <svg class="ic" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"></path></svg>Qo‘ng‘iroq
+    </a>
+    <a href="{{tgHref}}" class="btn btn-red" style="flex: 1.4; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; border-radius: 12px; background: #D7182A; color: #FFFFFF; font-weight: 700; text-decoration: none"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 4L3 11l6 2 2 6 3-4 5 4z"></path><path d="M9 13l12-9"></path></svg>Telegramda narx</a>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D7182A","options":["#D7182A","#C4161C","#E3262F","#141414"]},"leadUrl":{"editor":"text","default":"[BOT_SERVER_URL]/lead","section":"Bot"},"botUsername":{"editor":"text","default":"[BOT_USERNAME]","section":"Bot"},"$preview":{"width":1440,"height":7600}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { chosen: [], sent: false, sending: false, error: false, polishTouched: false, polishDone: false };
+    this.cv = null; this.hero = null; this.cleanup = [];
+    var self = this;
+    this.setCv = function (el) { if (el) { self.cv = el; } };
+    this.setHero = function (el) { if (el) { self.hero = el; } };
+    this.liveEls = {};
+    this.setFloor = function (el) { if (el) { self.liveEls.floor = el; } };
+    this.setRims = function (el) { if (el) { self.liveEls.rims = el; } };
+  }
+  componentDidMount() {
+    var self = this, tries = 0;
+    var go = function () {
+      if (self.cv && self.hero) { self.initPolish(); }
+      else if (tries++ < 20) { setTimeout(go, 100); }
+    };
+    go();
+    // Fon effektlari faqat ekranda ko'rinib turganda ishlaydi
+    var tries2 = 0;
+    var watch = function () {
+      var els = self.liveEls;
+      if (!(els.floor && els.rims && self.hero)) { if (tries2++ < 20) { setTimeout(watch, 100); } return; }
+      if (!window.IntersectionObserver) { self.setState({ floorLive: true, rimsLive: true, heroLive: true }); return; }
+      var io = new IntersectionObserver(function (entries) {
+        var patch = {};
+        entries.forEach(function (en) {
+          if (en.target === els.floor) { patch.floorLive = en.isIntersecting; }
+          if (en.target === els.rims) { patch.rimsLive = en.isIntersecting; }
+          if (en.target === self.hero) { patch.heroLive = en.isIntersecting; }
+        });
+        self.setState(patch);
+      }, { rootMargin: '80px 0px' });
+      io.observe(els.floor); io.observe(els.rims); io.observe(self.hero);
+      self.cleanup.push(function () { io.disconnect(); });
+    };
+    watch();
+  }
+  componentWillUnmount() {
+    this.cleanup.forEach(function (fn) { try { fn(); } catch (e) {} });
+    this.cleanup = [];
+  }
+  initPolish() {
+    var self = this, cv = this.cv, host = this.hero;
+    if (!cv.getContext) { return; }
+    var ctx = cv.getContext('2d');
+    if (!ctx) { return; }
+    var small = window.innerWidth < 760;
+    var dpr = Math.min(window.devicePixelRatio || 1, small ? 1.25 : 2);
+    var w = 0, h = 0, last = null, travelled = 0, lastW = -1;
+    var seed = 7;
+    var rnd = function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+    var matte = function () {
+      seed = 7;
+      var g = ctx.createLinearGradient(0, 0, 0, h);
+      g.addColorStop(0, '#38393E'); g.addColorStop(1, '#27282C');
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+      var i, n = Math.round(w * h / 160);
+      for (i = 0; i < n; i++) {
+        ctx.fillStyle = rnd() < 0.5 ? 'rgba(255,255,255,' + (0.03 + rnd() * 0.05) + ')' : 'rgba(0,0,0,' + (0.05 + rnd() * 0.08) + ')';
+        ctx.fillRect(rnd() * w, rnd() * h, 1 + rnd() * 1.5, 1 + rnd() * 1.5);
+      }
+      var c, r, centers = [[0.18, 0.35], [0.72, 0.28], [0.45, 0.85], [0.92, 0.75]];
+      ctx.lineWidth = 1;
+      for (c = 0; c < centers.length; c++) {
+        var cx = centers[c][0] * w, cy = centers[c][1] * h;
+        for (r = 14; r < Math.max(w, h) * 0.45; r += 6 + rnd() * 6) {
+          var st = rnd() * Math.PI * 2;
+          ctx.strokeStyle = 'rgba(255,255,255,' + (0.025 + rnd() * 0.035) + ')';
+          ctx.beginPath(); ctx.arc(cx, cy, r, st, st + 0.6 + rnd() * 2.2); ctx.stroke();
+        }
+      }
+      for (i = 0; i < 18; i++) {
+        var dx = rnd() * w, dy = rnd() * h, dr = 30 + rnd() * 110;
+        var dg = ctx.createRadialGradient(dx, dy, 0, dx, dy, dr);
+        dg.addColorStop(0, 'rgba(190,175,150,' + (0.05 + rnd() * 0.06) + ')'); dg.addColorStop(1, 'rgba(190,175,150,0)');
+        ctx.fillStyle = dg; ctx.beginPath(); ctx.arc(dx, dy, dr, 0, Math.PI * 2); ctx.fill();
+      }
+      for (i = 0; i < 40; i++) {
+        ctx.strokeStyle = 'rgba(255,255,255,' + (0.06 + rnd() * 0.06) + ')';
+        ctx.beginPath(); ctx.arc(rnd() * w, rnd() * h, 2 + rnd() * 6, 0, Math.PI * 2); ctx.stroke();
+      }
+    };
+    var size = function () {
+      var nw = host.clientWidth, nh = host.clientHeight;
+      if (nw === lastW && Math.abs(nh - h) < 120) { return; }
+      lastW = nw; w = nw; h = nh;
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      matte();
+    };
+    var brush = function () { return Math.max(46, Math.min(w, h) * 0.085); };
+    var dab = function (x, y, r) {
+      ctx.globalCompositeOperation = 'destination-out';
+      var g = ctx.createRadialGradient(x, y, 0, x, y, r);
+      g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(0.55, 'rgba(0,0,0,.9)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+    };
+    var stroke = function (x, y, user) {
+      var r = brush();
+      if (last) {
+        var ddx = x - last.x, ddy = y - last.y, d = Math.sqrt(ddx * ddx + ddy * ddy);
+        var steps = Math.max(1, Math.ceil(d / (r * 0.3)));
+        for (var k = 1; k <= steps; k++) { dab(last.x + ddx * k / steps, last.y + ddy * k / steps, r); }
+        if (user) { travelled += d; }
+      } else { dab(x, y, r); }
+      last = { x: x, y: y };
+      if (user) {
+        if (!self.state.polishTouched) { self.setState({ polishTouched: true }); }
+        if (!self.state.polishDone && travelled > Math.max(1400, w * 1.6)) { self.setState({ polishDone: true }); }
+      }
+    };
+    var local = function (cx, cy) { var b = host.getBoundingClientRect(); return { x: cx - b.left, y: cy - b.top }; };
+    var onMove = function (e) { if (e.pointerType === 'touch') { return; } var p = local(e.clientX, e.clientY); stroke(p.x, p.y, true); };
+    var onTouch = function (e) { if (!e.touches || !e.touches[0]) { return; } var p = local(e.touches[0].clientX, e.touches[0].clientY); stroke(p.x, p.y, true); };
+    var onLeave = function () { last = null; };
+    size();
+    host.addEventListener('pointermove', onMove);
+    host.addEventListener('pointerleave', onLeave);
+    host.addEventListener('touchstart', onLeave, { passive: true });
+    host.addEventListener('touchmove', onTouch, { passive: true });
+    host.addEventListener('touchend', onLeave, { passive: true });
+    var ro = null;
+    if (window.ResizeObserver) { ro = new ResizeObserver(function () { size(); }); ro.observe(host); }
+    self.cleanup.push(function () {
+      host.removeEventListener('pointermove', onMove); host.removeEventListener('pointerleave', onLeave);
+      host.removeEventListener('touchstart', onLeave); host.removeEventListener('touchmove', onTouch); host.removeEventListener('touchend', onLeave);
+      if (ro) { ro.disconnect(); }
+    });
+    // Namoyish: sahifa o'zi bir marta polirovka qilib ko'rsatadi
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var path = function (t) { return { x: w * (0.52 + 0.44 * t), y: h * (0.62 + 0.16 * Math.sin(t * Math.PI * 3)) }; };
+    if (reduce) {
+      for (var t = 0; t <= 1; t += 0.02) { var p0 = path(t); stroke(p0.x, p0.y, false); }
+      last = null;
+    } else {
+      var start = null, dur = 1600, raf = 0;
+      var tick = function (ts) {
+        if (start === null) { start = ts; }
+        var t2 = Math.min(1, (ts - start) / dur), e2 = 1 - Math.pow(1 - t2, 3), p1 = path(e2);
+        stroke(p1.x, p1.y, false);
+        if (t2 < 1) { raf = requestAnimationFrame(tick); } else { last = null; }
+      };
+      var timer = setTimeout(function () { raf = requestAnimationFrame(tick); }, 700);
+      self.cleanup.push(function () { clearTimeout(timer); cancelAnimationFrame(raf); });
+    }
+  }
+  setChosen(list) {
+    this.setState({ chosen: list, sent: false });
+  }
+  renderVals() {
+    var self = this;
+    var chosen = this.state.chosen || [];
+    var names = ['Tonirovka', 'Broniplyonka', 'Polirovka', 'Ximchistka', 'Shumoizolyatsiya', 'Disk', 'Balon', 'Chexol va polik', 'Aksessuarlar'];
+    var bot = String(this.props.botUsername ?? '[BOT_USERNAME]').replace(/^@/, '');
+    var src = '';
+    try { src = (new URLSearchParams(window.location.search).get('utm_source') || '').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 20); } catch (err) {}
+    var tgLink = function (tag) { return 'https://t.me/' + bot + '?start=' + tag + (src ? '_' + src : ''); };
+    var accent = this.props.accent ?? '#D7182A';
+
+    var services = [
+      { key: 'Tonirovka', title: 'Tonirovka', time: '[MUDDAT]', price: 'dan [NARX] so‘m',
+        desc: 'Oynaga plyonka yopishtiramiz. Quyosh issig‘i va zararli nuri salonga kirmaydi.',
+        points: ['Qonun ruxsat bergan darajada qoraytiramiz', 'Plyonka tekis yopishadi, pufakcha qolmaydi', 'Ichki plastikning rangi quyoshda o‘chmaydi'] },
+      { key: 'Broniplyonka', title: 'Broniplyonka', time: '[MUDDAT]', price: 'dan [NARX] so‘m',
+        desc: 'Ko‘zga ko‘rinmaydigan shaffof plyonka bo‘yoqni tosh tegishi va tirnalishdan saqlaydi.',
+        points: ['Faqat old qismga yoki butun mashinaga', 'Tosh tekkanidan bo‘yoq ko‘chmaydi', 'Sotganda mashina qimmatroq ketadi'] },
+      { key: 'Polirovka', title: 'Polirovka', time: '[MUDDAT]', price: 'dan [NARX] so‘m',
+        desc: 'Mashinani polirovka qilib, ustidan himoya qatlami suramiz. Bo‘yoq yangidek yaltiraydi.',
+        points: ['Mayda tirnalish va xira joylar ketadi', 'Bo‘yoq uzoq vaqt yaltirab turadi', 'Yuvish osonlashadi'] },
+      { key: 'Ximchistka', title: 'Ximchistka', time: '[MUDDAT]', price: 'dan [NARX] so‘m',
+        desc: 'Mashina ichini to‘liq yuvib tozalaymiz: o‘rindiqlar, shift, gilamlar va eshiklar.',
+        points: ['Dog‘lar va yomon hid ketadi', 'Ichki plastik tozalanib, rangi yangilanadi', 'Mashina ichi toza hid beradi'] },
+      { key: 'Shumoizolyatsiya', title: 'Shumoizolyatsiya', time: '[MUDDAT]', price: 'dan [NARX] so‘m',
+        desc: 'Eshiklar, pol va bagajga ovoz o‘tkazmaydigan maxsus qatlam yopishtiramiz.',
+        points: ['Yo‘lda g‘ildirak va shamol ovozi kam eshitiladi', 'Musiqa tiniqroq eshitiladi', 'Qishda salon issiqroq turadi'] }
+    ].map(function (s) {
+      return Object.assign({}, s, { choose: function () { self.setChosen([s.key]); } });
+    });
+
+    var shop = [
+      { key: 'Disk', title: 'Disk', price: 'dan [NARX] so‘m',
+        desc: 'Litoy va shtamp disklar, turli diametr va rangda. O‘rnatib beramiz.' },
+      { key: 'Balon', title: 'Balon', price: 'dan [NARX] so‘m',
+        desc: 'Yozgi va qishki balonlar. Almashtirish va o‘rnatish shu yerda.' },
+      { key: 'Chexol va polik', title: 'Chexol va polik', price: 'dan [NARX] so‘m',
+        desc: 'Modelingizga mos chexollar va 3D poliklar.' },
+      { key: 'Aksessuarlar', title: 'Aksessuarlar', price: 'modelga qarab',
+        desc: 'Mashinangiz uchun kerakli aksessuarlar va elektrik xizmati.' }
+    ].map(function (s) {
+      return Object.assign({}, s, { choose: function () { self.setChosen([s.key]); } });
+    });
+
+    var included = [
+      'Ishdan oldin bepul ko‘rik',
+      'Narx yozib beriladi va oshmaydi',
+      'Ish jarayoni rasmlari Telegramingizga',
+      'Detailing, disk va balon bitta tashrifda',
+      'Toza, yopiq xonada ishlaymiz',
+      'Topshirishda mashinani asrash bo‘yicha maslahat'
+    ];
+
+    var pkgDefs = [
+      { name: 'Start', for: 'Har kuni haydaydiganlar uchun', alone: '[NARX] so‘m', price: '[NARX] so‘m', save: '[SUMMA] so‘m',
+        items: ['Tonirovka', 'Salon ximchistkasi'], pick: ['Tonirovka', 'Ximchistka'], featured: false },
+      { name: 'Optimal', for: 'Yangi olingan mashina uchun', alone: '[NARX] so‘m', price: '[NARX] so‘m', save: '[SUMMA] so‘m',
+        items: ['Tonirovka', 'Old qismga broniplyonka', 'Polirovka', 'Salon ximchistkasi'], pick: ['Tonirovka', 'Broniplyonka', 'Polirovka', 'Ximchistka'], featured: true },
+      { name: 'To‘liq', for: 'Hammasi bir tashrifda', alone: '[NARX] so‘m', price: '[NARX] so‘m', save: '[SUMMA] so‘m',
+        items: ['Tonirovka', 'Broniplyonka', 'Polirovka', 'Ximchistka', 'Shumoizolyatsiya'], pick: names.slice(0, 5), featured: false },
+      { name: 'Disk + yaltiroq', for: 'Yangi disk olayotganlar uchun', alone: '[NARX] so‘m', price: '[NARX] so‘m', save: '[SUMMA] so‘m',
+        items: ['Disk komplekti (o‘rnatish bilan)', 'Polirovka', 'Fara polirovkasi'], pick: ['Disk', 'Polirovka'], featured: false }
+    ];
+    var packages = pkgDefs.map(function (k) {
+      return Object.assign({}, k, {
+        plain: !k.featured,
+        border: k.featured ? ('2px solid ' + accent) : '1px solid rgba(255,255,255,.12)',
+        shadow: k.featured ? '0 26px 60px -20px rgba(215,24,42,.65)' : 'none',
+        choose: function () { self.setChosen(k.pick); }
+      });
+    });
+
+    var media = [
+      { label: '[VIDEO: broniplyonka yopishtirilishi]', service: 'Broniplyonka', video: true, photo: false },
+      { label: '[RASM: tonirovka, oldin / keyin]', service: 'Tonirovka', video: false, photo: true },
+      { label: '[RASM: ximchistka, oldin / keyin]', service: 'Ximchistka', video: false, photo: true },
+      { label: '[VIDEO: polirovka jarayoni]', service: 'Polirovka', video: true, photo: false },
+      { label: '[RASM: shumoizolyatsiya]', service: 'Shumoizolyatsiya', video: false, photo: true },
+      { label: '[RASM: tayyor mashina]', service: 'Paket', video: false, photo: true }
+    ];
+
+    var pills = names.map(function (n) {
+      var on = chosen.indexOf(n) !== -1;
+      return {
+        label: n, on: on, off: !on,
+        toggle: function () {
+          var cur = (self.state.chosen || []).slice();
+          var i = cur.indexOf(n);
+          if (i === -1) { cur.push(n); } else { cur.splice(i, 1); }
+          self.setState({ chosen: cur });
+        }
+      };
+    });
+
+    var faq = [
+      { q: 'Ish qancha vaqt oladi?', a: 'Xizmatga bog‘liq: tonirovka va ximchistka odatda bir kunda, broniplyonka va shumoizolyatsiya bir necha kunda tayyor bo‘ladi. Aniq muddatni ko‘rikda aytamiz.' },
+      { q: 'Narx nimaga qarab belgilanadi?', a: 'Mashina kattaligi, bo‘yoq holati va tanlangan materialga qarab. Narxni ko‘rikda yozib beramiz va keyin u oshmaydi.' },
+      { q: 'Tonirovka qonunga mosmi?', a: 'Ha. Faqat qonun ruxsat bergan darajada qoraytiramiz va buni oldindan tushuntirib beramiz.' },
+      { q: 'Broniplyonka bo‘yoqqa zarar bermaydimi?', a: 'Yo‘q. Sifatli plyonka bo‘yoqni faqat himoya qiladi. Kerak bo‘lsa, uni iz qoldirmasdan olib tashlash mumkin.' },
+      { q: 'Disk va balonni o‘rnatib berasizmi?', a: 'Ha. Disk va balonni shu yerning o‘zida o‘rnatib beramiz. Mashina rusumi va o‘lchamni Telegramga yozsangiz, mos variantlarni rasm va narxi bilan yuboramiz.' }
+    ];
+
+    return {
+      accent: accent,
+      services: services,
+      shop: shop,
+      cvRef: this.setCv,
+      floorRef: this.setFloor,
+      rimsRef: this.setRims,
+      floorLive: this.state.floorLive ? ' is-live' : '',
+      rimsLive: this.state.rimsLive ? ' is-live' : '',
+      heroLive: this.state.heroLive ? ' is-live' : '',
+      heroRef: this.setHero,
+      polishFresh: !this.state.polishDone,
+      polishDone: !!this.state.polishDone,
+      tgHref: tgLink('sayt'),
+      tgShop: tgLink('sayt_dokon'),
+      included: included,
+      packages: packages,
+      media: media,
+      pills: pills,
+      faq: faq,
+      sent: this.state.sent,
+      notSent: !this.state.sent,
+      chosenText: chosen.length ? chosen.join(', ') : 'ko‘rikda aniqlanadi',
+      submit: function (e) {
+        if (e && e.preventDefault) { e.preventDefault(); }
+        if (self.state.sending) { return; }
+        var f = e && e.target && e.target.elements ? e.target.elements : null;
+        var val = function (n) { return f && f[n] ? String(f[n].value || '').trim() : ''; };
+        var url = String(self.props.leadUrl ?? '[BOT_SERVER_URL]/lead');
+        var src = '';
+        try { src = new URLSearchParams(window.location.search).get('utm_source') || ''; } catch (err) {}
+        var payload = { name: val('name'), phone: val('phone'), car: val('car'), website: val('website'),
+          services: (self.state.chosen || []).slice(), source: src || 'sayt' };
+        if (url.indexOf('http') !== 0) { self.setState({ sent: false, error: true }); return; }
+        self.setState({ sending: true, error: false });
+        fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+          .then(function (r) { if (!r.ok) { throw new Error('http ' + r.status); } return r.json(); })
+          .then(function () { self.setState({ sending: false, sent: true }); })
+          .catch(function () { self.setState({ sending: false, error: true }); });
+      },
+      reset: function () { self.setState({ sent: false, chosen: [], error: false }); },
+      error: !!this.state.error,
+      submitLabel: this.state.sending ? 'Yuborilmoqda…' : 'Narxni bilish — bepul'
+    };
+  }
+}
+</script>
+</body>
+</html>

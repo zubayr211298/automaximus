@@ -1,0 +1,37 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Logo.dc.html": {
+      "h": 1720,
+      "title": "Avtomaximus — logotip",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 7600,
+      "is_interactive": true,
+      "title": "Avtomaximus — landing sahifa",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-06T12:58:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {},
+  "order": [
+    "Main.dc.html",
+    "Logo.dc.html"
+  ],
+  "pages": [],
+  "title": "Avtomaximus landing"
+}

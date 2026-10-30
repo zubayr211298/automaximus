@@ -1,0 +1,32 @@
+# Sirlar
+bot/.env
+mini-app/.env.local
+
+# Bot ma'lumotlar bazasi va kesh
+bot/avtomaximus.db*
+bot/__pycache__/
+**/__pycache__/
+*.pyc
+
+# TypeScript build kesh
+*.tsbuildinfo
+
+# mini-app build/bog'liqliklar (mini-app/.gitignore ham bor, bu qo'shimcha xavfsizlik)
+mini-app/node_modules/
+mini-app/.next/
+mini-app/.vercel/
+
+# Xom media va arxivlar — kod repozitoriyga kerak emas (ko'plari GitHub 100MB limitidan katta)
+*.mp4
+*.mov
+*.MOV
+*.heic
+*.HEIC
+*.zip
+*.pdf
+*.xlsx
+Gemini_Generated_Image_*.jpg
+
+# OS
+Thumbs.db
+.DS_Store

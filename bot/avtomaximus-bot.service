@@ -1,0 +1,22 @@
+# Linux serverda (VPS) botni doimiy ishlatish uchun systemd xizmati.
+# 1) Papkani /opt/avtomaximus-bot ga ko'chiring va .env ni to'ldiring.
+# 1b) sudo chown -R www-data /opt/avtomaximus-bot   (baza fayli yozilishi uchun)
+# 2) sudo cp avtomaximus-bot.service /etc/systemd/system/
+# 3) sudo systemctl daemon-reload && sudo systemctl enable --now avtomaximus-bot
+# 4) Jurnal: journalctl -u avtomaximus-bot -f
+
+[Unit]
+Description=Avtomaximus Telegram bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+WorkingDirectory=/opt/avtomaximus-bot
+ExecStart=/usr/bin/python3 /opt/avtomaximus-bot/bot.py
+Restart=always
+RestartSec=5
+User=www-data
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

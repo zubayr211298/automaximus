@@ -1,0 +1,38 @@
+/* sayt/index.html bilan bir xil rang palitrasi — brend bitta ko'rinishda qolsin */
+:root {
+  --bg: #0e0e10;
+  --card: #141414;
+  --card-2: #1b1b1b;
+  --text: #f2f2f4;
+  --text-soft: #8a8a8a;
+  --accent: #d7182a;
+  --accent-dark: #b01222;
+  --accent-soft: #ff6b76;
+  --radius: 14px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Archivo", system-ui, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.screen {
+  padding: 16px;
+  padding-bottom: 96px; /* Telegram MainButton joy qoldirish uchun */
+  max-width: 480px;
+  margin: 0 auto;
+}
