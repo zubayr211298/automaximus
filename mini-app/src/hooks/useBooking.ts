@@ -4,10 +4,12 @@ import { useState } from "react";
 import { useBookingStore } from "@/store/bookingStore";
 import { submitLead } from "@/lib/api";
 import { useTelegramContext } from "@/providers/TelegramProvider";
+import { useT } from "@/hooks/useT";
 
 export function useBooking() {
   const state = useBookingStore();
   const { user, initData } = useTelegramContext();
+  const { t } = useT();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -26,13 +28,13 @@ export function useBooking() {
         initData,
       });
       if (!res.ok) {
-        setError(res.error || "Xatolik yuz berdi, qayta urinib ko'ring.");
+        setError(res.error || t("errGeneric"));
         return false;
       }
       state.reset();
       return true;
     } catch {
-      setError("Tarmoq xatosi. Internetni tekshirib qayta urinib ko'ring.");
+      setError(t("errNetwork"));
       return false;
     } finally {
       setSubmitting(false);

@@ -1,6 +1,6 @@
 "use client";
 
-import { GROUP_TITLES } from "@/lib/constants";
+import { useT } from "@/hooks/useT";
 
 export function CategoryTabs({
   active,
@@ -9,6 +9,9 @@ export function CategoryTabs({
   active: "dokon" | "detailing";
   onChange: (group: "dokon" | "detailing") => void;
 }) {
+  const { t } = useT();
+  const labels = { dokon: t("groupDokon"), detailing: t("groupDetailing") };
+
   return (
     <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
       {(["dokon", "detailing"] as const).map((group) => (
@@ -26,7 +29,7 @@ export function CategoryTabs({
             fontWeight: 600,
           }}
         >
-          {GROUP_TITLES[group]}
+          {labels[group]}
         </button>
       ))}
     </div>

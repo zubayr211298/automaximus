@@ -31,28 +31,26 @@ from datetime import datetime, timedelta, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 import config
+import texts
+from texts import btn, btn_key, day_label, norm_lang, status_label, tr
 
 log = logging.getLogger("avtomaximus")
 API = "https://api.telegram.org/bot{token}/{method}"
 
-BTN_BOOK = "🗓 Yozilish"          # eski menyudan qolganlar uchun: barcha xizmatlar
-BTN_SHOP = "🛞 Disk va balon"
-BTN_DETAIL = "✨ Detailing"
-BTN_PROMO = "🔥 Aksiya"
-BTN_PRICES = "💰 Narxlar"
-BTN_ADDR = "📍 Manzil va ish vaqti"
-BTN_MY = "📋 Mening yozuvlarim"
-BTN_REF = "🎁 Do‘stni taklif qilish"
-BTN_CONTACT = "📞 Bog‘lanish"
-BTN_SEND_PHONE = "📱 Raqamni yuborish"
-BTN_CANCEL = "↩️ Bekor qilish"
+# Tugma matnlari texts.py da, ikki tilda. Bu yerdagilar — o'zbekcha ko'rinishi (testlar va admin uchun).
+BTN_BOOK = btn("uz", "book")          # eski menyudan qolganlar uchun: barcha xizmatlar
+BTN_SHOP = btn("uz", "shop")
+BTN_DETAIL = btn("uz", "detail")
+BTN_PROMO = btn("uz", "promo")
+BTN_PRICES = btn("uz", "prices")
+BTN_ADDR = btn("uz", "addr")
+BTN_MY = btn("uz", "my")
+BTN_REF = btn("uz", "ref")
+BTN_CONTACT = btn("uz", "contact")
+BTN_SEND_PHONE = btn("uz", "phone")
+BTN_CANCEL = btn("uz", "cancel")
 
-STATUS_LABEL = {
-    "new": "🆕 Yangi",
-    "called": "📞 Bog‘lanildi",
-    "done": "✅ Ish tugadi",
-    "cancelled": "❌ Bekor qilindi",
-}
+STATUS_LABEL = texts.STATUS["uz"]      # admin kartasi o'zbekcha; mijozga status_label(status, lang)
 SERVICE_NAMES = [s["name"] for s in config.SERVICES]
 SERVICE_GROUP = {s["name"]: s.get("group", "detailing") for s in config.SERVICES}
 BOOKING_STATES = ("svc", "car", "day", "day_text", "phone", "confirm")
@@ -71,6 +69,38 @@ def now() -> datetime:
 
 def esc(value) -> str:
     return html.escape(str(value or ""), quote=False)
+
+
+def pick(name: str, lang: str):
+    """config'dagi o'zbekcha qiymat yoki uning ruscha juftligi (NAME_RU). Ruscha bo'sh bo'lsa — o'zbekcha."""
+    if lang == "ru":
+        value = getattr(config, name + "_RU", None)
+        if value:
+            return value
+    return getattr(config, name)
+
+
+_SERVICE_BY_NAME = {s["name"]: s for s in config.SERVICES}
+
+
+def svc_label(name: str, lang: str) -> str:
+    """Xizmat nomi mijoz tilida. Bazada va tugma kalitlarida nom o'zbekcha qoladi."""
+    s = _SERVICE_BY_NAME.get(name)
+    return (s.get("name_ru") or name) if (lang == "ru" and s) else name
+
+
+def svc_price(s: dict, lang: str) -> str:
+    return (s.get("price_ru") or s["price"]) if lang == "ru" else s["price"]
+
+
+def svc_list_label(services_text: str, lang: str) -> str:
+    return ", ".join(svc_label(n.strip(), lang) for n in (services_text or "").split(",") if n.strip())
+
+
+def split_lang(payload: str) -> tuple[str, str | None]:
+    """/start parametridan til qo'shimchasini ajratadi: 'sayt__ru' -> ('sayt', 'ru')."""
+    m = re.match(r"^(.*?)__(uz|ru)$", payload or "")
+    return (m.group(1), m.group(2)) if m else (payload or "", None)
 
 
 # --------------------------------------------------------------------------
@@ -142,7 +172,7 @@ class DB:
         )
         # eski bazani yangilash: yangi ustunlar
         for table, col in (("sessions", "updated TEXT"), ("sessions", "nudged INTEGER DEFAULT 0"),
-                           ("bookings", "sla_pinged INTEGER DEFAULT 0")):
+                           ("bookings", "sla_pinged INTEGER DEFAULT 0"), ("users", "lang TEXT")):
             try:
                 self.conn.execute(f"ALTER TABLE {table} ADD COLUMN {col}")
             except sqlite3.OperationalError:
@@ -182,50 +212,64 @@ class DB:
 db: DB | None = None
 
 
+def lang_of(uid) -> str:
+    """Foydalanuvchi tili (uz/ru). Saqlanmagan bo'lsa — o'zbekcha."""
+    if not uid:
+        return texts.DEFAULT_LANG
+    row = db.q("SELECT lang FROM users WHERE id=?", (uid,), one=True)
+    return norm_lang(row["lang"] if row else None)
+
+
+def set_lang(uid: int, lang: str) -> None:
+    db.x("UPDATE users SET lang=? WHERE id=?", (norm_lang(lang), uid))
+
+
 # --------------------------------------------------------------------------
 # Klaviaturalar
 # --------------------------------------------------------------------------
-def main_menu():
-    return {"keyboard": [[{"text": BTN_SHOP}, {"text": BTN_DETAIL}],
-                         [{"text": BTN_PRICES}, {"text": BTN_PROMO}],
-                         [{"text": BTN_ADDR}, {"text": BTN_MY}],
-                         [{"text": BTN_REF}, {"text": BTN_CONTACT}]],
+def main_menu(lang: str = "uz"):
+    return {"keyboard": [[{"text": btn(lang, "shop")}, {"text": btn(lang, "detail")}],
+                         [{"text": btn(lang, "prices")}, {"text": btn(lang, "promo")}],
+                         [{"text": btn(lang, "addr")}, {"text": btn(lang, "my")}],
+                         [{"text": btn(lang, "ref")}, {"text": btn(lang, "contact")}],
+                         [{"text": btn(lang, "lang")}]],
             "resize_keyboard": True}
 
 
-def book_buttons():
-    return [[{"text": BTN_SHOP, "callback_data": "book:dokon"},
-             {"text": BTN_DETAIL, "callback_data": "book:detailing"}]]
+def book_buttons(lang: str = "uz"):
+    return [[{"text": btn(lang, "shop"), "callback_data": "book:dokon"},
+             {"text": btn(lang, "detail"), "callback_data": "book:detailing"}]]
 
 
-def services_kb(selected: list[str], group: str | None = None):
+def services_kb(selected: list[str], group: str | None = None, lang: str = "uz"):
     rows = []
     for i, name in enumerate(SERVICE_NAMES):
         if group and SERVICE_GROUP[name] != group:
             continue
         mark = "✅ " if name in selected else "▫️ "
-        rows.append([{"text": mark + name, "callback_data": f"svc:{i}"}])
-    rows.append([{"text": "Davom etish ➡️", "callback_data": "svc_next"}])
-    rows.append([{"text": "Bekor qilish", "callback_data": "cancel"}])
+        rows.append([{"text": mark + svc_label(name, lang), "callback_data": f"svc:{i}"}])
+    rows.append([{"text": tr(lang, "i_next"), "callback_data": "svc_next"}])
+    rows.append([{"text": tr(lang, "i_cancel"), "callback_data": "cancel"}])
     return {"inline_keyboard": rows}
 
 
-def day_kb():
+def day_kb(lang: str = "uz"):
     return {"inline_keyboard": [
-        [{"text": "Bugun", "callback_data": "day:Bugun"}, {"text": "Ertaga", "callback_data": "day:Ertaga"}],
-        [{"text": "Shu hafta", "callback_data": "day:Shu hafta"}],
-        [{"text": "Boshqa kun — yozaman", "callback_data": "day_other"}],
+        [{"text": day_label("Bugun", lang), "callback_data": "day:Bugun"},
+         {"text": day_label("Ertaga", lang), "callback_data": "day:Ertaga"}],
+        [{"text": day_label("Shu hafta", lang), "callback_data": "day:Shu hafta"}],
+        [{"text": tr(lang, "i_other_day"), "callback_data": "day_other"}],
     ]}
 
 
-def phone_kb():
-    return {"keyboard": [[{"text": BTN_SEND_PHONE, "request_contact": True}], [{"text": BTN_CANCEL}]],
+def phone_kb(lang: str = "uz"):
+    return {"keyboard": [[{"text": btn(lang, "phone"), "request_contact": True}], [{"text": btn(lang, "cancel")}]],
             "resize_keyboard": True, "one_time_keyboard": True}
 
 
-def confirm_kb():
-    return {"inline_keyboard": [[{"text": "✅ Tasdiqlash", "callback_data": "confirm"},
-                                 {"text": "❌ Bekor qilish", "callback_data": "cancel"}]]}
+def confirm_kb(lang: str = "uz"):
+    return {"inline_keyboard": [[{"text": tr(lang, "i_confirm"), "callback_data": "confirm"},
+                                 {"text": tr(lang, "i_confirm_cancel"), "callback_data": "cancel"}]]}
 
 
 def admin_kb(bid: int, status: str):
@@ -263,13 +307,16 @@ def is_admin(uid: int) -> bool:
     return uid in config.ADMIN_IDS
 
 
-def upsert_user(u: dict, payload: str = ""):
+def upsert_user(u: dict, payload: str = "", lang: str | None = None):
+    """Yangi foydalanuvchi bo'lsa True. Til: berilgan lang -> Telegram interfeys tili (ru) -> o'zbekcha."""
     uid = u["id"]
     name = " ".join(x for x in (u.get("first_name"), u.get("last_name")) if x)
     existing = db.q("SELECT id FROM users WHERE id=?", (uid,), one=True)
     if existing:
         db.x("UPDATE users SET name=?, username=? WHERE id=?", (name, u.get("username"), uid))
         return False
+    if lang is None:
+        lang = "ru" if str(u.get("language_code") or "").lower().startswith("ru") else "uz"
     source, referrer = None, None
     if payload.startswith("ref_") and payload[4:].isdigit() and int(payload[4:]) != uid:
         referrer = int(payload[4:])
@@ -278,8 +325,8 @@ def upsert_user(u: dict, payload: str = ""):
         # t.me/BOT?start=ig_bio yoki eski ko'rinish start=src_instagram
         raw = payload[4:] if payload.startswith("src_") else payload
         source = re.sub(r"[^a-zA-Z0-9_-]", "", raw)[:32] or None
-    db.x("INSERT INTO users(id,name,username,source,referrer,created) VALUES(?,?,?,?,?,?)",
-         (uid, name, u.get("username"), source, referrer, now().isoformat()))
+    db.x("INSERT INTO users(id,name,username,source,referrer,created,lang) VALUES(?,?,?,?,?,?,?)",
+         (uid, name, u.get("username"), source, referrer, now().isoformat(), norm_lang(lang)))
     return True
 
 
@@ -344,80 +391,75 @@ def create_booking(*, user_id, channel, name, phone, car, services, day, source)
 # --------------------------------------------------------------------------
 # Mijoz tomoni
 # --------------------------------------------------------------------------
-SVC_PROMPTS = {
-    "dokon": "🛞 <b>Do‘kon</b>\n\nNima kerak? Bir nechtasini tanlashingiz mumkin. "
-             "Disk va balonni o‘rnatib beramiz.",
-    "detailing": "✨ <b>Detailing</b>\n\nQaysi xizmat kerak? Bir nechtasini tanlashingiz mumkin. "
-                 "Bilmasangiz — <b>Davom etish</b>ni bosing, bepul ko‘rikda aniqlaymiz.",
-    None: "Nima kerak? Bir nechtasini tanlashingiz mumkin. "
-          "Bilmasangiz — <b>Davom etish</b>ni bosing, ko‘rikda aniqlaymiz.",
-}
-CAR_PROMPTS = {
-    "dokon": "Mashinangiz rusumi va disk/balon o‘lchami?\n(masalan: <i>Malibu 2, R17</i> yoki <i>Cobalt, 185/75 R14</i>)\n"
-             "O‘lchamni bilmasangiz — faqat rusumini yozing, o‘zimiz tanlab beramiz.",
-    None: "Mashinangiz rusumi va yili? (masalan, Chevrolet Cobalt 2022)",
-}
+def svc_prompt(group: str | None, lang: str) -> str:
+    return tr(lang, {"dokon": "svc_dokon", "detailing": "svc_detailing"}.get(group, "svc_all"))
+
+
+def car_prompt(group: str | None, lang: str) -> str:
+    return tr(lang, "car_dokon" if group == "dokon" else "car_all")
 
 
 def start_booking(uid: int, chat_id: int, group: str | None = None):
+    lang = lang_of(uid)
     db.set_session(uid, "svc", {"services": [], "group": group})
-    safe_send(chat_id, SVC_PROMPTS.get(group, SVC_PROMPTS[None]), reply_markup=services_kb([], group))
+    safe_send(chat_id, svc_prompt(group, lang), reply_markup=services_kb([], group, lang))
 
 
-def send_prices(chat_id: int):
+def send_prices(chat_id: int, lang: str = "uz"):
+    titles = pick("GROUP_TITLES", lang)
     parts = []
     for group in ("dokon", "detailing"):
-        rows = "\n".join(f"• <b>{esc(s['name'])}</b> — {esc(s['price'])}"
+        rows = "\n".join(f"• <b>{esc(svc_label(s['name'], lang))}</b> — {esc(svc_price(s, lang))}"
                          for s in config.SERVICES if s.get("group", "detailing") == group)
         if rows:
-            parts.append(f"<b>{esc(config.GROUP_TITLES.get(group, group))}</b>\n{rows}")
-    safe_send(chat_id, "<b>Narxlar</b>\n\n" + "\n\n".join(parts) +
-              "\n\nAniq narx mashina turiga qarab aytiladi. Narx yozib beriladi va keyin oshmaydi. "
-              "Bir nechta xizmatni birga olsangiz — arzonroq.",
-              reply_markup={"inline_keyboard": book_buttons()})
+            parts.append(f"<b>{esc(titles.get(group, group))}</b>\n{rows}")
+    safe_send(chat_id, f"<b>{tr(lang, 'prices_title')}</b>\n\n" + "\n\n".join(parts) + tr(lang, "prices_footer"),
+              reply_markup={"inline_keyboard": book_buttons(lang)})
 
 
-def send_promo(chat_id: int):
-    if config.PROMO_TEXT:
-        safe_send(chat_id, config.PROMO_TEXT, reply_markup={"inline_keyboard": book_buttons()})
-    else:
-        safe_send(chat_id, "Hozircha aksiya yo‘q. Botni o‘chirmang — yangi aksiyalar haqida "
-                           "birinchi bo‘lib shu yerda xabar beramiz 🔔",
-                  reply_markup={"inline_keyboard": book_buttons()})
+def send_promo(chat_id: int, lang: str = "uz"):
+    promo = pick("PROMO_TEXT", lang)
+    safe_send(chat_id, promo or tr(lang, "promo_none"), reply_markup={"inline_keyboard": book_buttons(lang)})
 
 
-def send_address(chat_id: int):
-    text = f"📍 <b>Manzil:</b> {esc(config.ADDRESS)}\n🕘 <b>Ish vaqti:</b> {esc(config.WORK_HOURS)}\n📞 {esc(config.PHONE)}"
-    kb = {"inline_keyboard": [[{"text": "🗺 Xaritada ochish", "url": config.MAP_URL}]]} if config.MAP_URL else None
+def send_address(chat_id: int, lang: str = "uz"):
+    text = tr(lang, "addr", addr=esc(pick("ADDRESS", lang)), hours=esc(config.WORK_HOURS), phone=esc(config.PHONE))
+    kb = {"inline_keyboard": [[{"text": tr(lang, "map_btn"), "url": config.MAP_URL}]]} if config.MAP_URL else None
     safe_send(chat_id, text, reply_markup=kb)
 
 
-def send_contact(chat_id: int):
+def send_contact(chat_id: int, lang: str = "uz"):
     rows = []
     if config.ADMIN_USERNAME:
-        rows.append([{"text": "✍️ Admin bilan yozishish", "url": f"https://t.me/{config.ADMIN_USERNAME}"}])
+        rows.append([{"text": tr(lang, "contact_admin_btn"), "url": f"https://t.me/{config.ADMIN_USERNAME}"}])
     if config.INSTAGRAM_URL:
         rows.append([{"text": "Instagram", "url": config.INSTAGRAM_URL}])
-    safe_send(chat_id, f"📞 Qo‘ng‘iroq qiling: <b>{esc(config.PHONE)}</b>",
+    safe_send(chat_id, tr(lang, "contact", phone=esc(config.PHONE)),
               reply_markup={"inline_keyboard": rows} if rows else None)
 
 
 def send_my_bookings(uid: int, chat_id: int):
+    lang = lang_of(uid)
     rows = db.q("SELECT * FROM bookings WHERE user_id=? ORDER BY id DESC LIMIT 5", (uid,))
     if not rows:
-        safe_send(chat_id, "Hozircha yozuvlaringiz yo‘q.", reply_markup={"inline_keyboard": book_buttons()})
+        safe_send(chat_id, tr(lang, "my_none"), reply_markup={"inline_keyboard": book_buttons(lang)})
         return
-    lines = [f"#{b['id']} · {esc(b['services']) or 'ko‘rik'} · {STATUS_LABEL.get(b['status'])}" for b in rows]
-    safe_send(chat_id, "<b>Oxirgi yozuvlaringiz</b>\n\n" + "\n".join(lines))
+    lines = [f"#{b['id']} · {esc(svc_list_label(b['services'], lang)) or tr(lang, 'my_row_fallback')} · "
+             f"{status_label(b['status'], lang)}" for b in rows]
+    safe_send(chat_id, tr(lang, "my_title") + "\n\n" + "\n".join(lines))
 
 
 def send_referral(uid: int, chat_id: int):
-    link = f"https://t.me/{BOT_USERNAME}?start=ref_{uid}" if BOT_USERNAME else "(bot nomi aniqlanmadi)"
+    lang = lang_of(uid)
+    link = f"https://t.me/{BOT_USERNAME}?start=ref_{uid}" if BOT_USERNAME else tr(lang, "ref_nolink")
     invited = db.q("SELECT COUNT(*) c FROM users WHERE referrer=?", (uid,), one=True)["c"]
-    safe_send(chat_id,
-              f"🎁 <b>Do‘stingizni taklif qiling</b>\n\nShu havolani do‘stingizga yuboring. "
-              f"U shu havola orqali kelib xizmatdan foydalansa, sizga: <b>{esc(config.REFERRAL_BONUS)}</b>\n\n"
-              f"{link}\n\nSiz taklif qilganlar: <b>{invited}</b>")
+    safe_send(chat_id, tr(lang, "ref", bonus=esc(pick("REFERRAL_BONUS", lang)), link=link, n=invited))
+
+
+def toggle_lang(uid: int, chat_id: int):
+    new = "ru" if lang_of(uid) == "uz" else "uz"
+    set_lang(uid, new)
+    safe_send(chat_id, tr(new, "lang_switched"), reply_markup=main_menu(new))
 
 
 def handle_message(m: dict):
@@ -435,36 +477,41 @@ def handle_message(m: dict):
 
     if text.startswith("/start"):
         payload = text.split(maxsplit=1)[1] if " " in text else ""
-        is_new = upsert_user(m["from"], payload)
+        payload, plang = split_lang(payload)       # sayt: t.me/BOT?start=sayt__ru -> til ham o'rnatiladi
+        is_new = upsert_user(m["from"], payload, plang)
+        if plang and not is_new:
+            set_lang(uid, plang)
+        lang = lang_of(uid)
         db.set_session(uid, None, {})
-        hello = ("Assalomu alaykum! <b>Automaximus</b>ga xush kelibsiz — mashinangiz uchun hammasi bir joyda.\n\n"
-                 "🛞 <b>Do‘kon:</b> disk, balon, chexol, polik va aksessuarlar — o‘rnatish bilan.\n"
-                 "✨ <b>Detailing:</b> tonirovka, broniplyonka, polirovka, ximchistka, shumoizolyatsiya.\n\n"
-                 "Hamyonbop narx, narx oldindan aytiladi va oshmaydi. Pastdagi tugmalardan birini tanlang 👇")
-        safe_send(chat_id, hello if is_new else "Asosiy menyu 👇", reply_markup=main_menu())
+        safe_send(chat_id, tr(lang, "hello_new") if is_new else tr(lang, "menu_main"), reply_markup=main_menu(lang))
         return
     upsert_user(m["from"])
+    lang = lang_of(uid)
 
     state, data = db.get_session(uid)
+    key = btn_key(text)                            # tugma qaysi tilda bosilgan bo'lsa ham taniladi
 
-    if text == BTN_CANCEL:
+    if key == "cancel":
         db.set_session(uid, None, {})
-        safe_send(chat_id, "Bekor qilindi.", reply_markup=main_menu())
+        safe_send(chat_id, tr(lang, "cancelled"), reply_markup=main_menu(lang))
         return
-    if text in (BTN_BOOK, BTN_SHOP, BTN_DETAIL):
-        start_booking(uid, chat_id, {BTN_SHOP: "dokon", BTN_DETAIL: "detailing"}.get(text))
+    if key == "lang":
+        toggle_lang(uid, chat_id)
         return
-    menu = {BTN_PRICES: lambda: send_prices(chat_id), BTN_PROMO: lambda: send_promo(chat_id),
-            BTN_ADDR: lambda: send_address(chat_id), BTN_MY: lambda: send_my_bookings(uid, chat_id),
-            BTN_REF: lambda: send_referral(uid, chat_id), BTN_CONTACT: lambda: send_contact(chat_id)}
-    if text in menu and state not in ("phone",):
-        menu[text]()
+    if key in ("book", "shop", "detail"):
+        start_booking(uid, chat_id, {"shop": "dokon", "detail": "detailing"}.get(key))
+        return
+    menu = {"prices": lambda: send_prices(chat_id, lang), "promo": lambda: send_promo(chat_id, lang),
+            "addr": lambda: send_address(chat_id, lang), "my": lambda: send_my_bookings(uid, chat_id),
+            "ref": lambda: send_referral(uid, chat_id), "contact": lambda: send_contact(chat_id, lang)}
+    if key in menu and state not in ("phone",):
+        menu[key]()
         return
 
     if state == "car":
         data["car"] = text[:80]
         db.set_session(uid, "day", data)
-        safe_send(chat_id, "Qachon kelishingiz qulay?", reply_markup=day_kb())
+        safe_send(chat_id, tr(lang, "when"), reply_markup=day_kb(lang))
         return
     if state == "day_text":
         data["day"] = text[:80]
@@ -473,63 +520,63 @@ def handle_message(m: dict):
     if state == "phone":
         phone = normalize_phone(m["contact"]["phone_number"]) if m.get("contact") else normalize_phone(text)
         if not phone:
-            safe_send(chat_id, "Raqamni to‘g‘ri yozing (masalan, +998 90 123 45 67) yoki tugmani bosing.",
-                      reply_markup=phone_kb())
+            safe_send(chat_id, tr(lang, "phone_bad"), reply_markup=phone_kb(lang))
             return
         data["phone"] = phone
         db.x("UPDATE users SET phone=? WHERE id=?", (phone, uid))
         db.set_session(uid, "confirm", data)
-        safe_send(chat_id, "Deyarli tayyor ✅", reply_markup={"remove_keyboard": True})
-        safe_send(chat_id, summary_text(data), reply_markup=confirm_kb())
+        safe_send(chat_id, tr(lang, "almost"), reply_markup={"remove_keyboard": True})
+        safe_send(chat_id, summary_text(data, lang), reply_markup=confirm_kb(lang))
         return
     if state == "feedback":
         bid = data.get("booking_id")
         if config.ADMIN_CHAT_ID:
             safe_send(config.ADMIN_CHAT_ID, f"⚠️ <b>So‘rov #{bid} bo‘yicha norozilik</b>\n\n{esc(text)}")
         db.set_session(uid, None, {})
-        safe_send(chat_id, "Rahmat, fikringizni rahbariyatga yetkazdik. Tez orada siz bilan bog‘lanamiz.",
-                  reply_markup=main_menu())
+        safe_send(chat_id, tr(lang, "feedback_thanks"), reply_markup=main_menu(lang))
         return
 
-    safe_send(chat_id, "Pastdagi tugmalardan birini tanlang 👇", reply_markup=main_menu())
+    safe_send(chat_id, tr(lang, "pick_button"), reply_markup=main_menu(lang))
 
 
 def ask_phone(uid: int, chat_id: int, data: dict):
+    lang = lang_of(uid)
     user = db.q("SELECT phone FROM users WHERE id=?", (uid,), one=True)
     db.set_session(uid, "phone", data)
-    hint = f"\n\nOldingi raqamingiz: <b>{esc(user['phone'])}</b> — uni qayta yozishingiz mumkin." if user and user["phone"] else ""
-    safe_send(chat_id, "Telefon raqamingizni yuboring — pastdagi tugmani bosing yoki yozing." + hint,
-              reply_markup=phone_kb())
+    hint = tr(lang, "ask_phone_hint", phone=esc(user["phone"])) if user and user["phone"] else ""
+    safe_send(chat_id, tr(lang, "ask_phone") + hint, reply_markup=phone_kb(lang))
 
 
-def ask_car(chat_id: int, data: dict):
-    safe_send(chat_id, CAR_PROMPTS.get(data.get("group"), CAR_PROMPTS[None]),
-              reply_markup={"inline_keyboard": [[{"text": "O‘tkazib yuborish", "callback_data": "car_skip"}]]})
+def ask_car(chat_id: int, data: dict, lang: str = "uz"):
+    safe_send(chat_id, car_prompt(data.get("group"), lang),
+              reply_markup={"inline_keyboard": [[{"text": tr(lang, "i_skip"), "callback_data": "car_skip"}]]})
 
 
 def resume_booking(uid: int, chat_id: int, state: str, data: dict):
     """Chala qolgan yozilishni to'xtagan joyidan davom ettiradi."""
+    lang = lang_of(uid)
     db.set_session(uid, state, data)
     if state == "svc":
         group = data.get("group")
-        safe_send(chat_id, SVC_PROMPTS.get(group, SVC_PROMPTS[None]),
-                  reply_markup=services_kb(data.get("services") or [], group))
+        safe_send(chat_id, svc_prompt(group, lang),
+                  reply_markup=services_kb(data.get("services") or [], group, lang))
     elif state == "car":
-        ask_car(chat_id, data)
+        ask_car(chat_id, data, lang)
     elif state in ("day", "day_text"):
         db.set_session(uid, "day", data)
-        safe_send(chat_id, "Qachon kelishingiz qulay?", reply_markup=day_kb())
+        safe_send(chat_id, tr(lang, "when"), reply_markup=day_kb(lang))
     elif state == "phone":
         ask_phone(uid, chat_id, data)
     elif state == "confirm":
-        safe_send(chat_id, summary_text(data), reply_markup=confirm_kb())
+        safe_send(chat_id, summary_text(data, lang), reply_markup=confirm_kb(lang))
 
 
-def summary_text(d: dict) -> str:
-    return ("<b>Tekshiring:</b>\n\n"
-            f"🛠 {esc(', '.join(d.get('services') or [])) or 'ko‘rikda aniqlanadi'}\n"
+def summary_text(d: dict, lang: str = "uz", title: str = "sum_title") -> str:
+    services = ", ".join(svc_label(n, lang) for n in (d.get("services") or []))
+    return (f"<b>{tr(lang, title)}</b>\n\n"
+            f"🛠 {esc(services) or tr(lang, 'tbd')}\n"
             f"🚗 {esc(d.get('car')) or '—'}\n"
-            f"🗓 {esc(d.get('day')) or '—'}\n"
+            f"🗓 {esc(day_label(d.get('day') or '', lang)) or '—'}\n"
             f"📱 {esc(d.get('phone'))}")
 
 
@@ -558,10 +605,11 @@ def handle_callback(c: dict):
             start_booking(uid, chat_id)
     else:
         state, data = db.get_session(uid)
+        lang = lang_of(uid)
         if data_str == "cancel":
             db.set_session(uid, None, {})
-            edit_or_send(msg, chat_id, "Bekor qilindi.")
-            safe_send(chat_id, "Asosiy menyu 👇", reply_markup=main_menu())
+            edit_or_send(msg, chat_id, tr(lang, "cancelled"))
+            safe_send(chat_id, tr(lang, "menu_main"), reply_markup=main_menu(lang))
         elif state == "svc" and data_str.startswith("svc:"):
             idx = int(data_str[4:])
             if 0 <= idx < len(SERVICE_NAMES):
@@ -572,31 +620,31 @@ def handle_callback(c: dict):
                 db.set_session(uid, "svc", data)
                 try:
                     tg("editMessageReplyMarkup", chat_id=chat_id, message_id=msg.get("message_id"),
-                       reply_markup=services_kb(sel, data.get("group")))
+                       reply_markup=services_kb(sel, data.get("group"), lang))
                 except TelegramError:
                     pass
         elif state == "svc" and data_str == "svc_next":
             db.set_session(uid, "car", data)
-            ask_car(chat_id, data)
+            ask_car(chat_id, data, lang)
         elif state == "car" and data_str == "car_skip":
             db.set_session(uid, "day", data)
-            safe_send(chat_id, "Qachon kelishingiz qulay?", reply_markup=day_kb())
+            safe_send(chat_id, tr(lang, "when"), reply_markup=day_kb(lang))
         elif state == "day" and data_str.startswith("day:"):
             data["day"] = data_str[4:]
             ask_phone(uid, chat_id, data)
         elif state == "day" and data_str == "day_other":
             db.set_session(uid, "day_text", data)
-            safe_send(chat_id, "Qaysi kun va soat qulay? Yozib yuboring.")
+            safe_send(chat_id, tr(lang, "when_other"))
         elif state == "confirm" and data_str == "confirm":
             user = db.q("SELECT * FROM users WHERE id=?", (uid,), one=True)
             create_booking(user_id=uid, channel="bot", name=user["name"], phone=data.get("phone"),
                            car=data.get("car"), services=", ".join(data.get("services") or []),
                            day=data.get("day"), source=user["source"])
             db.set_session(uid, None, {})
-            edit_or_send(msg, chat_id, summary_text(data).replace("Tekshiring:", "So‘rov yuborildi ✅"))
-            safe_send(chat_id, config.THANKS_TEXT, reply_markup=main_menu())
+            edit_or_send(msg, chat_id, summary_text(data, lang, "sum_sent"))
+            safe_send(chat_id, pick("THANKS_TEXT", lang), reply_markup=main_menu(lang))
         else:
-            answer = "Bu tugma eskirgan. Qaytadan boshlang."
+            answer = tr(lang, "stale")
     try:
         tg("answerCallbackQuery", callback_query_id=c["id"], text=answer or None)
     except TelegramError:
@@ -639,8 +687,7 @@ def on_done(bid: int):
     if not b["user_id"]:
         return
     uid = b["user_id"]
-    safe_send(uid, "✅ Mashinangiz tayyor! Automaximus’ni tanlaganingiz uchun rahmat.\n\n"
-                   "Xizmatimizni qanday baholaysiz?", reply_markup=rating_kb(bid))
+    safe_send(uid, tr(lang_of(uid), "done_msg"), reply_markup=rating_kb(bid))
     # takroriy xizmat eslatmalari
     for s in config.SERVICES:
         if s["name"] in (b["services"] or "") and s.get("remind_days"):
@@ -652,8 +699,8 @@ def on_done(bid: int):
     done_count = db.q("SELECT COUNT(*) c FROM bookings WHERE user_id=? AND status='done'", (uid,), one=True)["c"]
     if user and user["referrer"] and not user["ref_rewarded"] and done_count == 1:
         db.x("UPDATE users SET ref_rewarded=1 WHERE id=?", (uid,))
-        safe_send(user["referrer"], f"🎉 Siz taklif qilgan do‘stingiz xizmatimizdan foydalandi!\n"
-                                    f"Sizga: <b>{esc(config.REFERRAL_BONUS)}</b>. Kelganingizda shu xabarni ko‘rsating.")
+        rl = lang_of(user["referrer"])
+        safe_send(user["referrer"], tr(rl, "ref_bonus_msg", bonus=esc(pick("REFERRAL_BONUS", rl))))
         if config.ADMIN_CHAT_ID:
             safe_send(config.ADMIN_CHAT_ID, f"🎁 Referal bonusi: mijoz {user['referrer']} "
                                             f"(so‘rov #{bid} orqali). Bonus: {esc(config.REFERRAL_BONUS)}")
@@ -665,24 +712,23 @@ def handle_rating(uid: int, chat_id: int, data_str: str) -> str:
     b = db.q("SELECT * FROM bookings WHERE id=? AND user_id=?", (bid, uid), one=True)
     if not b:
         return ""
+    lang = lang_of(uid)
     if b["rating"]:
-        return "Bahoingiz allaqachon qabul qilingan."
+        return tr(lang, "rated_already")
     db.x("UPDATE bookings SET rating=? WHERE id=?", (n, bid))
     refresh_admin_card(bid)
     if n >= 4:
         rows = []
         if config.REVIEW_URL:
-            rows.append([{"text": "✍️ Sharh qoldirish", "url": config.REVIEW_URL}])
+            rows.append([{"text": tr(lang, "review_btn"), "url": config.REVIEW_URL}])
         if config.INSTAGRAM_URL:
             rows.append([{"text": "Instagram", "url": config.INSTAGRAM_URL}])
-        safe_send(chat_id, "Rahmat! 🙌 Agar qiyin bo‘lmasa, qisqa sharh qoldiring — "
-                           "bu boshqa haydovchilarga tanlashda yordam beradi.",
+        safe_send(chat_id, tr(lang, "rated_good"),
                   reply_markup={"inline_keyboard": rows} if rows else None)
     else:
         db.set_session(uid, "feedback", {"booking_id": bid})
-        safe_send(chat_id, "Kechirasiz, kutganingizdek bo‘lmabdi. Nima yoqmaganini yozib qoldiring — "
-                           "albatta tuzatamiz.")
-    return "Rahmat!"
+        safe_send(chat_id, tr(lang, "rated_bad"))
+    return tr(lang, "thanks_short")
 
 
 def handle_admin_reply(m: dict) -> bool:
@@ -694,7 +740,7 @@ def handle_admin_reply(m: dict) -> bool:
     if not (m.get("photo") or m.get("video") or m.get("document")):
         return False
     try:
-        tg("sendMessage", chat_id=b["user_id"], text=f"📸 Ish jarayonidan (so‘rov #{b['id']}):")
+        tg("sendMessage", chat_id=b["user_id"], text=tr(lang_of(b["user_id"]), "photo_from_work", id=b["id"]))
         tg("copyMessage", chat_id=b["user_id"], from_chat_id=m["chat"]["id"], message_id=m["message_id"])
         safe_send(m["chat"]["id"], "✅ Mijozga yuborildi.", reply_to_message_id=m["message_id"])
     except TelegramError as e:
@@ -762,16 +808,16 @@ def handle_broadcast_confirm(uid: int, chat_id: int, msg: dict, yes: bool) -> st
 
 
 def broadcast(job: dict, report_chat: int):
-    users = [r["id"] for r in db.q("SELECT id FROM users")]
+    users = [(r["id"], norm_lang(r["lang"])) for r in db.q("SELECT id, lang FROM users")]
     ok = fail = 0
-    for user_id in users:
+    for user_id, ulang in users:        # matn aksiyani admin yozadi, "Yozilish" tugmalari esa mijoz tilida
         try:
             if "text" in job:
                 tg("sendMessage", chat_id=user_id, text=job["text"], parse_mode="HTML",
-                   reply_markup={"inline_keyboard": book_buttons()})
+                   reply_markup={"inline_keyboard": book_buttons(ulang)})
             else:
                 tg("copyMessage", chat_id=user_id, from_chat_id=job["copy_from"], message_id=job["message_id"],
-                   reply_markup={"inline_keyboard": book_buttons()})
+                   reply_markup={"inline_keyboard": book_buttons(ulang)})
             ok += 1
         except TelegramError:
             fail += 1          # botni bloklagan
@@ -816,9 +862,11 @@ def send_stats(chat_id: int):
 def process_reminders():
     due = db.q("SELECT * FROM reminders WHERE sent=0 AND due_at<=?", (now().isoformat(),))
     for r in due:
-        text = config.REMINDER_TEXTS.get(r["service"], f"{r['service']} xizmatidan beri ancha vaqt o‘tdi.")
+        lang = lang_of(r["user_id"])
+        default = tr(lang, "reminder_default", service=esc(svc_label(r["service"], lang)))
+        text = pick("REMINDER_TEXTS", lang).get(r["service"], default)
         sent = safe_send(r["user_id"], f"🔔 {esc(text)}",
-                         reply_markup={"inline_keyboard": [[{"text": "🗓 Yozilish", "callback_data": "book"}]]})
+                         reply_markup={"inline_keyboard": [[{"text": btn(lang, "book"), "callback_data": "book"}]]})
         db.x("UPDATE reminders SET sent=? WHERE id=?", (1 if sent else 2, r["id"]))
 
 
@@ -831,10 +879,10 @@ def process_abandoned():
     for s in rows:
         db.x("UPDATE sessions SET nudged=1 WHERE user_id=?", (s["user_id"],))
         data = json.loads(s["data"] or "{}")
-        safe_send(s["user_id"], "Yozilishni oxiriga yetkazmadingiz 🙂 Davom ettiramizmi? "
-                                "Bor-yo‘g‘i 1 daqiqa qoldi.",
-                  reply_markup={"inline_keyboard": [[{"text": "▶️ Davom etish", "callback_data": "resume"},
-                                                     {"text": "Yo‘q, rahmat", "callback_data": "cancel"}]]})
+        lang = lang_of(s["user_id"])
+        safe_send(s["user_id"], tr(lang, "abandoned"),
+                  reply_markup={"inline_keyboard": [[{"text": tr(lang, "i_resume"), "callback_data": "resume"},
+                                                     {"text": tr(lang, "i_no_thanks"), "callback_data": "cancel"}]]})
         if data.get("phone") and config.ADMIN_CHAT_ID:
             safe_send(config.ADMIN_CHAT_ID,
                       "⚠️ <b>Chala qolgan so‘rov</b> — mijoz tasdiqlamadi, qo‘ng‘iroq qilib ko‘ring:\n"
@@ -935,7 +983,7 @@ def accept_lead(payload: dict, ip: str = "") -> tuple[int, dict]:
     source = re.sub(r"[^a-zA-Z0-9_-]", "", str(payload.get("source", "")))[:32] or default_source
     bid = create_booking(user_id=user_id, channel=channel, name=name, phone=phone,
                          car=str(payload.get("car", "")).strip()[:80], services=", ".join(services),
-                         day="", source=source)
+                         day=str(payload.get("day", "")).strip()[:80], source=source)
     return 200, {"ok": True, "id": bid}
 
 
@@ -959,7 +1007,8 @@ class LeadHandler(BaseHTTPRequestHandler):
             self._send(200, {"ok": True})
         elif self.path == "/services":
             # Mini App shu yerdan xizmatlar/narxlarni oladi — config.py bitta manba bo'lib qoladi.
-            self._send(200, {"services": config.SERVICES, "groupTitles": config.GROUP_TITLES})
+            self._send(200, {"services": config.SERVICES, "groupTitles": config.GROUP_TITLES,
+                             "groupTitlesRu": config.GROUP_TITLES_RU})
         else:
             self._send(404, {"ok": False})
 
@@ -1012,6 +1061,7 @@ def main():
     BOT_USERNAME = me["username"]
     log.info("Bot ishga tushdi: @%s", BOT_USERNAME)
     tg("setMyCommands", commands=[{"command": "start", "description": "Asosiy menyu"}])
+    tg("setMyCommands", commands=[{"command": "start", "description": "Главное меню"}], language_code="ru")
 
     stop = threading.Event()
     threading.Thread(target=reminder_loop, args=(stop,), daemon=True).start()

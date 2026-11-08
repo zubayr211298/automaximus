@@ -1,10 +1,11 @@
-// bot/config.py bilan bir xil matnlar — ikkisini sinxron tutish uchun shu yerda bitta joyda.
-export const GROUP_TITLES: Record<string, string> = {
-  dokon: "🛞 Do'kon: disk, balon, aksessuar",
-  detailing: "✨ Detailing xizmatlari",
-};
+import type { UiKey } from "./i18n";
 
-export const DAY_OPTIONS = ["Bugun", "Ertaga", "Shu hafta"] as const;
+// value — botga ketadigan (admin kartasida ko'rinadigan) o'zbekcha qiymat; ekranda key bo'yicha tarjima ko'rsatiladi
+export const DAY_OPTIONS: { value: string; key: UiKey }[] = [
+  { value: "Bugun", key: "dayToday" },
+  { value: "Ertaga", key: "dayTomorrow" },
+  { value: "Shu hafta", key: "dayWeek" },
+];
 
 export const BOT_API_URL =
   process.env.NEXT_PUBLIC_BOT_API_URL?.replace(/\/$/, "") || "http://localhost:8080";

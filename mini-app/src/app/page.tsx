@@ -6,20 +6,25 @@ import { CategoryTabs } from "@/components/features/CategoryTabs";
 import { ServiceCard } from "@/components/features/ServiceCard";
 import { fetchServices, type Service } from "@/lib/api";
 import { useBookingStore } from "@/store/bookingStore";
+import { useT } from "@/hooks/useT";
 
 export default function Home() {
   const router = useRouter();
+  const { t } = useT();
   const [group, setGroup] = useState<"dokon" | "detailing">("detailing");
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
-  const { services: selected, toggleService, start, goTo } = useBookingStore();
+  const { services: selected, toggleService, start, goTo, setCatalog } = useBookingStore();
 
   useEffect(() => {
     fetchServices()
-      .then((r) => setServices(r.services))
+      .then((r) => {
+        setServices(r.services);
+        setCatalog(r.services);
+      })
       .catch(() => setServices([]))
       .finally(() => setLoading(false));
-  }, []);
+  }, [setCatalog]);
 
   useEffect(() => {
     start(group);
@@ -30,16 +35,12 @@ export default function Home() {
   return (
     <main className="screen">
       <h1 style={{ fontSize: 22, marginBottom: 4 }}>Automaximus</h1>
-      <p style={{ color: "var(--text-soft)", marginBottom: 16 }}>
-        Xizmat tanlang, qolganini bitta daqiqada yakunlaymiz.
-      </p>
+      <p style={{ color: "var(--text-soft)", marginBottom: 16 }}>{t("subtitle")}</p>
 
       <CategoryTabs active={group} onChange={setGroup} />
 
-      {loading && <p style={{ color: "var(--text-soft)" }}>Yuklanmoqda...</p>}
-      {!loading && visible.length === 0 && (
-        <p style={{ color: "var(--text-soft)" }}>Ro'yxat bo'sh. Bilmasangiz ham davom etishingiz mumkin.</p>
-      )}
+      {loading && <p style={{ color: "var(--text-soft)" }}>{t("loading")}</p>}
+      {!loading && visible.length === 0 && <p style={{ color: "var(--text-soft)" }}>{t("empty")}</p>}
 
       {visible.map((s) => (
         <ServiceCard
@@ -70,7 +71,7 @@ export default function Home() {
           border: "none",
         }}
       >
-        Davom etish ➡️
+        {t("next")}
       </button>
     </main>
   );

@@ -135,3 +135,10 @@ Mini App: saytni bot ichida “Narx kalkulyatori va yozilish” oynasi qilib och
 - **Admin yordami:** `/admin`
 
 Eski bazangiz bo'lsa ham ishlaydi: yangi ustunlar avtomatik qo'shiladi.
+
+## Tillar: O'zbekcha / Ruscha
+
+- Mijoz tili `users.lang` ustunida saqlanadi. Yangi mijoz uchun: saytdan kelgan bo'lsa (`?start=sayt__ru`) — o'sha til, aks holda Telegram interfeysi ruscha bo'lsa — ruscha, bo'lmasa o'zbekcha.
+- Asosiy menyuning pastki qatoridagi **🌐 Русский / 🌐 O‘zbekcha** tugmasi tilni almashtiradi. Menyu tugmalari ikkala tilda ham taniladi.
+- Mijozga ko'rinadigan matnlar `texts.py` da (ikki tilda). Narx/xizmat/manzil/eslatma matnlarining ruscha ko'rinishi `config.py` da: `name_ru`, `price_ru`, `GROUP_TITLES_RU`, `ADDRESS_RU`, `REMINDER_TEXTS_RU`, `THANKS_TEXT_RU`, `REFERRAL_BONUS_RU`, `PROMO_TEXT_RU` (bo'sh qolsa o'zbekcha ko'rsatiladi).
+- Admin kartalari va buyruqlari (`/stat`, `/tarqat`...) faqat o'zbekcha. Bazada xizmat va kun nomlari doim o'zbekcha saqlanadi (`Tonirovka`, `Ertaga`...).

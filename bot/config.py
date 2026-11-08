@@ -39,6 +39,7 @@ DB_PATH = os.environ.get("DB_PATH", str(BASE_DIR / "avtomaximus.db"))
 STUDIO_NAME = "Automaximus"
 PHONE = "+998 90 777 78 50"   # studiyaning yagona raqami
 ADDRESS = "Fargʻona, Al Fargʻoniy koʻchasi, 108"
+ADDRESS_RU = "Фергана, ул. Аль-Фаргони, 108"
 WORK_HOURS = "08:00 – 20:00"
 MAP_URL = "https://yandex.uz/maps/-/CXbBVMk7"                # Google/Yandex xarita havolasi (ixtiyoriy)
 ADMIN_USERNAME = ""         # masalan: avtomaximus_admin (@ belgisiz) — "Admin bilan yozishish" tugmasi uchun
@@ -49,21 +50,35 @@ INSTAGRAM_URL = "https://www.instagram.com/automaximus_shop/"
 # group: "detailing" — studiya xizmati, "dokon" — do'kondagi mahsulot (o'rnatish bilan)
 # remind_days: ish tugagandan necha kun keyin mijozga eslatma yuborilsin (None — yuborilmaydi)
 # Tartibni o'zgartirmang, oxiriga qo'shing (eski tugmalar raqam bo'yicha ishlaydi).
+# name / price — o'zbekcha (name boshqa joylarda kalit sifatida ham ishlatiladi, o'zgartirmang);
+# name_ru / price_ru — ruscha ko'rinish (bot va Mini App ruscha tilda shuni ko'rsatadi)
 SERVICES = [
-    {"name": "Tonirovka",        "group": "detailing", "price": "180 000 so‘mdan (orqa yon oynalar + sfera, 1,5 soat)", "remind_days": None},
-    {"name": "Broniplyonka",     "group": "detailing", "price": "2 900 000 so‘mdan (4 soat)", "remind_days": 30},
-    {"name": "Polirovka",        "group": "detailing", "price": "600 000 so‘mdan (4 soat)", "remind_days": 120},
-    {"name": "Ximchistka",       "group": "detailing", "price": "600 000 so‘mdan (salon, 4 soat)", "remind_days": 90},
-    {"name": "Shumoizolyatsiya", "group": "detailing", "price": "600 000 so‘mdan (4 soat)", "remind_days": None},
-    {"name": "Disk",             "group": "dokon",     "price": "1 800 000 so‘mdan", "remind_days": None},
-    {"name": "Balon",            "group": "dokon",     "price": "320 000 so‘mdan", "remind_days": 180},
-    {"name": "Chexol va polik",  "group": "dokon",     "price": "chexol 450 000, polik 200 000 so‘mdan", "remind_days": None},
-    {"name": "Aksessuarlar",     "group": "dokon",     "price": "modelga qarab", "remind_days": None},
+    {"name": "Tonirovka",        "group": "detailing", "price": "180 000 so‘mdan (orqa yon oynalar + sfera, 1,5 soat)", "remind_days": None,
+     "name_ru": "Тонировка", "price_ru": "от 180 000 сум (задние боковые стёкла + сфера, 1,5 часа)"},
+    {"name": "Broniplyonka",     "group": "detailing", "price": "2 900 000 so‘mdan (4 soat)", "remind_days": 30,
+     "name_ru": "Бронепленка", "price_ru": "от 2 900 000 сум (4 часа)"},
+    {"name": "Polirovka",        "group": "detailing", "price": "600 000 so‘mdan (4 soat)", "remind_days": 120,
+     "name_ru": "Полировка", "price_ru": "от 600 000 сум (4 часа)"},
+    {"name": "Ximchistka",       "group": "detailing", "price": "600 000 so‘mdan (salon, 4 soat)", "remind_days": 90,
+     "name_ru": "Химчистка", "price_ru": "от 600 000 сум (салон, 4 часа)"},
+    {"name": "Shumoizolyatsiya", "group": "detailing", "price": "600 000 so‘mdan (4 soat)", "remind_days": None,
+     "name_ru": "Шумоизоляция", "price_ru": "от 600 000 сум (4 часа)"},
+    {"name": "Disk",             "group": "dokon",     "price": "1 800 000 so‘mdan", "remind_days": None,
+     "name_ru": "Диски", "price_ru": "от 1 800 000 сум"},
+    {"name": "Balon",            "group": "dokon",     "price": "320 000 so‘mdan", "remind_days": 180,
+     "name_ru": "Шины", "price_ru": "от 320 000 сум"},
+    {"name": "Chexol va polik",  "group": "dokon",     "price": "chexol 450 000, polik 200 000 so‘mdan", "remind_days": None,
+     "name_ru": "Чехлы и коврики", "price_ru": "чехлы от 450 000, коврики от 200 000 сум"},
+    {"name": "Aksessuarlar",     "group": "dokon",     "price": "modelga qarab", "remind_days": None,
+     "name_ru": "Аксессуары", "price_ru": "в зависимости от модели"},
 ]
 GROUP_TITLES = {"dokon": "🛞 Do‘kon: disk, balon, aksessuar", "detailing": "✨ Detailing xizmatlari"}
+GROUP_TITLES_RU = {"dokon": "🛞 Магазин: диски, шины, аксессуары", "detailing": "✨ Услуги детейлинга"}
 
 # Hozirgi aksiya matni ("🔥 Aksiya" tugmasi). Bo'sh qolsa — "hozircha aksiya yo'q" deyiladi.
+# PROMO_TEXT_RU bo'sh qolsa, ruscha tilda ham PROMO_TEXT ko'rsatiladi.
 PROMO_TEXT = ""
+PROMO_TEXT_RU = ""
 # Masalan:
 # PROMO_TEXT = ("❄️ <b>Qishga tayyor</b> — 15-noyabrgacha!\n\nQishki balon olsangiz: o‘rnatish bilan, "
 #               "fara polirovkasi — sovg‘a, ximchistka — 20% chegirma.")
@@ -81,8 +96,17 @@ REMINDER_TEXTS = {
              "kerak bo‘lsa almashtirib beramiz.",
 }
 
+REMINDER_TEXTS_RU = {
+    "Broniplyonka": "Прошёл месяц с установки бронепленки. Приезжайте на бесплатный осмотр — проверим состояние плёнки и дадим советы.",
+    "Polirovka": "С момента полировки прошло несколько месяцев. Пора обновить защитный слой, чтобы кузов продолжал блестеть.",
+    "Ximchistka": "С последней химчистки прошло 3 месяца. Сделать салон снова как новый?",
+    "Balon": "Прошло полгода с замены шин. Сезон меняется — бесплатно проверим шины и при необходимости заменим.",
+}
+
 # Do'stini taklif qilganlarga beriladigan bonus (o'zingiz belgilang)
 REFERRAL_BONUS = "[BONUS: masalan, keyingi xizmatga 10% chegirma]"
+REFERRAL_BONUS_RU = "[БОНУС: например, скидка 10% на следующую услугу]"
 
 # Mijoz so'rov yuborgach ko'radigan matn
 THANKS_TEXT = "Rahmat! So‘rovingiz qabul qilindi. Tez orada qo‘ng‘iroq qilib, aniq narxni aytamiz."
+THANKS_TEXT_RU = "Спасибо! Ваша заявка принята. Скоро позвоним и назовём точную цену."

@@ -325,5 +325,110 @@ class LeadEndpointTest(unittest.TestCase):
         self.assertEqual(codes[5], 429)
 
 
+def in_lang(update, code):
+    """Telegram interfeys tilini (language_code) qo'shadi."""
+    update["message"]["from"]["language_code"] = code
+    return update
+
+
+def keyboard_texts(params):
+    kb = (params or {}).get("reply_markup") or {}
+    return [b["text"] for row in kb.get("keyboard", []) for b in row]
+
+
+class LanguageTest(unittest.TestCase):
+    setUp = BotFlowTest.setUp
+    tearDown = BotFlowTest.tearDown
+    book = BotFlowTest.book
+
+    def test_new_user_language_comes_from_telegram(self):
+        bot.handle_update(in_lang(msg(CLIENT, "/start"), "ru"))
+        self.assertIn("Добро пожаловать", self.tg.last_text(CLIENT))
+        bot.handle_update(in_lang(msg(FRIEND, "/start"), "uz"))
+        self.assertIn("xush kelibsiz", self.tg.last_text(FRIEND))
+        bot.handle_update(msg(3003, "/start"))                       # language_code yo'q -> o'zbekcha
+        self.assertIn("xush kelibsiz", self.tg.last_text(3003))
+
+    def test_toggle_button_switches_both_ways(self):
+        bot.handle_update(msg(CLIENT, "/start"))
+        bot.handle_update(msg(CLIENT, "🌐 Русский"))
+        self.assertIn("Язык переключён", self.tg.last_text(CLIENT))
+        self.assertIn("💰 Цены", keyboard_texts(self.tg.sent_to(CLIENT)[-1]))
+        self.assertEqual(bot.lang_of(CLIENT), "ru")
+        bot.handle_update(msg(CLIENT, "🌐 O‘zbekcha"))
+        self.assertIn("Til almashtirildi", self.tg.last_text(CLIENT))
+        self.assertIn(bot.BTN_PRICES, keyboard_texts(self.tg.sent_to(CLIENT)[-1]))
+        self.assertEqual(bot.lang_of(CLIENT), "uz")
+
+    def test_russian_menu_buttons_and_prices(self):
+        bot.handle_update(in_lang(msg(CLIENT, "/start"), "ru"))
+        bot.handle_update(msg(CLIENT, "💰 Цены"))
+        text = self.tg.last_text(CLIENT)
+        self.assertIn("Цены", text)
+        self.assertIn("Тонировка", text)
+        self.assertIn("от 180 000 сум", text)
+        self.assertIn("Магазин: диски, шины, аксессуары", text)
+        bot.handle_update(msg(CLIENT, "📍 Адрес и время работы"))
+        self.assertIn("Фергана", self.tg.last_text(CLIENT))
+        bot.handle_update(msg(CLIENT, "🎁 Пригласить друга"))
+        self.assertIn("start=ref_2001", self.tg.last_text(CLIENT))
+
+    def test_russian_booking_stores_uzbek_keys(self):
+        bot.handle_update(in_lang(msg(CLIENT, "/start"), "ru"))
+        bot.handle_update(msg(CLIENT, "✨ Детейлинг"))
+        self.assertIn("Детейлинг", self.tg.last_text(CLIENT))
+        bot.handle_update(cb(CLIENT, "svc:0"))
+        bot.handle_update(cb(CLIENT, "svc:3"))
+        bot.handle_update(cb(CLIENT, "svc_next"))
+        self.assertIn("Марка и год", self.tg.last_text(CLIENT))
+        bot.handle_update(msg(CLIENT, "Cobalt 2022"))
+        bot.handle_update(cb(CLIENT, "day:Ertaga"))
+        bot.handle_update(msg(CLIENT, "90 123 45 67"))
+        summary = self.tg.last_text(CLIENT)
+        self.assertIn("Проверьте", summary)
+        self.assertIn("Тонировка, Химчистка", summary)
+        self.assertIn("Завтра", summary)
+        bot.handle_update(cb(CLIENT, "confirm"))
+        self.assertIn("Спасибо", self.tg.last_text(CLIENT))
+        b = bot.db.q("SELECT * FROM bookings", one=True)
+        self.assertEqual(b["services"], "Tonirovka, Ximchistka")      # bazada va adminga o'zbekcha kalit
+        self.assertEqual(b["day"], "Ertaga")
+        self.assertIn("So‘rov #", self.tg.last_text(ADMIN))            # admin kartasi o'zbekcha
+
+    def test_start_payload_language_from_site(self):
+        bot.handle_update(msg(CLIENT, "/start sayt__ru"))
+        self.assertIn("Добро пожаловать", self.tg.last_text(CLIENT))
+        self.assertEqual(bot.db.q("SELECT source FROM users WHERE id=?", (CLIENT,), one=True)["source"], "sayt")
+        bot.handle_update(msg(CLIENT, "/start sayt__uz"))               # mavjud foydalanuvchi tilini ham almashtiradi
+        self.assertEqual(bot.lang_of(CLIENT), "uz")
+        self.assertEqual(bot.split_lang("ig_bio"), ("ig_bio", None))
+        self.assertEqual(bot.split_lang("ref_5__ru"), ("ref_5", "ru"))
+
+    def test_done_message_and_reminder_follow_user_language(self):
+        bot.handle_update(in_lang(msg(CLIENT, "/start"), "ru"))
+        b = self.book(CLIENT, services=(1,))                            # Broniplyonka (eslatma bor)
+        bot.handle_update(cb(ADMIN, f"b:done:{b['id']}", chat_id=ADMIN))
+        self.assertIn("Ваша машина готова", self.tg.last_text(CLIENT))
+        past = (bot.now() - timedelta(minutes=1)).isoformat()
+        bot.db.x("UPDATE reminders SET due_at=?", (past,))
+        bot.process_reminders()
+        self.assertIn("бронепленки", self.tg.last_text(CLIENT))
+
+    def test_miniapp_lead_keeps_chosen_day(self):
+        code, body = bot.accept_lead({"name": "Jasur", "phone": "901112233", "channel": "miniapp",
+                                      "services": ["Tonirovka"], "day": "Ertaga"}, "1.2.3.4")
+        self.assertEqual(code, 200)
+        b = bot.db.q("SELECT * FROM bookings", one=True)
+        self.assertEqual((b["channel"], b["day"]), ("miniapp", "Ertaga"))
+        self.assertIn("Mini App", self.tg.last_text(ADMIN))
+
+    def test_every_service_has_russian_text(self):
+        for s in config.SERVICES:
+            self.assertTrue(s.get("name_ru") and s.get("price_ru"), s["name"])
+        self.assertEqual(set(config.GROUP_TITLES_RU), set(config.GROUP_TITLES))
+        for service in config.REMINDER_TEXTS:
+            self.assertIn(service, config.REMINDER_TEXTS_RU)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -4,6 +4,8 @@ export type Service = {
   name: string;
   group: "dokon" | "detailing";
   price: string;
+  name_ru?: string;
+  price_ru?: string;
 };
 
 export type ServicesResponse = {

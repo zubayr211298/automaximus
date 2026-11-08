@@ -1,6 +1,8 @@
 "use client";
 
 import type { Service } from "@/lib/api";
+import { serviceName, servicePrice } from "@/lib/i18n";
+import { useT } from "@/hooks/useT";
 
 export function ServiceCard({
   service,
@@ -11,6 +13,8 @@ export function ServiceCard({
   selected: boolean;
   onToggle: () => void;
 }) {
+  const { lang } = useT();
+
   return (
     <button
       type="button"
@@ -19,6 +23,7 @@ export function ServiceCard({
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
+        gap: 12,
         width: "100%",
         textAlign: "left",
         padding: "14px 16px",
@@ -30,9 +35,11 @@ export function ServiceCard({
       }}
     >
       <span>
-        {selected ? "✅" : "▫️"} <strong>{service.name}</strong>
+        {selected ? "✅" : "▫️"} <strong>{serviceName(service, lang)}</strong>
       </span>
-      <span style={{ color: "var(--text-soft)", fontSize: 13 }}>{service.price}</span>
+      <span style={{ color: "var(--text-soft)", fontSize: 13, textAlign: "right" }}>
+        {servicePrice(service, lang)}
+      </span>
     </button>
   );
 }
