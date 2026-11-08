@@ -680,7 +680,7 @@ input:focus{border-color:#D7182A !important;box-shadow:0 0 0 4px rgba(215,24,42,
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D7182A","options":["#D7182A","#C4161C","#E3262F","#141414"]},"leadUrl":{"editor":"text","default":"[BOT_SERVER_URL]/lead","section":"Bot"},"botUsername":{"editor":"text","default":"automaximus_shop_bot","section":"Bot"},"$preview":{"width":1440,"height":7600}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D7182A","options":["#D7182A","#C4161C","#E3262F","#141414"]},"leadUrl":{"editor":"text","default":"https://bot.179.67.192.130.sslip.io/lead","section":"Bot"},"botUsername":{"editor":"text","default":"automaximus_shop_bot","section":"Bot"},"$preview":{"width":1440,"height":7600}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -974,7 +974,7 @@ class Component extends DCLogic {
         if (self.state.sending) { return; }
         var f = e && e.target && e.target.elements ? e.target.elements : null;
         var val = function (n) { return f && f[n] ? String(f[n].value || '').trim() : ''; };
-        var url = String(self.props.leadUrl ?? '[BOT_SERVER_URL]/lead');
+        var url = String(self.props.leadUrl ?? 'https://bot.179.67.192.130.sslip.io/lead');
         var src = '';
         try { src = new URLSearchParams(window.location.search).get('utm_source') || ''; } catch (err) {}
         var payload = { name: val('name'), phone: val('phone'), car: val('car'), website: val('website'),
