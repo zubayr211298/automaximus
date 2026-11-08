@@ -355,7 +355,11 @@
       '.lsw{display:inline-flex;flex:none;border:1.5px solid #CFCFCF;border-radius:10px;overflow:hidden;background:#FFFFFF}' +
       '.lsw button{min-height:44px;min-width:48px;padding:0 12px;border:0;background:#FFFFFF;color:#141414;font:700 14px/1 inherit;letter-spacing:.04em;cursor:pointer}' +
       '.lsw button[aria-pressed="true"]{background:#D7182A;color:#FFFFFF}' +
-      '.lsw button:focus-visible{outline:3px solid #141414;outline-offset:-3px}';
+      '.lsw button:focus-visible{outline:3px solid #141414;outline-offset:-3px}' +
+      // telefonda logo + tugma ekranga sig'sin (aks holda UZ|RU o'ng chetdan kesilib qoladi)
+      '@media (max-width:760px){header nav{gap:8px !important}header nav>a:first-child{min-width:0}' +
+      '.navlogo{height:auto !important;width:min(293px,calc(100vw - 150px)) !important}' +
+      '.lsw button{min-width:40px;padding:0 8px}}';
     document.head.appendChild(st);
   };
 
