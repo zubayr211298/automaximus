@@ -453,7 +453,10 @@ def send_referral(uid: int, chat_id: int):
     lang = lang_of(uid)
     link = f"https://t.me/{BOT_USERNAME}?start=ref_{uid}" if BOT_USERNAME else tr(lang, "ref_nolink")
     invited = db.q("SELECT COUNT(*) c FROM users WHERE referrer=?", (uid,), one=True)["c"]
-    safe_send(chat_id, tr(lang, "ref", bonus=esc(pick("REFERRAL_BONUS", lang)), link=link, n=invited))
+    served = db.q("SELECT COUNT(*) c FROM users WHERE referrer=? AND ref_rewarded=1", (uid,), one=True)["c"]
+    safe_send(chat_id, tr(lang, "ref", bonus=esc(pick("REFERRAL_BONUS", lang)), link=link, n=invited,
+                          done=served, tier_n=config.REFERRAL_TIER_COUNT,
+                          tier=esc(pick("REFERRAL_TIER_BONUS", lang))))
 
 
 def toggle_lang(uid: int, chat_id: int):
@@ -595,6 +598,8 @@ def handle_callback(c: dict):
     elif data_str == "book" or data_str.startswith("book:"):
         group = data_str[5:] if data_str.startswith("book:") else None
         start_booking(uid, chat_id, group if group in ("dokon", "detailing") else None)
+    elif data_str == "ref":
+        send_referral(uid, chat_id)
     elif data_str in ("bc_yes", "bc_no"):
         answer = handle_broadcast_confirm(uid, chat_id, msg, data_str == "bc_yes")
     elif data_str == "resume":
@@ -699,11 +704,25 @@ def on_done(bid: int):
     done_count = db.q("SELECT COUNT(*) c FROM bookings WHERE user_id=? AND status='done'", (uid,), one=True)["c"]
     if user and user["referrer"] and not user["ref_rewarded"] and done_count == 1:
         db.x("UPDATE users SET ref_rewarded=1 WHERE id=?", (uid,))
-        rl = lang_of(user["referrer"])
-        safe_send(user["referrer"], tr(rl, "ref_bonus_msg", bonus=esc(pick("REFERRAL_BONUS", rl))))
+        ref_id = user["referrer"]
+        rl, fl = lang_of(ref_id), lang_of(uid)
+        # ikki tomonlama bonus: taklif qilgan ham, kelgan do'st ham oladi
+        safe_send(ref_id, tr(rl, "ref_bonus_msg", bonus=esc(pick("REFERRAL_BONUS", rl))))
+        safe_send(uid, tr(fl, "ref_friend_msg", bonus=esc(pick("REFERRAL_FRIEND_BONUS", fl))))
+        served = db.q("SELECT COUNT(*) c FROM users WHERE referrer=? AND ref_rewarded=1", (ref_id,), one=True)["c"]
+        tier_hit = config.REFERRAL_TIER_COUNT and served == config.REFERRAL_TIER_COUNT
+        if tier_hit:
+            safe_send(ref_id, tr(rl, "ref_tier_msg", n=served, tier=esc(pick("REFERRAL_TIER_BONUS", rl))))
         if config.ADMIN_CHAT_ID:
-            safe_send(config.ADMIN_CHAT_ID, f"🎁 Referal bonusi: mijoz {user['referrer']} "
-                                            f"(so‘rov #{bid} orqali). Bonus: {esc(config.REFERRAL_BONUS)}")
+            referrer = db.q("SELECT name, username FROM users WHERE id=?", (ref_id,), one=True)
+            ref_label = f"{esc(referrer['name'] if referrer else '')} (id {ref_id})"
+            friend_label = f"{esc(user['name'])} (id {uid}, {esc(b['phone'] or '—')})"
+            note = (f"🎁 <b>Referal</b>: {ref_label} taklif qilgan {friend_label} birinchi xizmatni oldi "
+                    f"(so‘rov #{bid}).\nIkkalasiga: {esc(config.REFERRAL_BONUS)}\n"
+                    f"Taklif qilganning xizmat olgan do‘stlari: {served}/{config.REFERRAL_TIER_COUNT}")
+            if tier_hit:
+                note += f"\n🏆 Qo‘shimcha sovg‘a: {esc(config.REFERRAL_TIER_BONUS)}"
+            safe_send(config.ADMIN_CHAT_ID, note)
 
 
 def handle_rating(uid: int, chat_id: int, data_str: str) -> str:
@@ -723,8 +742,9 @@ def handle_rating(uid: int, chat_id: int, data_str: str) -> str:
             rows.append([{"text": tr(lang, "review_btn"), "url": config.REVIEW_URL}])
         if config.INSTAGRAM_URL:
             rows.append([{"text": "Instagram", "url": config.INSTAGRAM_URL}])
-        safe_send(chat_id, tr(lang, "rated_good"),
-                  reply_markup={"inline_keyboard": rows} if rows else None)
+        # mijoz xursand bo'lgan payt — do'st taklif qilishning eng yaxshi vaqti
+        rows.append([{"text": tr(lang, "i_ref"), "callback_data": "ref"}])
+        safe_send(chat_id, tr(lang, "rated_good"), reply_markup={"inline_keyboard": rows})
     else:
         db.set_session(uid, "feedback", {"booking_id": bid})
         safe_send(chat_id, tr(lang, "rated_bad"))

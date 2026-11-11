@@ -127,7 +127,7 @@ class BotFlowTest(unittest.TestCase):
         bot.handle_update(cb(ADMIN, f"b:done:{b['id']}", chat_id=ADMIN))
         row = bot.db.q("SELECT status FROM bookings WHERE id=?", (b["id"],), one=True)
         self.assertEqual(row["status"], "done")
-        self.assertIn("baholaysiz", self.tg.last_text(FRIEND))
+        self.assertTrue(any("baholaysiz" in p["text"] for p in self.tg.sent_to(FRIEND)))
         rem = bot.db.q("SELECT service FROM reminders WHERE user_id=? ORDER BY service", (FRIEND,))
         self.assertEqual([r["service"] for r in rem], ["Polirovka", "Ximchistka"])
         self.assertIn("taklif qilgan do‘stingiz", self.tg.last_text(CLIENT))
@@ -142,6 +142,38 @@ class BotFlowTest(unittest.TestCase):
         # second rating ignored
         bot.handle_update(cb(FRIEND, f"r:{b['id']}:5"))
         self.assertEqual(bot.db.q("SELECT rating FROM bookings WHERE id=?", (b["id"],), one=True)[0], 2)
+
+    def test_referral_double_sided_bonus_tier_and_button(self):
+        bot.handle_update(msg(CLIENT, "/start"))
+        friends = [2101, 2102, 2103]
+        first_booking = None
+        for n, f in enumerate(friends, start=1):
+            bot.handle_update(msg(f, f"/start ref_{CLIENT}"))
+            b = self.book(f, services=(0,))
+            first_booking = first_booking or b
+            bot.handle_update(cb(ADMIN, f"b:done:{b['id']}", chat_id=ADMIN))
+            # do'st ham bonus oladi (ikki tomonlama)
+            self.assertIn("Sizga ham", self.tg.last_text(f))
+            self.assertIn("taklif qilgan do‘stingiz", self.tg.last_text(CLIENT) if n < 3 else
+                          " ".join(p["text"] for p in self.tg.sent_to(CLIENT)))
+            notes = [p["text"] for p in self.tg.sent_to(ADMIN) if "Referal" in p["text"]]
+            self.assertIn(f"{n}/3", notes[-1])
+            self.assertIn(f"id {f}", notes[-1])                       # admin do'stni ko'radi
+            self.assertEqual("Qo‘shimcha sovg‘a" in notes[-1], n == 3)  # 3-do'stda polik sovg'a
+        self.assertIn("3 ta do‘stingiz", self.tg.last_text(CLIENT))
+        self.assertIn("polik", self.tg.last_text(CLIENT))
+        # yaxshi bahodan keyin "Do'st taklif qiling" tugmasi chiqadi va havolani yuboradi
+        bot.handle_update(cb(friends[0], f"r:{first_booking['id']}:5"))
+        kb = self.tg.sent_to(friends[0])[-1]["reply_markup"]["inline_keyboard"]
+        self.assertIn("ref", [btn.get("callback_data") for row in kb for btn in row])
+        bot.handle_update(cb(friends[0], "ref"))
+        self.assertIn(f"start=ref_{friends[0]}", self.tg.last_text(friends[0]))
+        bot.handle_update(cb(CLIENT, "ref"))
+        self.assertIn("3 / 3", self.tg.last_text(CLIENT))
+        # ruscha tilda ham ishlaydi
+        bot.set_lang(CLIENT, "ru")
+        bot.handle_update(cb(CLIENT, "ref"))
+        self.assertIn("Пригласите друга", self.tg.last_text(CLIENT))
 
     def test_reminders_sent_when_due(self):
         bot.handle_update(msg(CLIENT, "/start"))

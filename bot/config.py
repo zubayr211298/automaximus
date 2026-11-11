@@ -108,8 +108,16 @@ REMINDER_TEXTS_RU = {
 }
 
 # Do'stini taklif qilganlarga beriladigan bonus (o'zingiz belgilang)
-REFERRAL_BONUS = "[BONUS: masalan, keyingi xizmatga 10% chegirma]"
-REFERRAL_BONUS_RU = "[БОНУС: например, скидка 10% на следующую услугу]"
+#   REFERRAL_BONUS        — taklif qilgan mijozga, REFERRAL_FRIEND_BONUS — kelgan do'stga
+#   REFERRAL_TIER_COUNT   — shuncha do'st xizmat olsa, taklif qilganga REFERRAL_TIER_BONUS beriladi
+# Mukofot do'st birinchi xizmatini olib bo'lgach (admin "Bajarildi" bosganda) beriladi.
+REFERRAL_BONUS = "50 000 so‘m chegirma (300 000 so‘mdan yuqori keyingi xizmatga)"
+REFERRAL_BONUS_RU = "скидка 50 000 сум (на следующую услугу от 300 000 сум)"
+REFERRAL_FRIEND_BONUS = REFERRAL_BONUS
+REFERRAL_FRIEND_BONUS_RU = REFERRAL_BONUS_RU
+REFERRAL_TIER_COUNT = 3
+REFERRAL_TIER_BONUS = "polik sovg‘a"
+REFERRAL_TIER_BONUS_RU = "коврики в подарок"
 
 # Mijoz so'rov yuborgach ko'radigan matn
 THANKS_TEXT = "Rahmat! So‘rovingiz qabul qilindi. Tez orada qo‘ng‘iroq qilib, aniq narxni aytamiz."

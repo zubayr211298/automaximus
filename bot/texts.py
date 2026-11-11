@@ -52,8 +52,14 @@ T: dict[str, dict[str, str]] = {
         "my_title": "<b>Oxirgi yozuvlaringiz</b>",
         "my_row_fallback": "ko‘rik",
         "ref": ("🎁 <b>Do‘stingizni taklif qiling</b>\n\nShu havolani do‘stingizga yuboring. "
-                "U shu havola orqali kelib xizmatdan foydalansa, sizga: <b>{bonus}</b>\n\n"
-                "{link}\n\nSiz taklif qilganlar: <b>{n}</b>"),
+                "U shu havola orqali kelib birinchi xizmatini olsa, <b>ikkalangizga</b>: {bonus}\n"
+                "{tier_n} ta do‘st olib kelsangiz — {tier}.\n\n"
+                "{link}\n\nTaklif qilganlaringiz: <b>{n}</b>\nXizmat olganlar: <b>{done} / {tier_n}</b>"),
+        "ref_friend_msg": ("🎁 Birinchi xizmatingiz uchun rahmat. Sizga ham: <b>{bonus}</b>\n"
+                           "Kelganingizda shu xabarni ko‘rsating."),
+        "ref_tier_msg": ("🏆 {n} ta do‘stingiz xizmatimizdan foydalandi. Sovg‘a: <b>{tier}</b>\n"
+                         "Kelganingizda shu xabarni ko‘rsating."),
+        "i_ref": "🎁 Do‘stni taklif qiling",
         "ref_nolink": "(bot nomi aniqlanmadi)",
         "feedback_thanks": "Rahmat, fikringizni rahbariyatga yetkazdik. Tez orada siz bilan bog‘lanamiz.",
         "done_msg": ("✅ Mashinangiz tayyor! Automaximus’ni tanlaganingiz uchun rahmat.\n\n"
@@ -136,8 +142,14 @@ T: dict[str, dict[str, str]] = {
         "my_title": "<b>Ваши последние записи</b>",
         "my_row_fallback": "осмотр",
         "ref": ("🎁 <b>Пригласите друга</b>\n\nОтправьте эту ссылку другу. "
-                "Если он придёт по ней и воспользуется услугой, вы получите: <b>{bonus}</b>\n\n"
-                "{link}\n\nВы пригласили: <b>{n}</b>"),
+                "Когда он придёт по ней и получит первую услугу, <b>вам обоим</b>: {bonus}\n"
+                "Приведёте {tier_n} друзей — {tier}.\n\n"
+                "{link}\n\nВы пригласили: <b>{n}</b>\nВоспользовались услугой: <b>{done} / {tier_n}</b>"),
+        "ref_friend_msg": ("🎁 Спасибо за первую услугу. Вам тоже: <b>{bonus}</b>\n"
+                           "Покажите это сообщение при визите."),
+        "ref_tier_msg": ("🏆 {n} ваших друзей воспользовались нашими услугами. Подарок: <b>{tier}</b>\n"
+                         "Покажите это сообщение при визите."),
+        "i_ref": "🎁 Пригласить друга",
         "ref_nolink": "(имя бота не определено)",
         "feedback_thanks": "Спасибо, мы передали ваш отзыв руководству. Скоро свяжемся с вами.",
         "done_msg": ("✅ Ваша машина готова! Спасибо, что выбрали Automaximus.\n\n"
