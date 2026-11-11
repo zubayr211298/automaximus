@@ -359,7 +359,11 @@
       // telefonda logo + tugma ekranga sig'sin (aks holda UZ|RU o'ng chetdan kesilib qoladi)
       '@media (max-width:760px){header nav{gap:8px !important}header nav>a:first-child{min-width:0}' +
       '.navlogo{height:auto !important;width:min(293px,calc(100vw - 150px)) !important}' +
-      '.lsw button{min-width:40px;padding:0 8px}}';
+      '.lsw button{min-width:40px;padding:0 8px}' +
+      // narxlar jadvali telefonda ekran kengligiga sig'sin (qatorlar o'ralsin, o'ng chetdan kesilmasin)
+      '.hero-in>*{min-width:0;max-width:100%}.board-cols>*{min-width:0}' +
+      '.brow{flex-wrap:wrap;column-gap:12px;row-gap:2px}.brow>span:first-child{min-width:0}' +
+      '.brow .price{white-space:normal;margin-left:auto;text-align:right}}';
     document.head.appendChild(st);
   };
 
