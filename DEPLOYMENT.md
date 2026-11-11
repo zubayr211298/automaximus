@@ -73,3 +73,19 @@ Qolgan ish (3-bosqich — VPS tayyor bo'lgach):
 | 3 — VPS sozlash | Men (IP/token berilgach) | 0 va 1 tugagach |
 | 4 — Mini App ulash | Men + Siz (BotFather'da 1 ta qadam) | 3 tugagach |
 | 5 — Sayt ulash | Men | 3 tugagach |
+
+---
+
+## Hozirgi holat: Dokploy (Hostinger VPS)
+
+Bot, Mini App va sayt Dokploy'da ishlaydi (`http://179.67.192.130:3000`, loyiha `automaximus` / `production`):
+
+| Ilova | Papka | Manzil |
+|---|---|---|
+| `api` (bot) | `bot/` | https://bot.179.67.192.130.sslip.io |
+| `client` (Mini App) | `mini-app/` | https://app.179.67.192.130.sslip.io |
+| `sayt` | `sayt/` | https://sayt.179.67.192.130.sslip.io |
+
+**Avtomatik deploy:** GitHub repo → Settings → Webhooks da uchta `push` webhook bor (har ilova uchun bittadan,
+manzili Dokploy'dagi ilovaning *Deployments* tabidagi *Webhook URL*). `main` ga push qilinsa uchala ilova qayta build bo'ladi.
+Bot tokeni faqat Dokploy'dagi `api` → Environment da saqlanadi, repoga yozilmaydi.
