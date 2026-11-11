@@ -210,13 +210,19 @@ class BotFlowTest(unittest.TestCase):
         self.assertIn("Disk", self.tg.last_text(CLIENT))
         self.assertIn("Tonirovka", self.tg.last_text(CLIENT))
         bot.handle_update(msg(CLIENT, bot.BTN_PROMO))
-        self.assertIn("aksiya", self.tg.last_text(CLIENT).lower())
-        config.PROMO_TEXT = "Qishga tayyor!"
+        shown = self.tg.last_text(CLIENT).lower()
+        self.assertIn("yakshanba", shown)        # haqiqiy aksiya (Instagram o'yini) ko'rsatiladi
+        self.assertIn("tonirovka", shown)
+        old_uz, old_ru = config.PROMO_TEXT, config.PROMO_TEXT_RU
         try:
+            config.PROMO_TEXT = config.PROMO_TEXT_RU = ""
+            bot.handle_update(msg(CLIENT, bot.BTN_PROMO))
+            self.assertIn("aksiya", self.tg.last_text(CLIENT).lower())   # bo'sh bo'lsa "aksiya yo'q" deyiladi
+            config.PROMO_TEXT = "Qishga tayyor!"
             bot.handle_update(msg(CLIENT, bot.BTN_PROMO))
             self.assertEqual(self.tg.last_text(CLIENT), "Qishga tayyor!")
         finally:
-            config.PROMO_TEXT = ""
+            config.PROMO_TEXT, config.PROMO_TEXT_RU = old_uz, old_ru
 
     def test_abandoned_booking_nudged_once_and_admin_gets_phone(self):
         bot.handle_update(msg(CLIENT, "/start"))

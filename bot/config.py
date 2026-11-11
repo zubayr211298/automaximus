@@ -77,8 +77,12 @@ GROUP_TITLES_RU = {"dokon": "🛞 Магазин: диски, шины, аксе
 
 # Hozirgi aksiya matni ("🔥 Aksiya" tugmasi). Bo'sh qolsa — "hozircha aksiya yo'q" deyiladi.
 # PROMO_TEXT_RU bo'sh qolsa, ruscha tilda ham PROMO_TEXT ko'rsatiladi.
-PROMO_TEXT = ""
-PROMO_TEXT_RU = ""
+PROMO_TEXT = ("🎁 <b>Har yakshanba — sovg‘a!</b>\n\n"
+              "Instagram sahifamizda (@automaximus_shop) izohda <b>«tonirovka»</b> so‘zini yozib qoldiring. "
+              "Har yakshanba obunachilarimiz orasidan 5 kishiga orqa oynalarini tonirovka qilib beramiz.")
+PROMO_TEXT_RU = ("🎁 <b>Каждое воскресенье — подарок!</b>\n\n"
+                 "Напишите в комментариях на нашей странице в Instagram (@automaximus_shop) слово <b>«тонировка»</b>. "
+                 "Каждое воскресенье среди подписчиков мы выбираем 5 человек и тонируем им задние стёкла.")
 # Masalan:
 # PROMO_TEXT = ("❄️ <b>Qishga tayyor</b> — 15-noyabrgacha!\n\nQishki balon olsangiz: o‘rnatish bilan, "
 #               "fara polirovkasi — sovg‘a, ximchistka — 20% chegirma.")
