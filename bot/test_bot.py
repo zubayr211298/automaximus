@@ -161,7 +161,7 @@ class BotFlowTest(unittest.TestCase):
             self.assertIn(f"id {f}", notes[-1])                       # admin do'stni ko'radi
             self.assertEqual("Qo‘shimcha sovg‘a" in notes[-1], n == 3)  # 3-do'stda polik sovg'a
         self.assertIn("3 ta do‘stingiz", self.tg.last_text(CLIENT))
-        self.assertIn("polik", self.tg.last_text(CLIENT))
+        self.assertIn("tonirovka", self.tg.last_text(CLIENT))
         # yaxshi bahodan keyin "Do'st taklif qiling" tugmasi chiqadi va havolani yuboradi
         bot.handle_update(cb(friends[0], f"r:{first_booking['id']}:5"))
         kb = self.tg.sent_to(friends[0])[-1]["reply_markup"]["inline_keyboard"]

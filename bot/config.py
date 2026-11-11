@@ -116,8 +116,8 @@ REFERRAL_BONUS_RU = "скидка 50 000 сум (на следующую усл�
 REFERRAL_FRIEND_BONUS = REFERRAL_BONUS
 REFERRAL_FRIEND_BONUS_RU = REFERRAL_BONUS_RU
 REFERRAL_TIER_COUNT = 3
-REFERRAL_TIER_BONUS = "polik sovg‘a"
-REFERRAL_TIER_BONUS_RU = "коврики в подарок"
+REFERRAL_TIER_BONUS = "orqa oynalarga tonirovka sovg‘a (180 000 so‘mlik)"
+REFERRAL_TIER_BONUS_RU = "тонировка задних стёкол в подарок (на 180 000 сум)"
 
 # Mijoz so'rov yuborgach ko'radigan matn
 THANKS_TEXT = "Rahmat! So‘rovingiz qabul qilindi. Tez orada qo‘ng‘iroq qilib, aniq narxni aytamiz."
