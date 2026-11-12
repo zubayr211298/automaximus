@@ -87,7 +87,7 @@ automaximus detailin/
 ```mermaid
 sequenceDiagram
     participant U as Mijoz (Telegram)
-    participant M as Mini App (Next.js, Vercel)
+    participant M as Mini App (Next.js, Dokploy)
     participant B as bot.py (VPS, :8080)
     participant T as Telegram Bot API
     participant A as Admin chat
@@ -116,13 +116,11 @@ Bu ikkisini men hozir kodga qo'shib qo'ydim — pastda.
 
 ## 6. Joylashtirish (deployment)
 
-> To'liq qadamlar — [DEPLOYMENT.md](DEPLOYMENT.md)da. Hozirgi holat: Mini App Vercel'da jonli —
-> **https://mini-app-pearl-five.vercel.app** (hali bot backendga ulanmagan, xizmatlar ro'yxati bo'sh ko'rinadi — bu kutilgan holat).
+> To'liq qadamlar — [DEPLOYMENT.md](DEPLOYMENT.md)da. Hozir uchala qism **Dokploy**'da (Hostinger VPS) ishlaydi, GitHub'ga push qilinsa avtomatik qayta build bo'ladi.
 
-
-- `sayt/` — o'zgarmaydi, Netlify/statik joyda turadi.
-- `bot/` — o'zgarmaydi, VPS'da `avtomaximus-bot.service` orqali ishlaydi, `:8080`ni Nginx/Caddy orqali `https://bot.automaximus.uz` qilib ochadi (README'da aytilgan).
-- `mini-app/` — **Vercel'ga** (`vercel.com`, bepul tier) deploy qilinadi, `NEXT_PUBLIC_BOT_API_URL=https://bot.automaximus.uz` beriladi. BotFather'da shu Vercel manzili **Menu Button / Web App** qilib ulanadi: `/setmenubutton`.
+- `sayt/` — statik sayt (nginx konteyneri), `https://sayt.179.67.192.130.sslip.io`. Formasi botning `/lead` manziliga yuboradi.
+- `bot/` — Python bot (Docker), `:8080`, `https://bot.179.67.192.130.sslip.io`. Baza `bot-data` volume'da, nusxasi har kuni admin chatga yuboriladi.
+- `mini-app/` — Next.js (Docker), `:3000`, `https://app.179.67.192.130.sslip.io`, `NEXT_PUBLIC_BOT_API_URL` build argumenti bot manzilini beradi. BotFather'da shu manzil **Menu Button** qilib ulangan.
 
 ## 7. Keyingi qadamlar
 

@@ -1,91 +1,65 @@
-# Automaximus — joylashtirish (deployment) yo'riqnomasi
+# Automaximus — joylashtirish (deployment)
 
-Hozirgi holat: VPS yo'q, BotFather tokeni yo'q, domen yo'q, Vercel hisobi bor. Shu tartibda
-ketamiz — har bosqich oldingisiga bog'liq emas, birini qoldirib keyingisiga o'tishingiz mumkin.
+Hammasi **Dokploy**'da (Hostinger VPS) ishlaydi. Vercel ishlatilmaydi (loyihalar 2026-11-12 da o'chirilgan).
 
-## 0-bosqich: Telegram bot yaratish (5 daqiqa, faqat siz qila olasiz)
+Dokploy paneli: `http://179.67.192.130:3000` — loyiha `automaximus`, muhit `production`.
 
-1. Telegram'da **@BotFather**ga yozing → `/newbot`.
-2. Bot nomi (masalan `Automaximus`) va username (masalan `automaximus_bot`, oxiri `bot` bilan tugashi shart) bering.
-3. BotFather sizga **token** beradi (`123456789:AAE...` ko'rinishida) — buni hech kimga yubormang, shu yerda ham chat orqali menga yuborishingiz shart emas, to'g'ridan-to'g'ri `.env` fayliga yozasiz (3-bosqich).
-4. `/setuserpic` → Instagram avataringizni (logo) yuklang.
-5. Admin chatini aniqlang:
-   - Yolg'iz boshqarsangiz: **@userinfobot**ga yozing — u sizning ID raqamingizni beradi (`ADMIN_CHAT_ID` shu bo'ladi).
-   - Jamoa bilan: guruh oching, botni qo'shing, guruh ID sini oling (`-100...` bilan boshlanadi).
+| Ilova | Papka | Manzil | Port |
+|---|---|---|---|
+| `api` (bot) | `bot/` | https://bot.179.67.192.130.sslip.io | 8080 |
+| `client` (Mini App) | `mini-app/` | https://app.179.67.192.130.sslip.io | 3000 |
+| `sayt` | `sayt/` | https://sayt.179.67.192.130.sslip.io | 80 |
 
-## 1-bosqich: VPS olish
+`sslip.io` — vaqtinchalik manzil (domensiz HTTPS). Haqiqiy domen olinsa, "Domenga o'tish" bo'limiga qarang.
 
-Har qanday Ubuntu 22.04/24.04 VPS ishlaydi, eng arzon tarif yetadi (1 CPU / 1GB RAM). Variantlar:
+## Avtomatik deploy
 
-| Provayder | Taxminiy narx/oy | Izoh |
+GitHub repo → Settings → Webhooks da uchta `push` webhook bor (har ilova uchun bittadan). Manzillari Dokploy'dagi
+ilovaning **Deployments** tabidagi *Webhook URL*. `main` ga push qilinsa, uchala ilova qayta build bo'ladi
+(navbat bilan, bir necha daqiqa ichida).
+
+Muhit o'zgaruvchisi (Environment) o'zgarganda webhook qayta ishga tushirmaydi — Dokploy'da ilova → **General → Deploy** bosing.
+
+## Qanday sozlangan (qayta yaratish kerak bo'lsa)
+
+Har bir ilova: **Provider = Git**, repo `https://github.com/zubayr211298/automaximus.git`, branch `main`,
+**Build Path `/`**, **Build Type = Dockerfile**:
+
+| Ilova | Docker File | Docker Context Path |
 |---|---|---|
-| **Hostinger** | ~$4-5 | Claude'da **Hostinger** plugini bor — VPS va domenni shu yerdan, OAuth orqali (parol menga berilmaydi) sozlashimiz mumkin. Pastda takliflarga qarang. |
-| **Timeweb.cloud** | ~150 000 so'm | Rossiya/MDH uchun qulay, kartadan to'lash oson |
-| **Hetzner** | ~€4 | Yevropada eng arzon va barqaror, lekin karta tasdiqlash biroz qattiqroq |
+| `api` | `bot/Dockerfile` | `bot` |
+| `client` | `mini-app/Dockerfile` | `mini-app` |
+| `sayt` | `sayt/Dockerfile` | `sayt` |
 
-VPS olgach, sizga **IP manzil** va **root parol** (yoki SSH kalit) beriladi. O'shanda menga IP manzilni ayting — SSH orqali ulanib, qolgan hamma narsani (2-4 bosqich) men sozlab beraman.
+(Build Path'ga `/bot` yozish bo'sh context beradi — shuning uchun `/` va to'liq yo'llar.)
 
-## 2-bosqich: Domen (ixtiyoriy, lekin tavsiya etiladi)
+**`api` (bot):**
+- Environment: `BOT_TOKEN` (faqat Dokploy'da, repoga yozilmaydi), `ADMIN_CHAT_ID`, `ADMIN_IDS`, `ALLOWED_ORIGIN=*`, `LEAD_PORT=8080`.
+- Advanced → Volumes: Volume Mount `bot-data` → `/data` (baza shu yerda; deploydan o'chib ketmaydi).
+- Domains: bot manzili, Container Port `8080`, HTTPS + Let's Encrypt.
+- Bot har 24 soatda baza nusxasini admin chatga yuboradi (`bot/README.md` da tiklash yo'riqnomasi).
 
-HTTPS uchun domen kerak (Telegram Mini App va sayt formasi faqat HTTPS bilan ishlaydi).
+**`client` (Mini App):**
+- Environment → *Build-time Arguments*: `NEXT_PUBLIC_BOT_API_URL=https://bot.179.67.192.130.sslip.io`
+  (build vaqtida kodga yoziladi, o'zgarsa qayta build kerak).
+- Domains: Container Port `3000`, HTTPS + Let's Encrypt.
+- BotFather → botni tanlang → **Bot Settings → Menu Button** → URL = Mini App manzili, nomi `Yozilish`.
 
-- Domeningiz bo'lsa (masalan `automaximus.uz`) — shuni ishlatamiz: `bot.automaximus.uz` → bot API uchun.
-- Hali yo'q bo'lsa: Hostinger/Cloudflare orqali `.uz` yoki `.com` domen sotib olish mumkin (~$10-15/yil).
-- Tezroq va bepul sinab ko'rish uchun: domensiz ham `sslip.io` xizmati orqali avtomatik HTTPS olish mumkin (masalan VPS IP manzili `1.2.3.4` bo'lsa, `bot.1.2.3.4.sslip.io` manzili to'g'ridan-to'g'ri o'sha serverga yo'naladi, Caddy avtomatik SSL sertifikat oladi). Ishga tushirish uchun yetarli, keyin domenga o'tkazish mumkin.
+**`sayt`:**
+- Domains: Container Port `80`, HTTPS + Let's Encrypt.
+- Formaning manzili `sayt/index.html` ichida (`leadUrl`) — bot manzili + `/lead`.
+- `sayt/nginx.conf` HTML/JS ni `no-cache` bilan beradi (telefonda eski nusxa qolmasligi uchun).
 
-## 3-bosqich: VPS'ni sozlash
+## Domenga o'tish (haqiqiy domen olinganda)
 
-IP manzil va kirish ma'lumotlari tayyor bo'lgach, menga ayting — quyidagilarni avtomatik bajaraman
-(`bot/deploy/setup-vps.sh` skripti orqali, server ustida bir marta ishga tushiriladi):
+1. Domen DNS'ida `A` yozuvlar: `bot`, `app`, `sayt` (yoki asosiy domen) → `179.67.192.130`.
+2. Dokploy'da har ilovaning **Domains** bo'limida yangi domen qo'shing (HTTPS + Let's Encrypt), eskisini o'chiring.
+3. `client` → Environment → Build-time Arguments: `NEXT_PUBLIC_BOT_API_URL` ni yangi bot manziliga o'zgartiring va Deploy.
+4. `sayt/index.html` da `leadUrl` ni (`https://bot.YANGI-DOMEN/lead`) o'zgartirib push qiling.
+5. BotFather → Menu Button URL'ini yangi Mini App manziliga o'zgartiring.
+6. Bot `.env`/Environment da `ALLOWED_ORIGIN=*` qolsa, qo'shimcha o'zgartirish kerak emas.
 
-1. Python3, pip, Caddy o'rnatish
-2. `/opt/avtomaximus-bot` papkasini yaratish, `bot/` fayllarini shu yerga ko'chirish
-3. `.env` faylini `.env.example` asosida yaratish — `BOT_TOKEN`, `ADMIN_CHAT_ID`, `ADMIN_IDS`ni siz beradigan qiymatlar bilan to'ldiramiz
-4. `avtomaximus-bot.service`ni systemd'ga ulash (`systemctl enable --now`) — server qayta yoqilsa ham bot avtomatik ishga tushadi
-5. Caddy orqali `https://bot.SIZNING-DOMENINGIZ` → `localhost:8080`ga yo'naltirish (SSL sertifikat avtomatik, bepul — Let's Encrypt)
+## Eslatma: eski usul
 
-Bajarilgach: `https://bot.SIZNING-DOMENINGIZ/health` ochilsa `{"ok":true}` chiqishi kerak — bot tirik.
-
-## 4-bosqich: Mini App'ni Vercel'ga ulash
-
-✅ **Bajarildi:** `mini-app/` Vercel'ga joylashtirilgan va jonli — **https://mini-app-pearl-five.vercel.app**
-(hozircha xizmatlar ro'yxati bo'sh ko'rinadi, chunki bot backend hali ulanmagan — bu normal).
-
-Qolgan ish (3-bosqich — VPS tayyor bo'lgach):
-
-1. Vercel loyihasi sozlamalarida (vercel.com → `mini-app` loyihasi → Settings → Environment Variables) `NEXT_PUBLIC_BOT_API_URL=https://bot.SIZNING-DOMENINGIZ` qo'shiladi, so'ng **Redeploy** bosiladi.
-2. BotFather'da: botingizga yozib `/mybots` → botni tanlang → **Bot Settings → Menu Button → Configure Menu Button** → `https://mini-app-pearl-five.vercel.app` manzilini kiriting.
-3. Endi botni ochganda pastda "Menu" tugmasi — Mini App'ni ochadi.
-
-## 5-bosqich: Saytni ulash
-
-`sayt/support.js`dagi (yoki kanvasdagi "Tweaks → Bot → leadUrl") manzilni `https://bot.SIZNING-DOMENINGIZ/lead` qiling — shu yerdan boshlab sayt formasi haqiqiy so'rov yuboradi.
-
----
-
-## Qisqacha: nima qachon kerak
-
-| Bosqich | Kim bajaradi | Qachon |
-|---|---|---|
-| 0 — BotFather | Siz (Telegramda) | Hoziroq, 5 daqiqa |
-| 1 — VPS sotib olish | Siz (to'lov kerak) | Hoziroq yoki keyinroq |
-| 2 — Domen | Siz (to'lov, ixtiyoriy) | 1-bosqich bilan birga |
-| 3 — VPS sozlash | Men (IP/token berilgach) | 0 va 1 tugagach |
-| 4 — Mini App ulash | Men + Siz (BotFather'da 1 ta qadam) | 3 tugagach |
-| 5 — Sayt ulash | Men | 3 tugagach |
-
----
-
-## Hozirgi holat: Dokploy (Hostinger VPS)
-
-Bot, Mini App va sayt Dokploy'da ishlaydi (`http://179.67.192.130:3000`, loyiha `automaximus` / `production`):
-
-| Ilova | Papka | Manzil |
-|---|---|---|
-| `api` (bot) | `bot/` | https://bot.179.67.192.130.sslip.io |
-| `client` (Mini App) | `mini-app/` | https://app.179.67.192.130.sslip.io |
-| `sayt` | `sayt/` | https://sayt.179.67.192.130.sslip.io |
-
-**Avtomatik deploy:** GitHub repo → Settings → Webhooks da uchta `push` webhook bor (har ilova uchun bittadan,
-manzili Dokploy'dagi ilovaning *Deployments* tabidagi *Webhook URL*). `main` ga push qilinsa uchala ilova qayta build bo'ladi.
-Bot tokeni faqat Dokploy'dagi `api` → Environment da saqlanadi, repoga yozilmaydi.
+`bot/deploy/setup-vps.sh` — botni Dokploy'siz, oddiy Ubuntu VPS'ga (systemd + Caddy) o'rnatish skripti. Hozir ishlatilmaydi,
+zaxira variant sifatida qoldirilgan.
