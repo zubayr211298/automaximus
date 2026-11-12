@@ -6,11 +6,12 @@ Dokploy paneli: `http://179.67.192.130:3000` — loyiha `automaximus`, muhit `pr
 
 | Ilova | Papka | Manzil | Port |
 |---|---|---|---|
-| `api` (bot) | `bot/` | https://bot.179.67.192.130.sslip.io | 8080 |
-| `client` (Mini App) | `mini-app/` | https://app.179.67.192.130.sslip.io | 3000 |
-| `sayt` | `sayt/` | https://sayt.179.67.192.130.sslip.io | 80 |
+| `api` (bot) | `bot/` | https://bot.automaximus.shop | 8080 |
+| `client` (Mini App) | `mini-app/` | https://app.automaximus.shop | 3000 |
+| `sayt` | `sayt/` | https://automaximus.shop (+ www) | 80 |
 
-`sslip.io` — vaqtinchalik manzil (domensiz HTTPS). Haqiqiy domen olinsa, "Domenga o'tish" bo'limiga qarang.
+Domen: **automaximus.shop** (Hostinger'da ro'yxatdan o'tgan, DNS ham shu yerda). `www.automaximus.shop` ham saytga olib boradi.
+Dokploy paneli: `panel.automaximus.shop` (DNS yozuvi bor; panelni shu domenga ulash `Settings → Web Server` orqali).
 
 ## Avtomatik deploy
 
@@ -40,7 +41,7 @@ Har bir ilova: **Provider = Git**, repo `https://github.com/zubayr211298/automax
 - Bot har 24 soatda baza nusxasini admin chatga yuboradi (`bot/README.md` da tiklash yo'riqnomasi).
 
 **`client` (Mini App):**
-- Environment → *Build-time Arguments*: `NEXT_PUBLIC_BOT_API_URL=https://bot.179.67.192.130.sslip.io`
+- Environment → *Build-time Arguments*: `NEXT_PUBLIC_BOT_API_URL=https://bot.automaximus.shop`
   (build vaqtida kodga yoziladi, o'zgarsa qayta build kerak).
 - Domains: Container Port `3000`, HTTPS + Let's Encrypt.
 - BotFather → botni tanlang → **Bot Settings → Menu Button** → URL = Mini App manzili, nomi `Yozilish`.
@@ -50,7 +51,7 @@ Har bir ilova: **Provider = Git**, repo `https://github.com/zubayr211298/automax
 - Formaning manzili `sayt/index.html` ichida (`leadUrl`) — bot manzili + `/lead`.
 - `sayt/nginx.conf` HTML/JS ni `no-cache` bilan beradi (telefonda eski nusxa qolmasligi uchun).
 
-## Domenga o'tish (haqiqiy domen olinganda)
+## Domenni o'zgartirish kerak bo'lsa
 
 1. Domen DNS'ida `A` yozuvlar: `bot`, `app`, `sayt` (yoki asosiy domen) → `179.67.192.130`.
 2. Dokploy'da har ilovaning **Domains** bo'limida yangi domen qo'shing (HTTPS + Let's Encrypt), eskisini o'chiring.

@@ -118,9 +118,9 @@ Bu ikkisini men hozir kodga qo'shib qo'ydim — pastda.
 
 > To'liq qadamlar — [DEPLOYMENT.md](DEPLOYMENT.md)da. Hozir uchala qism **Dokploy**'da (Hostinger VPS) ishlaydi, GitHub'ga push qilinsa avtomatik qayta build bo'ladi.
 
-- `sayt/` — statik sayt (nginx konteyneri), `https://sayt.179.67.192.130.sslip.io`. Formasi botning `/lead` manziliga yuboradi.
-- `bot/` — Python bot (Docker), `:8080`, `https://bot.179.67.192.130.sslip.io`. Baza `bot-data` volume'da, nusxasi har kuni admin chatga yuboriladi.
-- `mini-app/` — Next.js (Docker), `:3000`, `https://app.179.67.192.130.sslip.io`, `NEXT_PUBLIC_BOT_API_URL` build argumenti bot manzilini beradi. BotFather'da shu manzil **Menu Button** qilib ulangan.
+- `sayt/` — statik sayt (nginx konteyneri), `https://automaximus.shop`. Formasi botning `/lead` manziliga yuboradi.
+- `bot/` — Python bot (Docker), `:8080`, `https://bot.automaximus.shop`. Baza `bot-data` volume'da, nusxasi har kuni admin chatga yuboriladi.
+- `mini-app/` — Next.js (Docker), `:3000`, `https://app.automaximus.shop`, `NEXT_PUBLIC_BOT_API_URL` build argumenti bot manzilini beradi. BotFather'da shu manzil **Menu Button** qilib ulangan.
 
 ## 7. Keyingi qadamlar
 
