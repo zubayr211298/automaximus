@@ -91,6 +91,8 @@ PROMO_TEXT_RU = ("🎁 <b>Каждое воскресенье — подарок
 ABANDON_HOURS = 2
 # Yangi so'rovga admin necha daqiqa javob bermasa, admin chatiga eslatma kelsin
 ADMIN_SLA_MINUTES = 30
+# Baza nusxasini admin chatga necha soatda bir yuborish (0 — o'chirilgan)
+BACKUP_EVERY_HOURS = 24
 
 REMINDER_TEXTS = {
     "Broniplyonka": "Broniplyonka qo‘yilganiga bir oy bo‘ldi. Bepul ko‘rikka keling — plyonka holatini tekshirib, maslahat beramiz.",

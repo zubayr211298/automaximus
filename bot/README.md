@@ -142,3 +142,16 @@ Eski bazangiz bo'lsa ham ishlaydi: yangi ustunlar avtomatik qo'shiladi.
 - Asosiy menyuning pastki qatoridagi **🌐 Русский / 🌐 O‘zbekcha** tugmasi tilni almashtiradi. Menyu tugmalari ikkala tilda ham taniladi.
 - Mijozga ko'rinadigan matnlar `texts.py` da (ikki tilda). Narx/xizmat/manzil/eslatma matnlarining ruscha ko'rinishi `config.py` da: `name_ru`, `price_ru`, `GROUP_TITLES_RU`, `ADDRESS_RU`, `REMINDER_TEXTS_RU`, `THANKS_TEXT_RU`, `REFERRAL_BONUS_RU`, `PROMO_TEXT_RU` (bo'sh qolsa o'zbekcha ko'rsatiladi).
 - Admin kartalari va buyruqlari (`/stat`, `/tarqat`...) faqat o'zbekcha. Bazada xizmat va kun nomlari doim o'zbekcha saqlanadi (`Tonirovka`, `Ertaga`...).
+
+## Zaxira nusxa (backup)
+
+Bot har `BACKUP_EVERY_HOURS` (standart 24) soatda bazaning nusxasini (`avtomaximus-YYYY-MM-DD_HHMM.db`) admin chatga
+fayl qilib yuboradi. Birinchi nusxa bot ishga tushgach bir daqiqa ichida keladi. `config.py` da `BACKUP_EVERY_HOURS = 0`
+qilsangiz o'chadi.
+
+**Tiklash (server yo'qolsa yoki baza buzilsa):**
+1. Eng so'nggi `.db` faylni Telegram'dan yuklab oling.
+2. Dokploy'da `api` ilovasini to'xtating (Stop).
+3. Faylni serverdagi `bot-data` volume ichiga `avtomaximus.db` nomi bilan qo'ying
+   (Dokploy → `api` → Open Terminal, yoki serverda `docker cp avtomaximus-....db <konteyner>:/data/avtomaximus.db`).
+4. `api` ni qayta ishga tushiring (Start).

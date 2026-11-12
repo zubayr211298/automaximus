@@ -175,6 +175,40 @@ class BotFlowTest(unittest.TestCase):
         bot.handle_update(cb(CLIENT, "ref"))
         self.assertIn("Пригласите друга", self.tg.last_text(CLIENT))
 
+    def test_daily_backup_sent_once_and_contains_data(self):
+        import sqlite3
+        sent = []
+
+        def fake_upload(method, fields, file_field, path):
+            con = sqlite3.connect(path)                     # fayl yuborilayotganda mavjud va butun bo'lishi kerak
+            count = con.execute("SELECT COUNT(*) FROM bookings").fetchone()[0]
+            con.close()
+            sent.append((method, fields["chat_id"], count, os.path.basename(path)))
+
+        old_upload, old_path, old_hours = bot.tg_upload, config.DB_PATH, config.BACKUP_EVERY_HOURS
+        bot.tg_upload, config.DB_PATH, config.BACKUP_EVERY_HOURS = fake_upload, self.tmp, 24
+        marker = self.tmp + ".lastbackup"
+        try:
+            self.book(CLIENT)
+            bot.process_backup()
+            self.assertEqual(sent, [("sendDocument", ADMIN, 1, sent[0][3])])
+            self.assertTrue(sent[0][3].startswith("avtomaximus-") and sent[0][3].endswith(".db"))
+            self.assertEqual([f for f in os.listdir(os.path.dirname(self.tmp)) if f.startswith("avtomaximus-")], [])
+            bot.process_backup()                            # 24 soat o'tmadi — qayta yuborilmaydi
+            self.assertEqual(len(sent), 1)
+            with open(marker, "w") as f:                    # kecha yuborilgan deb hisoblaymiz
+                f.write((bot.now() - timedelta(hours=25)).isoformat())
+            bot.process_backup()
+            self.assertEqual(len(sent), 2)
+            config.BACKUP_EVERY_HOURS = 0                   # o'chirilsa — yuborilmaydi
+            os.unlink(marker)
+            bot.process_backup()
+            self.assertEqual(len(sent), 2)
+        finally:
+            bot.tg_upload, config.DB_PATH, config.BACKUP_EVERY_HOURS = old_upload, old_path, old_hours
+            if os.path.exists(marker):
+                os.unlink(marker)
+
     def test_reminders_sent_when_due(self):
         bot.handle_update(msg(CLIENT, "/start"))
         b = self.book(CLIENT, services=(3,))

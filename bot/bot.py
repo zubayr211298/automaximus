@@ -20,6 +20,7 @@ import hmac
 import html
 import json
 import logging
+import os
 import re
 import sqlite3
 import threading
@@ -923,9 +924,76 @@ def process_sla():
                       reply_to_message_id=b["admin_msg_id"] or None)
 
 
+def tg_upload(method: str, fields: dict, file_field: str, path: str):
+    """Faylni Telegram'ga yuborish (multipart/form-data)."""
+    boundary = "----avtomaximus" + hashlib.md5(path.encode()).hexdigest()[:12]
+    parts = []
+    for k, v in fields.items():
+        parts.append(f'--{boundary}\r\nContent-Disposition: form-data; name="{k}"\r\n\r\n{v}\r\n'.encode())
+    with open(path, "rb") as f:
+        content = f.read()
+    fname = os.path.basename(path)
+    parts.append(f'--{boundary}\r\nContent-Disposition: form-data; name="{file_field}"; filename="{fname}"\r\n'
+                 f'Content-Type: application/octet-stream\r\n\r\n'.encode() + content + b"\r\n")
+    parts.append(f"--{boundary}--\r\n".encode())
+    req = urllib.request.Request(API.format(token=config.BOT_TOKEN, method=method), data=b"".join(parts),
+                                 headers={"Content-Type": f"multipart/form-data; boundary={boundary}"})
+    try:
+        with urllib.request.urlopen(req, timeout=120) as resp:
+            body = json.loads(resp.read().decode())
+    except urllib.error.HTTPError as e:
+        try:
+            body = json.loads(e.read().decode())
+        except Exception:
+            raise TelegramError(e.code, str(e)) from None
+    if not body.get("ok"):
+        raise TelegramError(body.get("error_code", 0), body.get("description", ""))
+    return body.get("result")
+
+
+BACKUP_MAX_BYTES = 45 * 1024 * 1024        # Telegram bot fayl chegarasi 50 MB
+
+
+def process_backup():
+    """Bazaning nusxasini har BACKUP_EVERY_HOURS soatda admin chatga fayl qilib yuboradi."""
+    if not (config.ADMIN_CHAT_ID and config.BACKUP_EVERY_HOURS):
+        return
+    marker = config.DB_PATH + ".lastbackup"
+    try:
+        last = datetime.fromisoformat(open(marker).read().strip())
+    except (OSError, ValueError):
+        last = None
+    if last and now() - last < timedelta(hours=config.BACKUP_EVERY_HOURS):
+        return
+    stamp = now().strftime("%Y-%m-%d_%H%M")
+    snap = os.path.join(os.path.dirname(os.path.abspath(config.DB_PATH)), f"avtomaximus-{stamp}.db")
+    try:
+        dst = sqlite3.connect(snap)
+        with db.lock:
+            db.conn.backup(dst)               # ishlayotgan bazadan ham xavfsiz, bir butun nusxa
+        dst.close()
+        size = os.path.getsize(snap)
+        if size > BACKUP_MAX_BYTES:
+            safe_send(config.ADMIN_CHAT_ID, f"⚠️ Baza nusxasi juda katta ({size // 1024 // 1024} MB), "
+                                            "Telegram orqali yuborib bo‘lmadi. Serverdan qo‘lda oling.")
+            return
+        tg_upload("sendDocument", {"chat_id": config.ADMIN_CHAT_ID,
+                                   "caption": f"💾 Baza nusxasi ({stamp}). Saqlab qo‘ying — server yo‘qolsa shu fayldan tiklanadi."},
+                  "document", snap)
+        with open(marker, "w") as f:
+            f.write(now().isoformat())
+    except Exception:
+        log.exception("zaxira nusxa yuborilmadi")
+    finally:
+        try:
+            os.unlink(snap)
+        except OSError:
+            pass
+
+
 def reminder_loop(stop: threading.Event):
     while not stop.wait(60):
-        for job in (process_reminders, process_abandoned, process_sla):
+        for job in (process_reminders, process_abandoned, process_sla, process_backup):
             try:
                 job()
             except Exception:
