@@ -43,7 +43,7 @@ ADDRESS_RU = "Фергана, ул. Аль-Фаргони, 108"
 WORK_HOURS = "08:00 – 20:00"
 MAP_URL = "https://yandex.uz/maps/-/CXbBVMk7"                # Google/Yandex xarita havolasi (ixtiyoriy)
 ADMIN_USERNAME = "murod_dasturchi"  # @ belgisiz — "Admin bilan yozishish" tugmasi uchun
-REVIEW_URL = ""             # Google sharh havolasi — yaxshi baho qo'yganlarga yuboriladi
+REVIEW_URL = "https://yandex.uz/maps/org/automaximus/109758593206/reviews/"  # Yandex Maps sharhlari — yaxshi baho qo'yganlarga yuboriladi
 INSTAGRAM_URL = "https://www.instagram.com/automaximus_shop/"
 
 # --- Xizmatlar va mahsulotlar ---------------------------------------------------
