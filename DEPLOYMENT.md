@@ -2,7 +2,8 @@
 
 Hammasi **Dokploy**'da (Hostinger VPS) ishlaydi. Vercel ishlatilmaydi (loyihalar 2026-11-12 da o'chirilgan).
 
-Dokploy paneli: `http://179.67.192.130:3000` — loyiha `automaximus`, muhit `production`.
+Dokploy paneli: **https://panel.automaximus.shop** (Settings → Web Server → Server Domain, Let's Encrypt). Eski `http://179.67.192.130:3000` ham ishlaydi,
+GitHub webhooklari shu manzilga ulangan, uni yopib qo'ymang. Loyiha `automaximus`, muhit `production`.
 
 | Ilova | Papka | Manzil | Port |
 |---|---|---|---|
@@ -11,7 +12,6 @@ Dokploy paneli: `http://179.67.192.130:3000` — loyiha `automaximus`, muhit `pr
 | `sayt` | `sayt/` | https://automaximus.shop (+ www) | 80 |
 
 Domen: **automaximus.shop** (Hostinger'da ro'yxatdan o'tgan, DNS ham shu yerda). `www.automaximus.shop` ham saytga olib boradi.
-Dokploy paneli: `panel.automaximus.shop` (DNS yozuvi bor; panelni shu domenga ulash `Settings → Web Server` orqali).
 
 ## Avtomatik deploy
 
