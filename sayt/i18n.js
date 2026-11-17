@@ -161,6 +161,10 @@
 
     // savol-javob
     ["Ko'p beriladigan savollar", "Частые вопросы"],
+    ["Mijozlarimiz nima deydi", "Что говорят клиенты"],
+    ["Yandex Maps reytingi, 9 ta baho", "Рейтинг на Яндекс Картах, 9 оценок"],
+    ["Yandex Maps sharhi", "отзыв на Яндекс Картах"],
+    ["Barcha sharhlarni Yandex Maps'da ko'rish →", "Все отзывы на Яндекс Картах →"],
     ["Ish qancha vaqt oladi?", "Сколько времени занимает работа?"],
     ["Xizmatga bog'liq: tonirovka va ximchistka odatda bir kunda, broniplyonka va shumoizolyatsiya bir necha kunda tayyor bo'ladi. Aniq muddatni ko'rikda aytamiz.",
       "Зависит от услуги: тонировка и химчистка обычно делаются за один день, бронепленка и шумоизоляция — за несколько дней. Точный срок назовём на осмотре."],
